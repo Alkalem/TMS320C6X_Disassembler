@@ -1,6 +1,10 @@
-from enum import IntEnum
+from enum import Enum, StrEnum, IntEnum, auto
 
 WORD_SIZE = 4
+
+class Endianness(StrEnum):
+    LITTLE = 'little'
+    BIG = 'big'
 
 class Register(IntEnum):
     A0 = 0
