@@ -1,0 +1,1587 @@
+[
+    {
+        "name": "d_1_or_2_src",
+        "key": "0x40",
+        "mask": "0x7c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 7,
+                "width": 6
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "d_ext_1_or_2_src",
+        "key": "0x830",
+        "mask": "0xc3c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 6,
+                "width": 4
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "d_load_store",
+        "key": "0x4",
+        "mask": "0xc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "y",
+                "pos": 7,
+                "width": 1
+            },
+            {
+                "name": "r",
+                "pos": 8,
+                "width": 1
+            },
+            {
+                "name": "mode",
+                "pos": 9,
+                "width": 4
+            },
+            {
+                "name": "offsetR",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "baseR",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "srcdst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "d_load_nonaligned",
+        "key": "0x124",
+        "mask": "0x17c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "y",
+                "pos": 7,
+                "width": 1
+            },
+            {
+                "name": "mode",
+                "pos": 9,
+                "width": 4
+            },
+            {
+                "name": "offsetR",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "baseR",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "sc",
+                "pos": 23,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 24,
+                "width": 4
+            }
+        ]
+    },
+    {
+        "name": "d_store_nonaligned",
+        "key": "0x174",
+        "mask": "0x17c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "y",
+                "pos": 7,
+                "width": 1
+            },
+            {
+                "name": "mode",
+                "pos": 9,
+                "width": 4
+            },
+            {
+                "name": "offsetR",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "baseR",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "sc",
+                "pos": 23,
+                "width": 1
+            },
+            {
+                "name": "src",
+                "pos": 24,
+                "width": 4
+            }
+        ]
+    },
+    {
+        "name": "d_load_store_long",
+        "key": "0xc",
+        "mask": "0xc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "y",
+                "pos": 7,
+                "width": 1
+            },
+            {
+                "name": "offsetR",
+                "pos": 8,
+                "width": 15
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "d_adda_long",
+        "key": "0x1000000c",
+        "mask": "0xf000000c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "y",
+                "pos": 7,
+                "width": 1
+            },
+            {
+                "name": "offsetR",
+                "pos": 8,
+                "width": 15
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "l_1_or_2_src",
+        "key": "0x18",
+        "mask": "0x1c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 7
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "l_1_or_2_src_noncond",
+        "key": "0x10000018",
+        "mask": "0xf000001c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 7
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "l_unary",
+        "key": "0x358",
+        "mask": "0xffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "m_compound",
+        "key": "0x30",
+        "mask": "0x83c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 6,
+                "width": 5
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "m_1_or_2_src",
+        "key": "0x10000030",
+        "mask": "0xf000083c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 6,
+                "width": 5
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "m_unary",
+        "key": "0xf0",
+        "mask": "0xffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "m_mpy",
+        "key": "0x0",
+        "mask": "0x7c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 7,
+                "width": 5
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_1_or_2_src",
+        "key": "0x20",
+        "mask": "0x3c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 6,
+                "width": 6
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_ext_1_or_2_src",
+        "key": "0xc30",
+        "mask": "0xc3c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 6,
+                "width": 4
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_ext_1_or_2_src_noncond",
+        "key": "0xc30",
+        "mask": "0xe0000c3c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 6,
+                "width": 4
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "s_unary",
+        "key": "0xf20",
+        "mask": "0xffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_ext_branch_cond_imm",
+        "key": "0x10",
+        "mask": "0x7c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 7,
+                "width": 21
+            }
+        ]
+    },
+    {
+        "name": "s_call_imm_nop",
+        "key": "0x10",
+        "mask": "0xe000007c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 7,
+                "width": 21
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "s_branch_nop_cst",
+        "key": "0x120",
+        "mask": "0x1ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 16,
+                "width": 12
+            }
+        ]
+    },
+    {
+        "name": "s_branch_nop_reg",
+        "key": "0x800360",
+        "mask": "0xf830ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_branch",
+        "key": "0x360",
+        "mask": "0xf83effc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_mvk",
+        "key": "0x28",
+        "mask": "0x3c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "h",
+                "pos": 6,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 7,
+                "width": 16
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_field",
+        "key": "0x8",
+        "mask": "0x3c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 6,
+                "width": 2
+            },
+            {
+                "name": "cstb",
+                "pos": 8,
+                "width": 5
+            },
+            {
+                "name": "csta",
+                "pos": 13,
+                "width": 5
+            },
+            {
+                "name": "src2",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_addk",
+        "key": "0x50",
+        "mask": "0x7c",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 7,
+                "width": 16
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_addkpc",
+        "key": "0x160",
+        "mask": "0x1ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 13,
+                "width": 3
+            },
+            {
+                "name": "src1",
+                "pos": 16,
+                "width": 7
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_b_irp",
+        "key": "0x1800e0",
+        "mask": "0x7feffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_b_nrp",
+        "key": "0x1c00e0",
+        "mask": "0x7feffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_bdec",
+        "key": "0x1020",
+        "mask": "0x1ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "src",
+                "pos": 13,
+                "width": 10
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "s_bpos",
+        "key": "0x20",
+        "mask": "0x1ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "src",
+                "pos": 13,
+                "width": 10
+            },
+            {
+                "name": "dst",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "nfu_loop_buffer",
+        "key": "0x20000",
+        "mask": "0x21ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "creg",
+                "pos": 29,
+                "width": 3
+            },
+            {
+                "name": "z",
+                "pos": 28,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 4
+            },
+            {
+                "name": "csta",
+                "pos": 18,
+                "width": 5
+            },
+            {
+                "name": "cstb",
+                "pos": 23,
+                "width": 5
+            }
+        ]
+    },
+    {
+        "name": "nfu_nop_idle",
+        "key": "0x0",
+        "mask": "0xfffe1ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 4
+            }
+        ]
+    },
+    {
+        "name": "nfu_dint",
+        "key": "0x10004000",
+        "mask": "0xfffffffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "nfu_rint",
+        "key": "0x10006000",
+        "mask": "0xfffffffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "nfu_swe",
+        "key": "0x10000000",
+        "mask": "0xfffffffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "nfu_swenr",
+        "key": "0x10002000",
+        "mask": "0xfffffffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "nfu_spkernel",
+        "key": "0x34000",
+        "mask": "0xf03ffffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "fstgfcyc",
+                "pos": 22,
+                "width": 6
+            }
+        ]
+    },
+    {
+        "name": "nfu_spkernelr",
+        "key": "0x36000",
+        "mask": "0xfffffffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "nfu_spmask",
+        "key": "0x20000",
+        "mask": "0xfc021ffc",
+        "fields": [
+            {
+                "name": "p",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 1,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 4
+            },
+            {
+                "name": "mask",
+                "pos": 18,
+                "width": 8
+            }
+        ]
+    }
+]
