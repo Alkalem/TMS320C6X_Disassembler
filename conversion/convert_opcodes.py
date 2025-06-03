@@ -36,8 +36,11 @@ INSNUE = INSNE
 INSNU = INSN
 
 def RAN(id:str, min:int, max:int):
+    if type(min) == str: min = int(min, 0)
+    if type(max) == str: max = int(max, 0)
     return {'id':id, 'min':min, 'max':max}
 def FIX(id:str, value:int):
+    if type(value) == str: value = int(value, 0)
     return RAN(id, value, value)
 def FIXN(*a): return tuple(a)
 FIX0 = FIX1 = FIX2 = FIX3 = FIX4 = FIXN
