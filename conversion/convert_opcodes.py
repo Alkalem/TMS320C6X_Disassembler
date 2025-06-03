@@ -4,6 +4,8 @@ from typing import Iterator, List, Any, Optional
 from collections.abc import Mapping
 import re
 
+from ..constants import *
+
 if len(argv) < 3:
     print(f'Usage: {__file__} <in-path> <out-path>')
     print('\tConvert binutils instruction opcodes to JSON')
@@ -53,44 +55,6 @@ ENC4 = ENC5 = ENC6 = ENC7 = ENCN
 
 def OPN(*a): return tuple(a)
 OP0 = OP1 = OP2 = OP3 = OP4 = OPN
-
-C62X  = 0x01
-C64X  = 0x02
-C64XP = 0x04
-C67X  = 0x08
-C67XP = 0x10
-C674X = 0x20
-
-TIC6X_FLAG_MACRO	= 0x0001
-TIC6X_FLAG_FIRST	= 0x0002
-TIC6X_FLAG_MCNOP	= 0x0004
-TIC6X_FLAG_NO_MCNOP	= 0x0008
-TIC6X_FLAG_LOAD		= 0x0010
-TIC6X_FLAG_STORE	= 0x0020
-TIC6X_FLAG_UNALIGNED	= 0x0040
-TIC6X_FLAG_SIDE_B_ONLY	= 0x0080
-TIC6X_FLAG_SIDE_T2_ONLY	= 0x0100
-TIC6X_FLAG_NO_CROSS	= 0x0200
-TIC6X_FLAG_CALL		= 0x0400
-TIC6X_FLAG_RETURN	= 0x0800
-TIC6X_FLAG_SPLOOP	= 0x1000
-TIC6X_FLAG_SPKERNEL	= 0x2000
-TIC6X_FLAG_SPMASK	= 0x4000
-def TIC6X_FLAG_PREFER(x:int): return x << 15 
-TIC6X_FLAG_INSN16_SPRED    = 0x00100000
-TIC6X_FLAG_INSN16_NORS     = 0x00200000
-TIC6X_FLAG_INSN16_BSIDE    = 0x00400000
-TIC6X_FLAG_INSN16_B15PTR   = 0x00800000
-
-def TIC6X_FLAG_INSN16_MEM_MODE(n:int): return ((n) << 16)
-NEGATIVE      = 0
-POSITIVE      = 1
-REG_NEGATIVE  = 4
-REG_POSITIVE  = 5
-PREDECR       = 8
-PREINCR       = 9
-POSTDECR      = 10
-POSTINCR      = 11
 
 class MapStr(Mapping):
     def __len__(self) -> int: return 0

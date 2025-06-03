@@ -1,4 +1,5 @@
 from .constants import WORD_SIZE, Endianness, Register
+from .constants import TIC6X_FLAG_MACRO
 
 from dataclasses import dataclass
 from typing import Optional, List, Dict
@@ -80,6 +81,8 @@ class Disassembler:
             opcodes:List[Opcode] = json.load(
                 file, object_hook=lambda obj: Namespace(**obj))
             for opcode in opcodes:
+                if opcode.flags & TIC6X_FLAG_MACRO:
+                    continue # ignore assembly macros
                 format = opcode.unit+'_'+opcode.format
                 if format in self.instruction_maps:
                     self.instruction_maps[format].append(opcode)
@@ -113,9 +116,10 @@ class Disassembler:
                 }
 
                 for opcode in self.instruction_maps[format.name]:
-                    if all({ self.__matches_fixed(fields, fixed)
+                    if not all({ self.__matches_fixed(fields, fixed)
                             for fixed in opcode.fixed}):
-                        print(opcode.name, opcode)
+                        continue
+                    print(opcode.name, opcode)
         if instr: return instr
         raise ValueError()
     
