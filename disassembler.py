@@ -2,20 +2,38 @@ from .constants import WORD_SIZE, Endianness, Register
 from .constants import TIC6X_FLAG_MACRO
 
 from dataclasses import dataclass
-from typing import Optional, List, Dict
+from enum import IntEnum
+from typing import List, Dict
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
 
 
+class ConditionType(IntEnum):
+    UNCONDITIONAL = 0
+    BREAKPOINT = 1
+    B0 = 2
+    NOT_B0 = 3
+    B1 = 4
+    NOT_B1 = 5
+    B2 = 6
+    NOT_B2 = 7
+    A1 = 8
+    NOT_A1 = 9
+    A2 = 10
+    NOT_A2 = 11
+    RESERVED = 12
+    @classmethod
+    def _missing_(cls, value):
+        return cls.RESERVED
+
 @dataclass
 class Instruction:
-    condition_reg:Optional[Register]
-    condition_zero:Optional[bool]
-    cross_path:Optional[bool]
+    condition:ConditionType
+    unit:str
+    cross_path:bool
     operands:List[int]
-    opcode:int
-    side:bool
+    opcode:str
     parallel:bool
 
 @dataclass
@@ -105,8 +123,8 @@ class Disassembler:
             # yield Instruction(None, None, False, [], 0, False, False)
             count -= 1
 
-    def __decode(self, encoded:int) -> str:
-        instr = "?"
+    def __decode(self, encoded:int) -> Instruction:
+        instr = None
         for format in self.instruction_formats:
             if encoded & format.mask == format.key:
                 print('unit', format.name)
@@ -120,6 +138,13 @@ class Disassembler:
                             for fixed in opcode.fixed}):
                         continue
                     print(opcode.name, opcode)
+                    parallel = self.__decode_parallel(fields)
+                    condition = self.__decode_condition(fields)
+                    cross_path = self.__decode_cross_path(fields)
+                    instr = Instruction(
+                        condition, opcode.unit, cross_path,
+                        [], opcode.name, parallel)
+
         if instr: return instr
         raise ValueError()
     
@@ -132,4 +157,20 @@ class Disassembler:
         if fixed.id not in fields: 
             raise ValueError()
         return fixed.min <= fields[fixed.id] <= fixed.max
+    
+    def __decode_parallel(self, fields:Dict[str, int]) -> bool:
+        return 'p' in fields and bool(fields['p'])
+    
+    def __decode_condition(self, 
+            fields:Dict[str, int]) -> ConditionType:
+        condition_value = (
+            fields['creg']<<1 if 'creg' in fields else 0
+        ) | (
+            fields['z'] if 'z' in fields else 0
+        )
+        return ConditionType(condition_value)
+    
+    def __decode_cross_path(self, fields:Dict[str, int]) -> bool:
+        return 'x' in fields and bool(fields['x'])
+
 
