@@ -193,6 +193,7 @@ class Disassembler:
         if unit == 'nfu': return ''
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
+        func_unit_cross = cross_path
 
         for var in vars.values():
             match var.method:
@@ -202,6 +203,11 @@ class Disassembler:
                     func_unit_data_side = 2 if var.value else 1
                 case 'rside':
                     func_unit_data_side = 2 if var.value else 1
+                case 'areg':
+                    have_areg = True
+
+        if have_areg and not func_unit_data_side:
+            func_unit_cross = func_unit_side == 1 
 
         match func_unit_data_side:
             case 0: data_str = ''
@@ -209,4 +215,4 @@ class Disassembler:
             case 2: data_str = 'T2'
 
         return '.{}{:d}{}{}'.format(unit.upper(), func_unit_side, 
-                data_str, 'X' if cross_path else '')
+                data_str, 'X' if func_unit_cross else '')
