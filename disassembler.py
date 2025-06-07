@@ -1,9 +1,10 @@
 from .constants import WORD_SIZE, Endianness, Register
-from .constants import TIC6X_FLAG_MACRO
+from .constants import TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, \
+        TIC6X_FLAG_SIDE_T2_ONLY
 
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import List, Dict
+from typing import List, Dict, Optional
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
@@ -60,6 +61,7 @@ class VarField:
     id:str
     method:str
     op:int
+    value:Optional[int]
 
 @dataclass
 class Opcode:
@@ -138,11 +140,21 @@ class Disassembler:
                             for fixed in opcode.fixed}):
                         continue
                     print(opcode.name, opcode)
+                    var_fields = {
+                        var.id: self.__decode_var_field(var, fields)
+                        for var in opcode.vars
+                    }
+
                     parallel = self.__decode_parallel(fields)
                     condition = self.__decode_condition(fields)
                     cross_path = self.__decode_cross_path(fields)
+                    unit = self.__decode_unit(
+                        opcode.unit,
+                        opcode.flags,
+                        cross_path,
+                        var_fields)
                     instr = Instruction(
-                        condition, opcode.unit, cross_path,
+                        condition, unit, cross_path,
                         [], opcode.name, parallel)
 
         if instr: return instr
@@ -151,6 +163,9 @@ class Disassembler:
     def __decode_field(self, field:Field, encoded:int) -> int:
         mask = (1<<field.width) - 1
         return (encoded>>field.pos) & mask
+    
+    def __decode_var_field(self, var:VarField, fields:Dict[str, int]) -> VarField:
+        return VarField(var.id, var.method, var.op, fields[var.id])
     
     def __matches_fixed(self, fields:Dict[str, int], 
             fixed:FixedField) -> bool:
@@ -173,4 +188,25 @@ class Disassembler:
     def __decode_cross_path(self, fields:Dict[str, int]) -> bool:
         return 'x' in fields and bool(fields['x'])
 
+    def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
+            vars:Dict[str, VarField]) -> str:
+        if unit == 'nfu': return ''
+        func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
+        func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
 
+        for var in vars.values():
+            match var.method:
+                case 'fu':
+                    func_unit_side = 2 if var.value else 1
+                case 'data_fu':
+                    func_unit_data_side = 2 if var.value else 1
+                case 'rside':
+                    func_unit_data_side = 2 if var.value else 1
+
+        match func_unit_data_side:
+            case 0: data_str = ''
+            case 1: data_str = 'T1'
+            case 2: data_str = 'T2'
+
+        return '.{}{:d}{}{}'.format(unit.upper(), func_unit_side, 
+                data_str, 'X' if cross_path else '')
