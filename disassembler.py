@@ -32,13 +32,14 @@ class ConditionType(IntEnum):
 class OperandType(Enum):
     CONST = auto()
     REGISTER = auto()
+    REGISTER_PAIR = auto()
     #TODO: complete type list
     UNKNOWN = auto()
 
 @dataclass
 class Operand:
     type:OperandType
-    value:int|Register
+    value:int|Register|Tuple[Register,Register]
 
 @dataclass
 class Instruction:
@@ -107,6 +108,7 @@ def format_decoder(obj:dict):
 class Disassembler:
     def __init__(self, endian:Endianness=Endianness.LITTLE) -> None:
         self.endianness = endian
+        self.fetch_packet_header_based = False # c64x encoding
 
         basepath = Path(__file__).resolve().parent
         with open(basepath / 'instruction_formats.json') as file:
@@ -140,11 +142,11 @@ class Disassembler:
             current_address += WORD_SIZE
             
             encoded = int.from_bytes(current_data, byteorder)
-            instr = self.__decode(encoded)
+            instr = self.__decode(encoded, address)
             yield instr
             count -= 1
 
-    def __decode(self, encoded:int) -> Instruction:
+    def __decode(self, encoded:int, address:int) -> Instruction:
         instr = None
         for format in self.instruction_formats:
             if encoded & format.mask == format.key:
@@ -172,7 +174,8 @@ class Disassembler:
                         opcode.flags,
                         cross_path,
                         var_fields)
-                    operands = self.__decode_operands(opcode.ops, unit_info, var_fields)
+                    operands = self.__decode_operands(opcode.ops, unit_info, 
+                            var_fields, address)
                     instr = Instruction(
                         condition, unit, cross_path,
                         operands, opcode.name, parallel)
@@ -197,8 +200,18 @@ class Disassembler:
                 else: value = self.__decode_signed(fields[var.id])
             case 'scst':
                 value = self.__decode_signed(fields[var.id])
+            case 'pcrel'|'pcrel_half':
+                value = self.__decode_signed(fields[var.id])
+                if self.fetch_packet_header_based and var.method == 'pcrel_half':
+                    value *= 2
+                else:
+                    value *= 4
+            case 'pcrel_half_unsigned':
+                value *= 2
             case 'ucst_minus_one':
                 value += 1
+            case 'reg_shift':
+                value <<= 1
         return VarField(var.id, var.method, var.op, value)
     
     def __decode_signed(self, field:MaskedField) -> int:
@@ -257,7 +270,7 @@ class Disassembler:
                 UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
     
     def __decode_operands(self, ops:List[str], unit_info:UnitInfo,
-            vars:Dict[str, VarField]) -> List[Operand]:
+            vars:Dict[str, VarField], address:int) -> List[Operand]:
         operands = list()
         for i, op in enumerate(ops):
             operand_info = OPERANDS[op]
@@ -305,6 +318,20 @@ class Disassembler:
                             case OperandForm.mem_long:
                                 assert var.value >= 0
                                 raise NotImplementedError('mem_long const offset')
+                    case 'pcrel'|'pcrel_half'|'pcrel_half_unsigned':
+                        assert operand_info.form == OperandForm.link_const
+                        current_operand = Operand(OperandType.CONST, 
+                                address + var.value)
+                    case 'regpair_msb':
+                        assert operand_info.form == OperandForm.regpair
+                        if unit_info.side == 2:
+                            reg_base = Register.B0.value 
+                        else: 
+                            reg_base = Register.A0.value
+                        reg_high = Register(reg_base + var.value | 0x1)
+                        reg_low = Register(reg_base + var.value | 0x1 - 1)
+                        current_operand = Operand(OperandType.REGISTER_PAIR, 
+                                (reg_high, reg_low))
 
             if current_operand:
                 operands.append(current_operand)
