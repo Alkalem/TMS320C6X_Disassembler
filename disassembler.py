@@ -87,6 +87,12 @@ class Opcode:
     ops:List[str]
     vars:List[VarField]
 
+@dataclass
+class UnitInfo:
+    side:int
+    data_side:int
+    cross:bool
+
 
 def format_decoder(obj:dict):
     if {'name', 'key', 'mask', 'fields'}.issubset(obj.keys()):
@@ -160,15 +166,15 @@ class Disassembler:
                     parallel = self.__decode_parallel(fields)
                     condition = self.__decode_condition(fields)
                     cross_path = self.__decode_cross_path(fields)
-                    unit = self.__decode_unit(
+                    unit, unit_info = self.__decode_unit(
                         opcode.unit,
                         opcode.flags,
                         cross_path,
                         var_fields)
-                    operands = self.__decode_operands(opcode.ops, var_fields)
+                    operands = self.__decode_operands(opcode.ops, unit_info, var_fields)
                     instr = Instruction(
                         condition, unit, cross_path,
-                        [], opcode.name, parallel)
+                        operands, opcode.name, parallel)
 
         if instr: return instr
         raise ValueError()
@@ -202,8 +208,8 @@ class Disassembler:
         return 'x' in fields and bool(fields['x'])
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
-            vars:Dict[str, VarField]) -> str:
-        if unit == 'nfu': return ''
+            vars:Dict[str, VarField]) -> Tuple[str,UnitInfo]:
+        if unit == 'nfu': return '', UnitInfo(0,0,False)
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
         func_unit_cross = cross_path
@@ -229,29 +235,43 @@ class Disassembler:
             case 2: data_str = 'T2'
 
         return '.{}{:d}{}{}'.format(unit.upper(), func_unit_side, 
-                data_str, 'X' if func_unit_cross else '')
+                data_str, 'X' if func_unit_cross else ''), \
+                UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
     
-    def __decode_operands(self, ops:List[str], 
+    def __decode_operands(self, ops:List[str], unit_info:UnitInfo,
             vars:Dict[str, VarField]) -> List[Operand]:
         operands = list()
         for op in ops:
             operand_info = OPERANDS[op]
+            current_operand = None
             match operand_info.form:
+                case OperandForm.b15reg:
+                    current_operand = Operand(OperandType.REGISTER, Register.B15)
+                case OperandForm.zreg:
+                    current_operand = Operand(OperandType.REGISTER, 
+                            Register.B0 if unit_info.side == 2 else Register.A0)
+                case OperandForm.retreg:
+                    current_operand = Operand(OperandType.REGISTER, 
+                            Register.B3 if unit_info.side == 2 else Register.A3)
                 case OperandForm.hw_const_minus_1:
-                    operands.append(Operand(OperandType.CONST, -1))
+                    current_operand = Operand(OperandType.CONST, -1)
                 case OperandForm.hw_const_0:
-                    operands.append(Operand(OperandType.CONST, 0))
+                    current_operand = Operand(OperandType.CONST, 0)
                 case OperandForm.hw_const_1:
-                    operands.append(Operand(OperandType.CONST, 1))
+                    current_operand = Operand(OperandType.CONST, 1)
                 case OperandForm.hw_const_5:
-                    operands.append(Operand(OperandType.CONST, 5))
+                    current_operand = Operand(OperandType.CONST, 5)
                 case OperandForm.hw_const_16:
-                    operands.append(Operand(OperandType.CONST, 16))
+                    current_operand = Operand(OperandType.CONST, 16)
                 case OperandForm.hw_const_24:
-                    operands.append(Operand(OperandType.CONST, 24))
+                    current_operand = Operand(OperandType.CONST, 24)
                 case OperandForm.hw_const_31:
-                    operands.append(Operand(OperandType.CONST, 31))
+                    current_operand = Operand(OperandType.CONST, 31)
+            if current_operand:
+                operands.append(current_operand)
+                continue
+            match operand_info.form:
                 case a: 
                     print('not implemented', a)
-                    operands.append(Operand(OperandType.UNKNOWN, -1))
+                    current_operand = Operand(OperandType.UNKNOWN, -1)
         return operands
