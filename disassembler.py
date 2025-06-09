@@ -207,6 +207,7 @@ class Disassembler:
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
         func_unit_cross = cross_path
+        have_areg = False
 
         for var in vars.values():
             match var.method:
