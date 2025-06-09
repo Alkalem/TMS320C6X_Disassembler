@@ -9,7 +9,7 @@ from typing import List, Dict, Optional, Tuple
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
-
+from collections import namedtuple
 
 class ConditionType(IntEnum):
     UNCONDITIONAL = 0
@@ -93,6 +93,8 @@ class UnitInfo:
     data_side:int
     cross:bool
 
+MaskedField = namedtuple('MaskedField', ('value', 'mask'))
+
 
 def format_decoder(obj:dict):
     if {'name', 'key', 'mask', 'fields'}.issubset(obj.keys()):
@@ -140,7 +142,6 @@ class Disassembler:
             encoded = int.from_bytes(current_data, byteorder)
             instr = self.__decode(encoded)
             yield instr
-            # yield Instruction(None, None, False, [], 0, False, False)
             count -= 1
 
     def __decode(self, encoded:int) -> Instruction:
@@ -179,33 +180,50 @@ class Disassembler:
         if instr: return instr
         raise ValueError()
     
-    def __decode_field(self, field:Field, encoded:int) -> int:
+    def __decode_field(self, field:Field, encoded:int) -> MaskedField:
         mask = (1<<field.width) - 1
-        return (encoded>>field.pos) & mask
+        return MaskedField((encoded>>field.pos) & mask, mask)
     
-    def __decode_var_field(self, var:VarField, fields:Dict[str, int]) -> VarField:
-        return VarField(var.id, var.method, var.op, fields[var.id])
+    def __decode_var_field(self, var:VarField, 
+            fields:Dict[str, MaskedField]) -> VarField:
+        assert var.id in fields
+        value = fields[var.id].value
+        match var.method:
+            case 'cst_s3i': 
+                if value == 0: value = 0x10
+                if value == 7: value = 0x08
+            case 'scst_l3i':
+                if value == 0: value = 8
+                else: value = self.__decode_signed(fields[var.id])
+            case 'scst':
+                value = self.__decode_signed(fields[var.id])
+            case 'ucst_minus_one':
+                value += 1
+        return VarField(var.id, var.method, var.op, value)
     
-    def __matches_fixed(self, fields:Dict[str, int], 
+    def __decode_signed(self, field:MaskedField) -> int:
+        return (field.value ^ field.mask) - field.mask
+    
+    def __matches_fixed(self, fields:Dict[str, MaskedField], 
             fixed:FixedField) -> bool:
         if fixed.id not in fields: 
             raise ValueError()
-        return fixed.min <= fields[fixed.id] <= fixed.max
+        return fixed.min <= fields[fixed.id].value <= fixed.max
     
-    def __decode_parallel(self, fields:Dict[str, int]) -> bool:
-        return 'p' in fields and bool(fields['p'])
+    def __decode_parallel(self, fields:Dict[str, MaskedField]) -> bool:
+        return 'p' in fields and bool(fields['p'].value)
     
     def __decode_condition(self, 
-            fields:Dict[str, int]) -> ConditionType:
+            fields:Dict[str, MaskedField]) -> ConditionType:
         condition_value = (
-            fields['creg']<<1 if 'creg' in fields else 0
+            fields['creg'].value<<1 if 'creg' in fields else 0
         ) | (
-            fields['z'] if 'z' in fields else 0
+            fields['z'].value if 'z' in fields else 0
         )
         return ConditionType(condition_value)
     
-    def __decode_cross_path(self, fields:Dict[str, int]) -> bool:
-        return 'x' in fields and bool(fields['x'])
+    def __decode_cross_path(self, fields:Dict[str, MaskedField]) -> bool:
+        return 'x' in fields and bool(fields['x'].value)
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
             vars:Dict[str, VarField]) -> Tuple[str,UnitInfo]:
@@ -241,7 +259,7 @@ class Disassembler:
     def __decode_operands(self, ops:List[str], unit_info:UnitInfo,
             vars:Dict[str, VarField]) -> List[Operand]:
         operands = list()
-        for op in ops:
+        for i, op in enumerate(ops):
             operand_info = OPERANDS[op]
             current_operand = None
             match operand_info.form:
@@ -270,8 +288,26 @@ class Disassembler:
             if current_operand:
                 operands.append(current_operand)
                 continue
-            match operand_info.form:
-                case a: 
-                    print('not implemented', a)
-                    current_operand = Operand(OperandType.UNKNOWN, -1)
+            for var in vars.values():
+                assert var.value is not None
+                if var.op != i: continue
+
+                match var.method:
+                    case (
+                            'cst_s3i'|'ucst'|'ulcst_dpr_byte'|'ulcst_dpr_half'
+                            |'ulcst_dpr_word'|'lcst_low16'|'lcst_high16'
+                            |'scst'|'scst_l3i'
+                            |'ucst_minus_one'
+                    ):
+                        match operand_info.form:
+                            case OperandForm.asm_const|OperandForm.link_const:
+                                current_operand = Operand(OperandType.CONST, var.value)
+                            case OperandForm.mem_long:
+                                assert var.value >= 0
+                                raise NotImplementedError('mem_long const offset')
+
+            if current_operand:
+                operands.append(current_operand)
+                continue
+            print('not implemented', operand_info.form)
         return operands
