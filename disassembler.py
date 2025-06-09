@@ -1,10 +1,11 @@
 from .constants import WORD_SIZE, Endianness, Register
 from .constants import TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, \
         TIC6X_FLAG_SIDE_T2_ONLY
+from .operands import OPERANDS, OperandForm
 
 from dataclasses import dataclass
-from enum import IntEnum
-from typing import List, Dict, Optional
+from enum import IntEnum, Enum, auto
+from typing import List, Dict, Optional, Tuple
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
@@ -28,12 +29,23 @@ class ConditionType(IntEnum):
     def _missing_(cls, value):
         return cls.RESERVED
 
+class OperandType(Enum):
+    CONST = auto()
+    REGISTER = auto()
+    #TODO: complete type list
+    UNKNOWN = auto()
+
+@dataclass
+class Operand:
+    type:OperandType
+    value:int|Register
+
 @dataclass
 class Instruction:
     condition:ConditionType
     unit:str
     cross_path:bool
-    operands:List[int]
+    operands:List[Operand]
     opcode:str
     parallel:bool
 
@@ -153,6 +165,7 @@ class Disassembler:
                         opcode.flags,
                         cross_path,
                         var_fields)
+                    operands = self.__decode_operands(opcode.ops, var_fields)
                     instr = Instruction(
                         condition, unit, cross_path,
                         [], opcode.name, parallel)
@@ -216,3 +229,28 @@ class Disassembler:
 
         return '.{}{:d}{}{}'.format(unit.upper(), func_unit_side, 
                 data_str, 'X' if func_unit_cross else '')
+    
+    def __decode_operands(self, ops:List[str], 
+            vars:Dict[str, VarField]) -> List[Operand]:
+        operands = list()
+        for op in ops:
+            operand_info = OPERANDS[op]
+            match operand_info.form:
+                case OperandForm.hw_const_minus_1:
+                    operands.append(Operand(OperandType.CONST, -1))
+                case OperandForm.hw_const_0:
+                    operands.append(Operand(OperandType.CONST, 0))
+                case OperandForm.hw_const_1:
+                    operands.append(Operand(OperandType.CONST, 1))
+                case OperandForm.hw_const_5:
+                    operands.append(Operand(OperandType.CONST, 5))
+                case OperandForm.hw_const_16:
+                    operands.append(Operand(OperandType.CONST, 16))
+                case OperandForm.hw_const_24:
+                    operands.append(Operand(OperandType.CONST, 24))
+                case OperandForm.hw_const_31:
+                    operands.append(Operand(OperandType.CONST, 31))
+                case a: 
+                    print('not implemented', a)
+                    operands.append(Operand(OperandType.UNKNOWN, -1))
+        return operands
