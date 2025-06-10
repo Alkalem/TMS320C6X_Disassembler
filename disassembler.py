@@ -74,7 +74,13 @@ class VarField:
     id:str
     method:str
     op:int
-    value:Optional[int]
+
+@dataclass
+class Variable:
+    id:str
+    method:str
+    op:int
+    value:int
 
 @dataclass
 class Opcode:
@@ -161,7 +167,7 @@ class Disassembler:
                             for fixed in opcode.fixed}):
                         continue
                     print(opcode.name, opcode)
-                    var_fields = {
+                    vars = {
                         var.id: self.__decode_var_field(var, fields)
                         for var in opcode.vars
                     }
@@ -173,9 +179,9 @@ class Disassembler:
                         opcode.unit,
                         opcode.flags,
                         cross_path,
-                        var_fields)
+                        vars)
                     operands = self.__decode_operands(opcode.ops, unit_info, 
-                            var_fields, address)
+                            vars, address)
                     instr = Instruction(
                         condition, unit, cross_path,
                         operands, opcode.name, parallel)
@@ -188,7 +194,7 @@ class Disassembler:
         return MaskedField((encoded>>field.pos) & mask, mask)
     
     def __decode_var_field(self, var:VarField, 
-            fields:Dict[str, MaskedField]) -> VarField:
+            fields:Dict[str, MaskedField]) -> Variable:
         assert var.id in fields
         value = fields[var.id].value
         match var.method:
@@ -212,7 +218,7 @@ class Disassembler:
                 value += 1
             case 'reg_shift':
                 value <<= 1
-        return VarField(var.id, var.method, var.op, value)
+        return Variable(var.id, var.method, var.op, value)
     
     def __decode_signed(self, field:MaskedField) -> int:
         return (field.value ^ field.mask) - field.mask
@@ -239,7 +245,7 @@ class Disassembler:
         return 'x' in fields and bool(fields['x'].value)
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
-            vars:Dict[str, VarField]) -> Tuple[str,UnitInfo]:
+            vars:Dict[str, Variable]) -> Tuple[str,UnitInfo]:
         if unit == 'nfu': return '', UnitInfo(0,0,False)
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
@@ -270,7 +276,7 @@ class Disassembler:
                 UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
     
     def __decode_operands(self, ops:List[str], unit_info:UnitInfo,
-            vars:Dict[str, VarField], address:int) -> List[Operand]:
+            vars:Dict[str, Variable], address:int) -> List[Operand]:
         assert all([var.value is not None for var in vars.values()])
         operands = list()
         for i, op in enumerate(ops):
@@ -410,10 +416,10 @@ class Disassembler:
             print('not implemented', operand_info.form)
         return operands
     
-    def __get_operand_var(self, vars:Dict[str, VarField], op:int, methods:Sequence[str]) -> Optional[VarField]:
+    def __get_operand_var(self, vars:Dict[str, Variable], 
+            op:int, methods:Sequence[str]) -> Optional[Variable]:
         for var in vars.values():
             if var.op != op: continue
             if var.method in methods:
-                assert var.value is not None
                 return var
         return None
