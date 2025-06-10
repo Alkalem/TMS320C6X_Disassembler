@@ -40,6 +40,38 @@ class Register(IntEnum):
     B14 = 30
     B15 = 31
 
+class ControlRegister(IntEnum):
+    AMR = 0
+    CSR = 1
+    IFR = 2 # read access
+    ISR = 32|2 # write access
+    ICR = 3
+    IER = 4
+    ISTP = 5
+    IRP = 6
+    NRP = 7
+    TSCL = 10 # c64x
+    TSCH = 11 # c64x
+    ILC = 13 # c64x
+    RILC = 14 # c64x
+    REP = 15 # c64x
+    PCE1 = 16
+    DNUM = 17 # c64x
+    FADCR = 18
+    FAUCR = 19
+    FMCR = 20
+    # c64x control register extensions from here on
+    SSR = 21
+    GPLYA = 22
+    GPLYB = 23
+    GFPGFR = 24
+    DIER = 25
+    TSR = 26
+    ITSR = 27
+    NTSR = 28
+    EFR = 29 # read access
+    ECR = 32|29 # write access
+    IERR = 31
 
 C62X  = 0x01
 C64X  = 0x02

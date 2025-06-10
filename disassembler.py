@@ -1,7 +1,7 @@
-from .constants import WORD_SIZE, Endianness, Register
+from .constants import WORD_SIZE, Endianness, Register, ControlRegister
 from .constants import TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, \
         TIC6X_FLAG_SIDE_T2_ONLY
-from .operands import OPERANDS, OperandForm
+from .operands import OPERANDS, OperandForm, RW
 
 from dataclasses import dataclass
 from enum import IntEnum, Enum, auto
@@ -33,13 +33,14 @@ class OperandType(Enum):
     CONST = auto()
     REGISTER = auto()
     REGISTER_PAIR = auto()
+    CONTROL_REGISTER = auto()
     #TODO: complete type list
     UNKNOWN = auto()
 
 @dataclass
 class Operand:
     type:OperandType
-    value:int|Register|Tuple[Register,Register]
+    value:int|Register|Tuple[Register,Register]|ControlRegister
 
 @dataclass
 class Instruction:
@@ -292,6 +293,15 @@ class Disassembler:
                 case OperandForm.retreg:
                     current_operand = Operand(OperandType.REGISTER, 
                             Register.B3 if unit_info.side == 2 else Register.A3)
+                case OperandForm.irp:
+                    current_operand = Operand(OperandType.CONTROL_REGISTER, 
+                            ControlRegister.IRP)
+                case OperandForm.nrp:
+                    current_operand = Operand(OperandType.CONTROL_REGISTER, 
+                            ControlRegister.NRP)
+                case OperandForm.ilc:
+                    current_operand = Operand(OperandType.CONTROL_REGISTER, 
+                            ControlRegister.ILC)
                 case OperandForm.hw_const_minus_1:
                     current_operand = Operand(OperandType.CONST, -1)
                 case OperandForm.hw_const_0:
@@ -384,6 +394,15 @@ class Disassembler:
                         reg_low = Register(reg_base + var.value)
                         current_operand = Operand(OperandType.REGISTER_PAIR,
                                 (reg_high, reg_low))
+                case OperandForm.ctrl:
+                    crhi = self.__get_operand_var(vars, i, ('crhi',))
+                    crlo = self.__get_operand_var(vars, i, ('crlo',))
+                    assert crlo is not None and crhi is not None
+                    assert crhi.value == 0, 'control register extension not supported'
+                    ctrl = ControlRegister(crlo.value)
+                    if crlo == 2 and operand_info.rw == RW.write:
+                        ctrl = ControlRegister.ISR
+                    current_operand = Operand(OperandType.CONTROL_REGISTER, ctrl)
 
             if current_operand:
                 operands.append(current_operand)
