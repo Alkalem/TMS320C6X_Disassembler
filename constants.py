@@ -73,6 +73,14 @@ class ControlRegister(IntEnum):
     ECR = 32|29 # write access
     IERR = 31
 
+class AdressingMode(IntEnum):
+    NEG_OFFSET = 0
+    POS_OFFSET = 1
+    PREDECREMENT = 8
+    PREINCREMENT = 9
+    POSTDECREMENT = 10
+    POSTINCREMENT = 11
+
 C62X  = 0x01
 C64X  = 0x02
 C64XP = 0x04

@@ -1,4 +1,4 @@
-from .constants import WORD_SIZE, Endianness, Register, ControlRegister
+from .constants import WORD_SIZE, Endianness, Register, ControlRegister, AdressingMode
 from .constants import TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, \
         TIC6X_FLAG_SIDE_T2_ONLY
 from .operands import OPERANDS, OperandForm, RW
@@ -34,13 +34,15 @@ class OperandType(Enum):
     REGISTER = auto()
     REGISTER_PAIR = auto()
     CONTROL_REGISTER = auto()
+    ADDRESS = auto()
     #TODO: complete type list
     UNKNOWN = auto()
 
 @dataclass
 class Operand:
     type:OperandType
-    value:int|Register|Tuple[Register,Register]|ControlRegister
+    value:(int|Register|Tuple[Register,Register]|ControlRegister
+            |Tuple[AdressingMode,Register,Register|int])
 
 @dataclass
 class Instruction:
@@ -403,6 +405,24 @@ class Disassembler:
                     if crlo == 2 and operand_info.rw == RW.write:
                         ctrl = ControlRegister.ISR
                     current_operand = Operand(OperandType.CONTROL_REGISTER, ctrl)
+                case OperandForm.mem_short:
+                    mode_var = self.__get_operand_var(vars, i, ('mem_mode',))
+                    offset_var = self.__get_operand_var(vars, i, ('mem_offset',))
+                    base_var = self.__get_operand_var(vars, i, ('reg',))
+                    assert (mode_var is not None and offset_var is not None 
+                            and base_var is not None)
+                    if unit_info.side == 2:
+                        side = Register.B0.value 
+                    else:
+                        side = Register.A0.value
+                    base = Register(side+base_var.value)
+                    mode = AdressingMode(mode_var.value & ~4)
+                    if mode_var.value & 4:
+                        offset = Register(side+offset_var.value)
+                    else:
+                        offset = offset_var.value
+                    current_operand = Operand(OperandType.ADDRESS, (mode,base,offset))
+                    
 
             if current_operand:
                 operands.append(current_operand)
