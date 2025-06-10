@@ -5,7 +5,7 @@ from .operands import OPERANDS, OperandForm
 
 from dataclasses import dataclass
 from enum import IntEnum, Enum, auto
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Sequence
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
@@ -271,11 +271,13 @@ class Disassembler:
     
     def __decode_operands(self, ops:List[str], unit_info:UnitInfo,
             vars:Dict[str, VarField], address:int) -> List[Operand]:
+        assert all([var.value is not None for var in vars.values()])
         operands = list()
         for i, op in enumerate(ops):
             operand_info = OPERANDS[op]
             current_operand = None
             match operand_info.form:
+                # operand constant or fully determined by functional unit
                 case OperandForm.b15reg:
                     current_operand = Operand(OperandType.REGISTER, Register.B15)
                 case OperandForm.zreg:
@@ -298,6 +300,85 @@ class Disassembler:
                     current_operand = Operand(OperandType.CONST, 24)
                 case OperandForm.hw_const_31:
                     current_operand = Operand(OperandType.CONST, 31)
+
+                # operands requiring information encoded in variable fields
+                case OperandForm.asm_const:
+                    if (var := self.__get_operand_var(vars, i, ('cst_s3i', 'ucst', 
+                            'ucst_minus_one', 'scst', 'scst_l3i'))):
+                        current_operand = Operand(OperandType.CONST, var.value)
+                    # fstg and fcyc not handled yet
+                case OperandForm.link_const:
+                    if (var := self.__get_operand_var(vars, i, ('ulcst_dpr_byte', 'ucst', 
+                            'lcst_high16', 'lcst_low16', 'scst'))):
+                        current_operand = Operand(OperandType.CONST, var.value)
+                    elif (var := self.__get_operand_var(vars, i, 
+                            ('pcrel', 'pcrel_half', 'pcrel_half_unsigned'))):
+                        current_operand = Operand(OperandType.CONST, address + var.value)
+                # c64x 16-bit encoding, header and types are not supported yet (relevant for reg and regpair)
+                case OperandForm.reg|OperandForm.reg_bside|OperandForm.xreg:
+                    if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
+                        if (
+                            unit_info.side == 2 
+                            or operand_info.form == OperandForm.reg_bside
+                        ):
+                            reg_base = Register.B0.value
+                        else: 
+                            reg_base = Register.A0.value
+                        if (
+                            operand_info.form == OperandForm.xreg
+                            and unit_info.cross
+                        ):
+                            reg_base ^= Register.B0.value
+                        current_operand = Operand(OperandType.REGISTER,
+                                Register(reg_base + var.value))
+                case OperandForm.dreg:
+                    if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
+                        if unit_info.data_side == 2:
+                            reg_base = Register.B0.value
+                        else: 
+                            reg_base = Register.A0.value
+                        current_operand = Operand(OperandType.REGISTER,
+                                Register(reg_base + var.value))
+                case OperandForm.regpair|OperandForm.xregpair:
+                    if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
+                        assert var.value&1 == 0
+                        if (
+                            unit_info.side == 2 
+                            or operand_info.form == OperandForm.reg_bside
+                        ):
+                            reg_base = Register.B0.value
+                        else: 
+                            reg_base = Register.A0.value
+                        if (
+                            operand_info.form == OperandForm.xreg
+                            and unit_info.cross
+                        ):
+                            reg_base ^= Register.B0.value
+                        reg_high = Register(reg_base + var.value + 1)
+                        reg_low = Register(reg_base + var.value)
+                        current_operand = Operand(OperandType.REGISTER_PAIR,
+                                (reg_high, reg_low))
+                    elif (var := self.__get_operand_var(vars, i, ('regpair_msb'))):
+                        if unit_info.side == 2:
+                            reg_base = Register.B0.value 
+                        else: 
+                            reg_base = Register.A0.value
+                        reg_high = Register(reg_base + var.value | 0x1)
+                        reg_low = Register(reg_base + var.value | 0x1 - 1)
+                        current_operand = Operand(OperandType.REGISTER_PAIR, 
+                                (reg_high, reg_low))
+                case OperandForm.dregpair:
+                    if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
+                        assert var.value&1 == 0
+                        if unit_info.data_side == 2:
+                            reg_base = Register.B0.value
+                        else: 
+                            reg_base = Register.A0.value
+                        reg_high = Register(reg_base + var.value + 1)
+                        reg_low = Register(reg_base + var.value)
+                        current_operand = Operand(OperandType.REGISTER_PAIR,
+                                (reg_high, reg_low))
+
             if current_operand:
                 operands.append(current_operand)
                 continue
@@ -313,83 +394,14 @@ class Disassembler:
                             |'ucst_minus_one'
                     ):
                         match operand_info.form:
-                            case OperandForm.asm_const|OperandForm.link_const:
-                                current_operand = Operand(OperandType.CONST, var.value)
                             case OperandForm.mem_long:
                                 assert var.value >= 0
                                 raise NotImplementedError('mem_long const offset')
-                    case 'pcrel'|'pcrel_half'|'pcrel_half_unsigned':
-                        assert operand_info.form == OperandForm.link_const
-                        current_operand = Operand(OperandType.CONST, 
-                                address + var.value)
-                    case 'regpair_msb':
-                        assert operand_info.form == OperandForm.regpair
-                        if unit_info.side == 2:
-                            reg_base = Register.B0.value 
-                        else: 
-                            reg_base = Register.A0.value
-                        reg_high = Register(reg_base + var.value | 0x1)
-                        reg_low = Register(reg_base + var.value | 0x1 - 1)
-                        current_operand = Operand(OperandType.REGISTER_PAIR, 
-                                (reg_high, reg_low))
                     case 'reg_shift'|'reg':
                         # c64x 16-bit encoding, header and types are not supported yet
                         match operand_info.form:
-                            case (
-                                OperandForm.reg|OperandForm.reg_bside
-                                |OperandForm.xreg
-                            ):
-                                if (
-                                    unit_info.side == 2 
-                                    or operand_info.form == OperandForm.reg_bside
-                                ):
-                                    reg_base = Register.B0.value
-                                else: 
-                                    reg_base = Register.A0.value
-                                if (
-                                    operand_info.form == OperandForm.xreg
-                                    and unit_info.cross
-                                ):
-                                    reg_base ^= Register.B0.value
-                                current_operand = Operand(OperandType.REGISTER,
-                                        Register(reg_base + var.value))
-                            case OperandForm.dreg:
-                                if unit_info.data_side == 2:
-                                    reg_base = Register.B0.value
-                                else: 
-                                    reg_base = Register.A0.value
-                                current_operand = Operand(OperandType.REGISTER,
-                                        Register(reg_base + var.value))
-                            case OperandForm.regpair|OperandForm.xregpair:
-                                assert var.value&1 == 0
-                                if (
-                                    unit_info.side == 2 
-                                    or operand_info.form == OperandForm.reg_bside
-                                ):
-                                    reg_base = Register.B0.value
-                                else: 
-                                    reg_base = Register.A0.value
-                                if (
-                                    operand_info.form == OperandForm.xreg
-                                    and unit_info.cross
-                                ):
-                                    reg_base ^= Register.B0.value
-                                reg_high = Register(reg_base + var.value + 1)
-                                reg_low = Register(reg_base + var.value)
-                                current_operand = Operand(OperandType.REGISTER_PAIR,
-                                        (reg_high, reg_low))
-                            case OperandForm.dregpair:
-                                assert var.value&1 == 0
-                                if unit_info.data_side == 2:
-                                    reg_base = Register.B0.value
-                                else: 
-                                    reg_base = Register.A0.value
-                                reg_high = Register(reg_base + var.value + 1)
-                                reg_low = Register(reg_base + var.value)
-                                current_operand = Operand(OperandType.REGISTER_PAIR,
-                                        (reg_high, reg_low))
-                            case _:
-                                raise NotImplementedError('operand form for register')
+                            case _: pass 
+                            # mem types not implemented, as well as c64x types
                                 
 
             if current_operand:
@@ -397,3 +409,11 @@ class Disassembler:
                 continue
             print('not implemented', operand_info.form)
         return operands
+    
+    def __get_operand_var(self, vars:Dict[str, VarField], op:int, methods:Sequence[str]) -> Optional[VarField]:
+        for var in vars.values():
+            if var.op != op: continue
+            if var.method in methods:
+                assert var.value is not None
+                return var
+        return None
