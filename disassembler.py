@@ -1,117 +1,75 @@
-from .constants import WORD_SIZE, Endianness, Register, ControlRegister, AdressingMode
-from .constants import TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, \
+from .constants import WORD_SIZE, TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, \
         TIC6X_FLAG_SIDE_T2_ONLY
-from .operands import OPERANDS, OperandForm, RW
+from ._operands import OPERANDS, OperandForm, RW
+from .types import Endianness, Register, ControlRegister, AdressingMode, \
+        ConditionType, Operand, OperandType, Instruction
 
 from dataclasses import dataclass
-from enum import IntEnum, Enum, auto
 from typing import List, Dict, Optional, Tuple, Sequence
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
 from collections import namedtuple
 
-class ConditionType(IntEnum):
-    UNCONDITIONAL = 0
-    BREAKPOINT = 1
-    B0 = 2
-    NOT_B0 = 3
-    B1 = 4
-    NOT_B1 = 5
-    B2 = 6
-    NOT_B2 = 7
-    A1 = 8
-    NOT_A1 = 9
-    A2 = 10
-    NOT_A2 = 11
-    RESERVED = 12
-    @classmethod
-    def _missing_(cls, value):
-        return cls.RESERVED
-
-class OperandType(Enum):
-    CONST = auto()
-    REGISTER = auto()
-    REGISTER_PAIR = auto()
-    CONTROL_REGISTER = auto()
-    ADDRESS = auto()
-    #TODO: complete type list
-    UNKNOWN = auto()
-
 @dataclass
-class Operand:
-    type:OperandType
-    value:(int|Register|Tuple[Register,Register]|ControlRegister
-            |Tuple[AdressingMode,Register,Register|int])
-
-@dataclass
-class Instruction:
-    condition:ConditionType
-    unit:str
-    cross_path:bool
-    operands:List[Operand]
-    opcode:str
-    parallel:bool
-
-@dataclass
-class Field:
+class _Field:
     id:str
     pos:int
     width:int
 
 @dataclass
-class InstructionFormat:
+class _InstructionFormat:
     name:str
     key:int
     mask:int
-    fields:List[Field]
+    fields:List[_Field]
 
 @dataclass
-class FixedField:
+class _FixedField:
     id:str
     min:int
     max:int
 
 @dataclass
-class VarField:
+class _VarField:
     id:str
     method:str
     op:int
 
 @dataclass
-class Variable:
+class _Variable:
     id:str
     method:str
     op:int
     value:int
 
 @dataclass
-class Opcode:
+class _Opcode:
     name:str
     unit:str
     format:str
     type:str
     isa:int
     flags:int
-    fixed:List[FixedField]
+    fixed:List[_FixedField]
     ops:List[str]
-    vars:List[VarField]
+    vars:List[_VarField]
 
 @dataclass
-class UnitInfo:
+class _UnitInfo:
     side:int
     data_side:int
     cross:bool
 
-MaskedField = namedtuple('MaskedField', ('value', 'mask'))
+_MaskedField = namedtuple('MaskedField', ('value', 'mask'))
 
 
-def format_decoder(obj:dict):
+def _format_decoder(obj:dict):
     if {'name', 'key', 'mask', 'fields'}.issubset(obj.keys()):
-        return InstructionFormat(obj['name'], int(obj['key'], 0),
+        return _InstructionFormat(obj['name'], int(obj['key'], 0),
                 int(obj['mask'], 0), obj['fields'])
     elif {'name', 'pos', 'width'}.issubset(obj.keys()):
-        return Field(obj['name'], obj['pos'], obj['width'])
+        return _Field(obj['name'], obj['pos'], obj['width'])
 
 
 class Disassembler:
@@ -121,15 +79,15 @@ class Disassembler:
 
         basepath = Path(__file__).resolve().parent
         with open(basepath / 'instruction_formats.json') as file:
-            self.instruction_formats:List[InstructionFormat] = json.load(
-                file, object_hook=format_decoder)
+            self.instruction_formats:List[_InstructionFormat] = json.load(
+                file, object_hook=_format_decoder)
             self.instruction_formats.sort(
                 key=lambda f: -f.mask.bit_count())
-            self.instruction_maps:Dict[str, List[Opcode]] = {
+            self.instruction_maps:Dict[str, List[_Opcode]] = {
                 f.name: list()
                 for f in self.instruction_formats}
         with open(basepath / 'opcodes.json') as file:
-            opcodes:List[Opcode] = json.load(
+            opcodes:List[_Opcode] = json.load(
                 file, object_hook=lambda obj: Namespace(**obj))
             for opcode in opcodes:
                 if opcode.flags & TIC6X_FLAG_MACRO:
@@ -192,12 +150,12 @@ class Disassembler:
         if instr: return instr
         raise ValueError()
     
-    def __decode_field(self, field:Field, encoded:int) -> MaskedField:
+    def __decode_field(self, field:_Field, encoded:int) -> _MaskedField:
         mask = (1<<field.width) - 1
-        return MaskedField((encoded>>field.pos) & mask, mask)
+        return _MaskedField((encoded>>field.pos) & mask, mask)
     
-    def __decode_var_field(self, var:VarField, 
-            fields:Dict[str, MaskedField]) -> Variable:
+    def __decode_var_field(self, var:_VarField, 
+            fields:Dict[str, _MaskedField]) -> _Variable:
         assert var.id in fields
         value = fields[var.id].value
         match var.method:
@@ -221,22 +179,22 @@ class Disassembler:
                 value += 1
             case 'reg_shift':
                 value <<= 1
-        return Variable(var.id, var.method, var.op, value)
+        return _Variable(var.id, var.method, var.op, value)
     
-    def __decode_signed(self, field:MaskedField) -> int:
+    def __decode_signed(self, field:_MaskedField) -> int:
         return (field.value ^ field.mask) - field.mask
     
-    def __matches_fixed(self, fields:Dict[str, MaskedField], 
-            fixed:FixedField) -> bool:
+    def __matches_fixed(self, fields:Dict[str, _MaskedField], 
+            fixed:_FixedField) -> bool:
         if fixed.id not in fields: 
             raise ValueError()
         return fixed.min <= fields[fixed.id].value <= fixed.max
     
-    def __decode_parallel(self, fields:Dict[str, MaskedField]) -> bool:
+    def __decode_parallel(self, fields:Dict[str, _MaskedField]) -> bool:
         return 'p' in fields and bool(fields['p'].value)
     
     def __decode_condition(self, 
-            fields:Dict[str, MaskedField]) -> ConditionType:
+            fields:Dict[str, _MaskedField]) -> ConditionType:
         condition_value = (
             fields['creg'].value<<1 if 'creg' in fields else 0
         ) | (
@@ -244,12 +202,12 @@ class Disassembler:
         )
         return ConditionType(condition_value)
     
-    def __decode_cross_path(self, fields:Dict[str, MaskedField]) -> bool:
+    def __decode_cross_path(self, fields:Dict[str, _MaskedField]) -> bool:
         return 'x' in fields and bool(fields['x'].value)
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
-            vars:Dict[str, Variable]) -> Tuple[str,UnitInfo]:
-        if unit == 'nfu': return '', UnitInfo(0,0,False)
+            vars:Dict[str, _Variable]) -> Tuple[str,_UnitInfo]:
+        if unit == 'nfu': return '', _UnitInfo(0,0,False)
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
         func_unit_cross = cross_path
@@ -276,10 +234,10 @@ class Disassembler:
 
         return '.{}{:d}{}{}'.format(unit.upper(), func_unit_side, 
                 data_str, 'X' if func_unit_cross else ''), \
-                UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
+                _UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
     
-    def __decode_operands(self, ops:List[str], unit_info:UnitInfo,
-            vars:Dict[str, Variable], address:int) -> List[Operand]:
+    def __decode_operands(self, ops:List[str], unit_info:_UnitInfo,
+            vars:Dict[str, _Variable], address:int) -> List[Operand]:
         assert all([var.value is not None for var in vars.values()])
         operands = list()
         for i, op in enumerate(ops):
@@ -455,8 +413,8 @@ class Disassembler:
             print('not implemented', operand_info.form)
         return operands
     
-    def __get_operand_var(self, vars:Dict[str, Variable], 
-            op:int, methods:Sequence[str]) -> Optional[Variable]:
+    def __get_operand_var(self, vars:Dict[str, _Variable], 
+            op:int, methods:Sequence[str]) -> Optional[_Variable]:
         for var in vars.values():
             if var.op != op: continue
             if var.method in methods:
