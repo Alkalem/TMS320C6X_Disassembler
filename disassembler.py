@@ -117,7 +117,7 @@ class Disassembler:
         instr = None
         for format in self.instruction_formats:
             if encoded & format.mask == format.key:
-                print('unit', format.name)
+                # print('unit', format.name)
                 fields = {
                     field.id: self.__decode_field(field, encoded)
                     for field in format.fields
@@ -127,7 +127,7 @@ class Disassembler:
                     if not all({ self.__matches_fixed(fields, fixed)
                             for fixed in opcode.fixed}):
                         continue
-                    print(opcode.name, opcode)
+                    # print(opcode.name, opcode)
                     vars = {
                         var.id: self.__decode_var_field(var, fields)
                         for var in opcode.vars
@@ -410,7 +410,7 @@ class Disassembler:
             if current_operand:
                 operands.append(current_operand)
                 continue
-            print('not implemented', operand_info.form)
+            # print('not implemented', operand_info.form)
         return operands
     
     def __get_operand_var(self, vars:Dict[str, _Variable], 
