@@ -378,7 +378,7 @@ class Disassembler:
                     if mode_var.value & 4:
                         offset = Register(side+offset_var.value)
                     else:
-                        offset = offset_var.value
+                        offset = offset_var.value * operand_info.size
                     current_operand = Operand(OperandType.ADDRESS, (mode,base,offset))
                     
 
