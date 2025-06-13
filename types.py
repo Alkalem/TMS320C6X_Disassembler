@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum, IntEnum, Enum, auto
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 class Endianness(StrEnum):
     LITTLE = 'little'
@@ -40,6 +40,9 @@ class Register(IntEnum):
     B14 = 30
     B15 = 31
 
+    def __str__(self) -> str:
+        return self.name
+
 class ControlRegister(IntEnum):
     AMR = 0
     CSR = 1
@@ -73,6 +76,9 @@ class ControlRegister(IntEnum):
     ECR = 32|29 # write access
     IERR = 31
 
+    def __str__(self) -> str:
+        return self.name
+
 class AdressingMode(IntEnum):
     NEG_OFFSET = 0
     POS_OFFSET = 1
@@ -81,20 +87,48 @@ class AdressingMode(IntEnum):
     POSTDECREMENT = 10
     POSTINCREMENT = 11
 
-class ConditionType(IntEnum):
-    UNCONDITIONAL = 0
-    BREAKPOINT = 1
-    B0 = 2
-    NOT_B0 = 3
-    B1 = 4
-    NOT_B1 = 5
-    B2 = 6
-    NOT_B2 = 7
-    A1 = 8
-    NOT_A1 = 9
-    A2 = 10
-    NOT_A2 = 11
-    RESERVED = 12
+class _ConditionEnum(IntEnum):
+    _branch_: Optional[bool]
+    _register_: Optional[Register]
+
+    def __new__(cls, value:int, branch:Optional[bool], 
+            register:Optional[Register]):
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+        obj._branch_ = branch
+        obj._register_ = register
+        return obj
+
+    @property
+    def branch(self) -> Optional[bool]:
+        return self._branch_
+    
+    @property
+    def register(self) -> Optional[Register]:
+        return self._register_
+    
+    def __str__(self) -> str:
+        if self.branch is None:
+            return ''
+        else:
+            reg = self.register.name if self.register else 'x'
+            return f'[{reg}]' if self.branch else f'[!{reg}]'
+
+class ConditionType(_ConditionEnum):
+    UNCONDITIONAL = (0, None, None)
+    BREAKPOINT = (1, True, None)
+    B0 = (2, True, Register.B0)
+    NOT_B0 = (3, False, Register.B0)
+    B1 = (4, True, Register.B1)
+    NOT_B1 = (5, False, Register.B1)
+    B2 = (6, True, Register.B2)
+    NOT_B2 = (7, False, Register.B2)
+    A1 = (8, True, Register.A1)
+    NOT_A1 = (9, False, Register.A1)
+    A2 = (10, True, Register.A2)
+    NOT_A2 = (11, False, Register.A2)
+    RESERVED = (12, None, None)
+
     @classmethod
     def _missing_(cls, value):
         return cls.RESERVED
@@ -113,6 +147,37 @@ class Operand:
     type:OperandType
     value:(int|Register|Tuple[Register,Register]|ControlRegister
             |Tuple[AdressingMode,Register,Register|int])
+    
+    def __str__(self) -> str:
+        match self.type:
+            case OperandType.CONST:
+                assert type(self.value) == int
+                if abs(self.value) > 9:
+                    return hex(self.value)
+                return str(self.value)
+            case OperandType.REGISTER|OperandType.CONTROL_REGISTER:
+                return str(self.value)
+            case OperandType.REGISTER_PAIR:
+                return f'{self.value[0].name}:{self.value[1].name}'
+            case OperandType.ADDRESS:
+                base = str(self.value[1])
+                offset = str(self.value[2])
+                match self.value[0]:
+                    case AdressingMode.NEG_OFFSET:
+                        format = '*-{}({})'
+                    case AdressingMode.POS_OFFSET:
+                        format = '*-{}({})'
+                    case AdressingMode.PREDECREMENT:
+                        format = '*--{}({})'
+                    case AdressingMode.PREINCREMENT:
+                        format = '*++{}({})'
+                    case AdressingMode.POSTDECREMENT:
+                        format = '*{}--({})'
+                    case AdressingMode.POSTINCREMENT:
+                        format = '*{}++({})'
+                return format.format(base, offset)
+            case _:
+                return 'unknown'
 
 @dataclass
 class Instruction:
@@ -123,3 +188,7 @@ class Instruction:
     opcode:str
     parallel:bool
 
+    def __str__(self) -> str:
+        operand_str = ', '.join([str(operand) for operand in self.operands])
+        condition_str = f'{self.condition} ' if str(self.condition) else ''
+        return f'{condition_str}{self.opcode} {self.unit} {operand_str}'
