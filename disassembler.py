@@ -61,7 +61,7 @@ class _UnitInfo:
     data_side:int
     cross:bool
 
-_MaskedField = namedtuple('MaskedField', ('value', 'mask'))
+_SizeField = namedtuple('SizeField', ('value', 'size'))
 
 
 def _format_decoder(obj:dict):
@@ -150,12 +150,12 @@ class Disassembler:
         if instr: return instr
         raise ValueError()
     
-    def __decode_field(self, field:_Field, encoded:int) -> _MaskedField:
+    def __decode_field(self, field:_Field, encoded:int) -> _SizeField:
         mask = (1<<field.width) - 1
-        return _MaskedField((encoded>>field.pos) & mask, mask)
+        return _SizeField((encoded>>field.pos) & mask, field.width)
     
     def __decode_var_field(self, var:_VarField, 
-            fields:Dict[str, _MaskedField]) -> _Variable:
+            fields:Dict[str, _SizeField]) -> _Variable:
         assert var.id in fields
         value = fields[var.id].value
         match var.method:
@@ -181,20 +181,21 @@ class Disassembler:
                 value <<= 1
         return _Variable(var.id, var.method, var.op, value)
     
-    def __decode_signed(self, field:_MaskedField) -> int:
-        return (field.value ^ field.mask) - field.mask
+    def __decode_signed(self, field:_SizeField) -> int:
+        mask = 1 << (field.size - 1)
+        return (field.value ^ mask) - mask
     
-    def __matches_fixed(self, fields:Dict[str, _MaskedField], 
+    def __matches_fixed(self, fields:Dict[str, _SizeField], 
             fixed:_FixedField) -> bool:
         if fixed.id not in fields: 
             raise ValueError()
         return fixed.min <= fields[fixed.id].value <= fixed.max
     
-    def __decode_parallel(self, fields:Dict[str, _MaskedField]) -> bool:
+    def __decode_parallel(self, fields:Dict[str, _SizeField]) -> bool:
         return 'p' in fields and bool(fields['p'].value)
     
     def __decode_condition(self, 
-            fields:Dict[str, _MaskedField]) -> ConditionType:
+            fields:Dict[str, _SizeField]) -> ConditionType:
         condition_value = (
             fields['creg'].value<<1 if 'creg' in fields else 0
         ) | (
@@ -202,7 +203,7 @@ class Disassembler:
         )
         return ConditionType(condition_value)
     
-    def __decode_cross_path(self, fields:Dict[str, _MaskedField]) -> bool:
+    def __decode_cross_path(self, fields:Dict[str, _SizeField]) -> bool:
         return 'x' in fields and bool(fields['x'].value)
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
