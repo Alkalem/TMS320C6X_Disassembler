@@ -381,32 +381,6 @@ class Disassembler:
                         offset = offset_var.value * operand_info.size
                     current_operand = Operand(OperandType.ADDRESS, (mode,base,offset))
                     
-
-            if current_operand:
-                operands.append(current_operand)
-                continue
-            for var in vars.values():
-                assert var.value is not None
-                if var.op != i: continue
-
-                match var.method:
-                    case (
-                            'cst_s3i'|'ucst'|'ulcst_dpr_byte'|'ulcst_dpr_half'
-                            |'ulcst_dpr_word'|'lcst_low16'|'lcst_high16'
-                            |'scst'|'scst_l3i'
-                            |'ucst_minus_one'
-                    ):
-                        match operand_info.form:
-                            case OperandForm.mem_long:
-                                assert var.value >= 0
-                                raise NotImplementedError('mem_long const offset')
-                    case 'reg_shift'|'reg':
-                        # c64x 16-bit encoding, header and types are not supported yet
-                        match operand_info.form:
-                            case _: pass 
-                            # mem types not implemented, as well as c64x types
-                                
-
             if current_operand:
                 operands.append(current_operand)
                 continue
