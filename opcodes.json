@@ -1281,7 +1281,7 @@
         "unit": "d",
         "format": "1_or_2_src",
         "type": "1cycle",
-        "isa": "C64X_AND_C67X",
+        "isa": 10,
         "flags": 512,
         "fixed": [
             {
@@ -1323,7 +1323,7 @@
         "unit": "d",
         "format": "1_or_2_src",
         "type": "1cycle",
-        "isa": "C64X_AND_C67X",
+        "isa": 10,
         "flags": 512,
         "fixed": [
             {
@@ -8969,7 +8969,7 @@
         "unit": "d",
         "format": "load_store",
         "type": "load",
-        "isa": "C64X_AND_C67X",
+        "isa": 10,
         "flags": 528,
         "fixed": [
             {

@@ -15,6 +15,8 @@ in_path = argv[1]
 with open(in_path, 'r') as file:
     formats_lines = file.readlines()
 
+C64X_AND_C67X = C64X | C67X
+
 def INSNE(name:str, e:str, unit:str, format:str, type:str, isa:int, 
         flags:int, fixed:List[dict], ops:List[dict],
         vars:List[dict]) -> Optional[dict]:

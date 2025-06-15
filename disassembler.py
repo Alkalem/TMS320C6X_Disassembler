@@ -1,7 +1,7 @@
-from .constants import WORD_SIZE, TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, \
-        TIC6X_FLAG_SIDE_T2_ONLY
+from .constants import WORD_SIZE, C62X, C67X, C67XP, \
+        TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY
 from ._operands import OPERANDS, OperandForm, RW
-from .types import Endianness, Register, ControlRegister, AdressingMode, \
+from .types import Endianness, Register, ControlRegister, AddressingMode, \
         ConditionType, Operand, OperandType, Instruction
 
 from dataclasses import dataclass
@@ -76,6 +76,7 @@ class Disassembler:
     def __init__(self, endian:Endianness=Endianness.LITTLE) -> None:
         self.endianness = endian
         self.fetch_packet_header_based = False # c64x encoding
+        self.isa = C62X | C67X | C67XP
 
         basepath = Path(__file__).resolve().parent
         with open(basepath / 'instruction_formats.json') as file:
@@ -92,6 +93,8 @@ class Disassembler:
             for opcode in opcodes:
                 if opcode.flags & TIC6X_FLAG_MACRO:
                     continue # ignore assembly macros
+                if not opcode.isa & self.isa:
+                    continue # ignore unsupported ISA
                 format = opcode.unit+'_'+opcode.format
                 if format in self.instruction_maps:
                     self.instruction_maps[format].append(opcode)
@@ -110,10 +113,13 @@ class Disassembler:
             
             encoded = int.from_bytes(current_data, byteorder)
             instr = self.__decode(encoded, address)
-            yield instr
+            if instr:
+                yield instr
+            else:
+                break
             count -= 1
 
-    def __decode(self, encoded:int, address:int) -> Instruction:
+    def __decode(self, encoded:int, address:int) -> Optional[Instruction]:
         instr = None
         for format in self.instruction_formats:
             if encoded & format.mask == format.key:
@@ -148,7 +154,6 @@ class Disassembler:
                         operands, opcode.name, parallel)
 
         if instr: return instr
-        raise ValueError()
     
     def __decode_field(self, field:_Field, encoded:int) -> _SizeField:
         mask = (1<<field.width) - 1
@@ -264,33 +269,33 @@ class Disassembler:
                     current_operand = Operand(OperandType.CONTROL_REGISTER, 
                             ControlRegister.ILC)
                 case OperandForm.hw_const_minus_1:
-                    current_operand = Operand(OperandType.CONST, -1)
+                    current_operand = Operand(OperandType.IMMEDIATE, -1)
                 case OperandForm.hw_const_0:
-                    current_operand = Operand(OperandType.CONST, 0)
+                    current_operand = Operand(OperandType.IMMEDIATE, 0)
                 case OperandForm.hw_const_1:
-                    current_operand = Operand(OperandType.CONST, 1)
+                    current_operand = Operand(OperandType.IMMEDIATE, 1)
                 case OperandForm.hw_const_5:
-                    current_operand = Operand(OperandType.CONST, 5)
+                    current_operand = Operand(OperandType.IMMEDIATE, 5)
                 case OperandForm.hw_const_16:
-                    current_operand = Operand(OperandType.CONST, 16)
+                    current_operand = Operand(OperandType.IMMEDIATE, 16)
                 case OperandForm.hw_const_24:
-                    current_operand = Operand(OperandType.CONST, 24)
+                    current_operand = Operand(OperandType.IMMEDIATE, 24)
                 case OperandForm.hw_const_31:
-                    current_operand = Operand(OperandType.CONST, 31)
+                    current_operand = Operand(OperandType.IMMEDIATE, 31)
 
                 # operands requiring information encoded in variable fields
                 case OperandForm.asm_const:
                     if (var := self.__get_operand_var(vars, i, ('cst_s3i', 'ucst', 
                             'ucst_minus_one', 'scst', 'scst_l3i'))):
-                        current_operand = Operand(OperandType.CONST, var.value)
+                        current_operand = Operand(OperandType.IMMEDIATE, var.value)
                     # fstg and fcyc not handled yet
                 case OperandForm.link_const:
                     if (var := self.__get_operand_var(vars, i, ('ulcst_dpr_byte', 'ucst', 
                             'lcst_high16', 'lcst_low16', 'scst'))):
-                        current_operand = Operand(OperandType.CONST, var.value)
+                        current_operand = Operand(OperandType.IMMEDIATE, var.value)
                     elif (var := self.__get_operand_var(vars, i, 
                             ('pcrel', 'pcrel_half', 'pcrel_half_unsigned'))):
-                        current_operand = Operand(OperandType.CONST, address + var.value)
+                        current_operand = Operand(OperandType.IMMEDIATE, address + var.value)
                 # c64x 16-bit encoding, header and types are not supported yet (relevant for reg and regpair)
                 case OperandForm.reg|OperandForm.reg_bside|OperandForm.xreg:
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
@@ -375,12 +380,12 @@ class Disassembler:
                     else:
                         side = Register.A0.value
                     base = Register(side+base_var.value)
-                    mode = AdressingMode(mode_var.value & ~4)
+                    mode = AddressingMode(mode_var.value & ~4)
                     if mode_var.value & 4:
                         offset = Register(side+offset_var.value)
                     else:
                         offset = offset_var.value * operand_info.size
-                    current_operand = Operand(OperandType.ADDRESS, (mode,base,offset))
+                    current_operand = Operand(OperandType.MEMORY, (mode,base,offset))
                     
             if current_operand:
                 operands.append(current_operand)
