@@ -79,7 +79,7 @@ class ControlRegister(IntEnum):
     def __str__(self) -> str:
         return self.name
 
-class AdressingMode(IntEnum):
+class AddressingMode(IntEnum):
     NEG_OFFSET = 0
     POS_OFFSET = 1
     PREDECREMENT = 8
@@ -134,50 +134,93 @@ class ConditionType(_ConditionEnum):
         return cls.RESERVED
 
 class OperandType(Enum):
-    CONST = auto()
+    IMMEDIATE = auto()
     REGISTER = auto()
     REGISTER_PAIR = auto()
     CONTROL_REGISTER = auto()
-    ADDRESS = auto()
+    MEMORY = auto()
     #TODO: complete type list
     UNKNOWN = auto()
 
 @dataclass
 class Operand:
-    type:OperandType
-    value:(int|Register|Tuple[Register,Register]|ControlRegister
-            |Tuple[AdressingMode,Register,Register|int])
+    @property
+    def kind(self) -> OperandType:
+        raise NotImplementedError('abstract operand')
+            
+@dataclass
+class ImmediateOperand(Operand):
+    value: int
+
+    @property
+    def kind(self) -> OperandType:
+        return OperandType.IMMEDIATE
     
     def __str__(self) -> str:
-        match self.type:
-            case OperandType.CONST:
-                assert type(self.value) == int
-                if abs(self.value) > 9:
-                    return hex(self.value)
-                return str(self.value)
-            case OperandType.REGISTER|OperandType.CONTROL_REGISTER:
-                return str(self.value)
-            case OperandType.REGISTER_PAIR:
-                return f'{self.value[0].name}:{self.value[1].name}'
-            case OperandType.ADDRESS:
-                base = str(self.value[1])
-                offset = str(self.value[2])
-                match self.value[0]:
-                    case AdressingMode.NEG_OFFSET:
-                        format = '*-{}({})'
-                    case AdressingMode.POS_OFFSET:
-                        format = '*-{}({})'
-                    case AdressingMode.PREDECREMENT:
-                        format = '*--{}({})'
-                    case AdressingMode.PREINCREMENT:
-                        format = '*++{}({})'
-                    case AdressingMode.POSTDECREMENT:
-                        format = '*{}--({})'
-                    case AdressingMode.POSTINCREMENT:
-                        format = '*{}++({})'
-                return format.format(base, offset)
-            case _:
-                return 'unknown'
+        if abs(self.value) > 9:
+            return hex(self.value)
+        return str(self.value)
+    
+@dataclass
+class RegisterOperand(Operand):
+    register: Register
+    
+    @property
+    def kind(self) -> OperandType:
+        return OperandType.REGISTER
+    
+    def __str__(self) -> str:
+        return str(self.register)
+    
+@dataclass
+class RegisterPairOperand(Operand):
+    high: Register
+    low: Register
+
+    @property
+    def kind(self) -> OperandType:
+        return OperandType.REGISTER_PAIR
+    
+    def __str__(self) -> str:
+        return f'{self.high}:{self.low}'
+    
+@dataclass
+class ControlRegisterOperand(Operand):
+    register: ControlRegister
+
+    @property
+    def kind(self) -> OperandType:
+        return OperandType.CONTROL_REGISTER
+    
+    def __str__(self) -> str:
+        return str(self.register)
+    
+@dataclass
+class MemoryOperand(Operand):
+    mode: AddressingMode
+    base: Register
+    offset: int|Register
+
+    @property
+    def kind(self) -> OperandType:
+        return OperandType.MEMORY
+    
+    def __str__(self) -> str:
+        match self.mode:
+            case AddressingMode.NEG_OFFSET:
+                format = '*-{}({})'
+            case AddressingMode.POS_OFFSET:
+                format = '*-{}({})'
+            case AddressingMode.PREDECREMENT:
+                format = '*--{}({})'
+            case AddressingMode.PREINCREMENT:
+                format = '*++{}({})'
+            case AddressingMode.POSTDECREMENT:
+                format = '*{}--({})'
+            case AddressingMode.POSTINCREMENT:
+                format = '*{}++({})'
+        return format.format(self.base, self.offset)
+
 
 @dataclass
 class Instruction:

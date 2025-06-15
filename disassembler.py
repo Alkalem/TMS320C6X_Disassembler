@@ -2,7 +2,9 @@ from .constants import WORD_SIZE, C62X, C67X, C67XP, \
         TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY
 from ._operands import OPERANDS, OperandForm, RW
 from .types import Endianness, Register, ControlRegister, AddressingMode, \
-        ConditionType, Operand, OperandType, Instruction
+        ConditionType, Operand, OperandType, Instruction, \
+        ImmediateOperand, RegisterOperand, RegisterPairOperand, \
+        ControlRegisterOperand, MemoryOperand
 
 from dataclasses import dataclass
 from typing import List, Dict, Optional, Tuple, Sequence
@@ -252,50 +254,47 @@ class Disassembler:
             match operand_info.form:
                 # operand constant or fully determined by functional unit
                 case OperandForm.b15reg:
-                    current_operand = Operand(OperandType.REGISTER, Register.B15)
+                    current_operand = RegisterOperand(Register.B15)
                 case OperandForm.zreg:
-                    current_operand = Operand(OperandType.REGISTER, 
+                    current_operand = RegisterOperand(
                             Register.B0 if unit_info.side == 2 else Register.A0)
                 case OperandForm.retreg:
-                    current_operand = Operand(OperandType.REGISTER, 
+                    current_operand = RegisterOperand(
                             Register.B3 if unit_info.side == 2 else Register.A3)
                 case OperandForm.irp:
-                    current_operand = Operand(OperandType.CONTROL_REGISTER, 
-                            ControlRegister.IRP)
+                    current_operand = ControlRegisterOperand(ControlRegister.IRP)
                 case OperandForm.nrp:
-                    current_operand = Operand(OperandType.CONTROL_REGISTER, 
-                            ControlRegister.NRP)
+                    current_operand = ControlRegisterOperand(ControlRegister.NRP)
                 case OperandForm.ilc:
-                    current_operand = Operand(OperandType.CONTROL_REGISTER, 
-                            ControlRegister.ILC)
+                    current_operand = ControlRegisterOperand(ControlRegister.ILC)
                 case OperandForm.hw_const_minus_1:
-                    current_operand = Operand(OperandType.IMMEDIATE, -1)
+                    current_operand = ImmediateOperand(-1)
                 case OperandForm.hw_const_0:
-                    current_operand = Operand(OperandType.IMMEDIATE, 0)
+                    current_operand = ImmediateOperand(0)
                 case OperandForm.hw_const_1:
-                    current_operand = Operand(OperandType.IMMEDIATE, 1)
+                    current_operand = ImmediateOperand(1)
                 case OperandForm.hw_const_5:
-                    current_operand = Operand(OperandType.IMMEDIATE, 5)
+                    current_operand = ImmediateOperand(5)
                 case OperandForm.hw_const_16:
-                    current_operand = Operand(OperandType.IMMEDIATE, 16)
+                    current_operand = ImmediateOperand(16)
                 case OperandForm.hw_const_24:
-                    current_operand = Operand(OperandType.IMMEDIATE, 24)
+                    current_operand = ImmediateOperand(24)
                 case OperandForm.hw_const_31:
-                    current_operand = Operand(OperandType.IMMEDIATE, 31)
+                    current_operand = ImmediateOperand(31)
 
                 # operands requiring information encoded in variable fields
                 case OperandForm.asm_const:
                     if (var := self.__get_operand_var(vars, i, ('cst_s3i', 'ucst', 
                             'ucst_minus_one', 'scst', 'scst_l3i'))):
-                        current_operand = Operand(OperandType.IMMEDIATE, var.value)
+                        current_operand = ImmediateOperand(var.value)
                     # fstg and fcyc not handled yet
                 case OperandForm.link_const:
                     if (var := self.__get_operand_var(vars, i, ('ulcst_dpr_byte', 'ucst', 
                             'lcst_high16', 'lcst_low16', 'scst'))):
-                        current_operand = Operand(OperandType.IMMEDIATE, var.value)
+                        current_operand = ImmediateOperand(var.value)
                     elif (var := self.__get_operand_var(vars, i, 
                             ('pcrel', 'pcrel_half', 'pcrel_half_unsigned'))):
-                        current_operand = Operand(OperandType.IMMEDIATE, address + var.value)
+                        current_operand = ImmediateOperand(address + var.value)
                 # c64x 16-bit encoding, header and types are not supported yet (relevant for reg and regpair)
                 case OperandForm.reg|OperandForm.reg_bside|OperandForm.xreg:
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
@@ -311,16 +310,14 @@ class Disassembler:
                             and unit_info.cross
                         ):
                             reg_base ^= Register.B0.value
-                        current_operand = Operand(OperandType.REGISTER,
-                                Register(reg_base + var.value))
+                        current_operand = RegisterOperand(Register(reg_base + var.value))
                 case OperandForm.dreg:
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         if unit_info.data_side == 2:
                             reg_base = Register.B0.value
                         else: 
                             reg_base = Register.A0.value
-                        current_operand = Operand(OperandType.REGISTER,
-                                Register(reg_base + var.value))
+                        current_operand = RegisterOperand(Register(reg_base + var.value))
                 case OperandForm.regpair|OperandForm.xregpair:
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         assert var.value&1 == 0
@@ -338,8 +335,7 @@ class Disassembler:
                             reg_base ^= Register.B0.value
                         reg_high = Register(reg_base + var.value + 1)
                         reg_low = Register(reg_base + var.value)
-                        current_operand = Operand(OperandType.REGISTER_PAIR,
-                                (reg_high, reg_low))
+                        current_operand = RegisterPairOperand(reg_high, reg_low)
                     elif (var := self.__get_operand_var(vars, i, ('regpair_msb'))):
                         if unit_info.side == 2:
                             reg_base = Register.B0.value 
@@ -347,8 +343,7 @@ class Disassembler:
                             reg_base = Register.A0.value
                         reg_high = Register(reg_base + var.value | 0x1)
                         reg_low = Register(reg_base + var.value | 0x1 - 1)
-                        current_operand = Operand(OperandType.REGISTER_PAIR, 
-                                (reg_high, reg_low))
+                        current_operand = RegisterPairOperand(reg_high, reg_low)
                 case OperandForm.dregpair:
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         assert var.value&1 == 0
@@ -358,8 +353,7 @@ class Disassembler:
                             reg_base = Register.A0.value
                         reg_high = Register(reg_base + var.value + 1)
                         reg_low = Register(reg_base + var.value)
-                        current_operand = Operand(OperandType.REGISTER_PAIR,
-                                (reg_high, reg_low))
+                        current_operand = RegisterPairOperand(reg_high, reg_low)
                 case OperandForm.ctrl:
                     crhi = self.__get_operand_var(vars, i, ('crhi',))
                     crlo = self.__get_operand_var(vars, i, ('crlo',))
@@ -368,7 +362,7 @@ class Disassembler:
                     ctrl = ControlRegister(crlo.value)
                     if crlo == 2 and operand_info.rw == RW.write:
                         ctrl = ControlRegister.ISR
-                    current_operand = Operand(OperandType.CONTROL_REGISTER, ctrl)
+                    current_operand = ControlRegister(ctrl)
                 case OperandForm.mem_short:
                     mode_var = self.__get_operand_var(vars, i, ('mem_mode',))
                     offset_var = self.__get_operand_var(vars, i, ('mem_offset',))
@@ -385,7 +379,7 @@ class Disassembler:
                         offset = Register(side+offset_var.value)
                     else:
                         offset = offset_var.value * operand_info.size
-                    current_operand = Operand(OperandType.MEMORY, (mode,base,offset))
+                    current_operand = MemoryOperand(mode,base,offset)
                     
             if current_operand:
                 operands.append(current_operand)
