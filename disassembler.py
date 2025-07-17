@@ -152,7 +152,7 @@ class Disassembler:
                     operands = self.__decode_operands(opcode.ops, unit_info, 
                             vars, address)
                     instr = Instruction(
-                        condition, unit, cross_path,
+                        address, condition, unit, cross_path,
                         operands, opcode.name, parallel)
 
         if instr: return instr

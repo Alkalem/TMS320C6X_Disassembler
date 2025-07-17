@@ -210,7 +210,7 @@ class MemoryOperand(Operand):
             case AddressingMode.NEG_OFFSET:
                 format = '*-{}({})'
             case AddressingMode.POS_OFFSET:
-                format = '*-{}({})'
+                format = '*+{}({})'
             case AddressingMode.PREDECREMENT:
                 format = '*--{}({})'
             case AddressingMode.PREINCREMENT:
@@ -224,6 +224,7 @@ class MemoryOperand(Operand):
 
 @dataclass
 class Instruction:
+    address:int
     condition:ConditionType
     unit:str
     cross_path:bool
@@ -234,4 +235,4 @@ class Instruction:
     def __str__(self) -> str:
         operand_str = ', '.join([str(operand) for operand in self.operands])
         condition_str = f'{self.condition} ' if str(self.condition) else ''
-        return f'{condition_str}{self.opcode} {self.unit} {operand_str}'
+        return f'{self.address:08x}: {condition_str}{self.opcode} {self.unit} {operand_str}'
