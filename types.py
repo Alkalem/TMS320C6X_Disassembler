@@ -1,3 +1,5 @@
+from .constants import C62X, C64X, C64XP, C67X, C67XP, C674X
+
 from dataclasses import dataclass
 from enum import StrEnum, IntEnum, Enum, auto
 from typing import List, Tuple, Optional
@@ -5,6 +7,14 @@ from typing import List, Tuple, Optional
 class Endianness(StrEnum):
     LITTLE = 'little'
     BIG = 'big'
+
+class ISA(IntEnum):
+    C62X = C62X
+    C64X = C62X | C64X
+    C64XP = C62X | C64X | C64XP
+    C67X = C62X | C67X
+    C67XP = C62X | C67X | C67XP
+    C674X = C62X | C64X | C64XP | C67X | C67XP | C674X
 
 class Register(IntEnum):
     A0 = 0

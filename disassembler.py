@@ -1,7 +1,7 @@
 from .constants import WORD_SIZE, C62X, C67X, C67XP, \
         TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY
 from ._operands import OPERANDS, OperandForm, RW
-from .types import Endianness, Register, ControlRegister, AddressingMode, \
+from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
         ConditionType, Operand, OperandType, Instruction, \
         ImmediateOperand, RegisterOperand, RegisterPairOperand, \
         ControlRegisterOperand, MemoryOperand
@@ -76,10 +76,11 @@ def _format_decoder(obj:dict):
 
 
 class Disassembler:
-    def __init__(self, endian:Endianness=Endianness.LITTLE) -> None:
+    def __init__(self, endian:Endianness=Endianness.LITTLE, 
+            isa:ISA = ISA.C67XP) -> None:
         self.endianness = endian
         self.fetch_packet_header_based = False # c64x encoding
-        self.isa = C62X | C67X | C67XP
+        self.isa = isa
 
         basepath = Path(__file__).resolve().parent
         with open(basepath / 'instruction_formats.json') as file:
