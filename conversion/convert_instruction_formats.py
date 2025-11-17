@@ -13,14 +13,14 @@ with open(in_path, 'r') as file:
     formats_lines = file.readlines()
 
 def FMT(name:str, bit_width:int, key:int, 
-        mask:int, fields:List[dict]) -> Optional[dict]:
-    if bit_width == 32:
-        return {
-            'name': name,
-            'key': hex(key),
-            'mask': hex(mask),
-            'fields': fields
-        }
+        mask:int, fields:List[dict]) -> dict:
+    return {
+        'name': name,
+        'bit_width': bit_width,
+        'key': hex(key),
+        'mask': hex(mask),
+        'fields': fields
+    }
     
 def FLD(name:str, pos:int, width:int):
     return {'name':name, 'pos':pos, 'width':width}

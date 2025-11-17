@@ -22,6 +22,7 @@ class _Field:
 @dataclass
 class _InstructionFormat:
     name:str
+    bit_width:int
     key:int
     mask:int
     fields:List[_Field]
@@ -67,9 +68,9 @@ _SizeField = namedtuple('SizeField', ('value', 'size'))
 
 
 def _format_decoder(obj:dict):
-    if {'name', 'key', 'mask', 'fields'}.issubset(obj.keys()):
-        return _InstructionFormat(obj['name'], int(obj['key'], 0),
-                int(obj['mask'], 0), obj['fields'])
+    if {'name', 'bit_width', 'key', 'mask', 'fields'}.issubset(obj.keys()):
+        return _InstructionFormat(obj['name'], int(obj['bit_width']),
+                int(obj['key'], 0), int(obj['mask'], 0), obj['fields'])
     elif {'name', 'pos', 'width'}.issubset(obj.keys()):
         return _Field(obj['name'], obj['pos'], obj['width'])
 

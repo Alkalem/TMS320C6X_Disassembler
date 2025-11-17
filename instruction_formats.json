@@ -1,6 +1,7 @@
 [
     {
         "name": "d_1_or_2_src",
+        "bit_width": 32,
         "key": "0x40",
         "mask": "0x7c",
         "fields": [
@@ -48,6 +49,7 @@
     },
     {
         "name": "d_ext_1_or_2_src",
+        "bit_width": 32,
         "key": "0x830",
         "mask": "0xc3c",
         "fields": [
@@ -100,6 +102,7 @@
     },
     {
         "name": "d_load_store",
+        "bit_width": 32,
         "key": "0x4",
         "mask": "0xc",
         "fields": [
@@ -162,6 +165,7 @@
     },
     {
         "name": "d_load_nonaligned",
+        "bit_width": 32,
         "key": "0x124",
         "mask": "0x17c",
         "fields": [
@@ -219,6 +223,7 @@
     },
     {
         "name": "d_store_nonaligned",
+        "bit_width": 32,
         "key": "0x174",
         "mask": "0x17c",
         "fields": [
@@ -276,6 +281,7 @@
     },
     {
         "name": "d_load_store_long",
+        "bit_width": 32,
         "key": "0xc",
         "mask": "0xc",
         "fields": [
@@ -323,6 +329,7 @@
     },
     {
         "name": "d_adda_long",
+        "bit_width": 32,
         "key": "0x1000000c",
         "mask": "0xf000000c",
         "fields": [
@@ -359,7 +366,1869 @@
         ]
     },
     {
+        "name": "d_doff4_dsz_0xx",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_100",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_000",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_x01",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_01x",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_111",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_x11",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_010",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4_dsz_110",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_doff4dw",
+        "bit_width": 16,
+        "key": "0x4",
+        "mask": "0x406",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "na",
+                "pos": 4,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_dind_dsz_0xx",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_x01",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_x11",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_01x",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_000",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_010",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_100",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_110",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dind_dsz_111",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dinddw",
+        "bit_width": 16,
+        "key": "0x404",
+        "mask": "0xc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "na",
+                "pos": 4,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_x01",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_0xx",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_01x",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_x11",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_000",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_010",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_100",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_110",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dinc_dsz_111",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dincdw",
+        "bit_width": 16,
+        "key": "0xc04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "na",
+                "pos": 4,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_01x",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_0xx",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_x01",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_x11",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_000",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_010",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_100",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_110",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddec_dsz_111",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_ddecdw",
+        "bit_width": 16,
+        "key": "0x4c04",
+        "mask": "0xcc06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "na",
+                "pos": 4,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "ptr",
+                "pos": 7,
+                "width": 2
+            },
+            {
+                "name": "sz",
+                "pos": 9,
+                "width": 1
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            }
+        ]
+    },
+    {
+        "name": "d_dstk",
+        "bit_width": 16,
+        "key": "0x8c04",
+        "mask": "0x8c06",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 3,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_dx2op",
+        "bit_width": 16,
+        "key": "0x36",
+        "mask": "0x47e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dx5",
+        "bit_width": 16,
+        "key": "0x436",
+        "mask": "0x47e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_dx5p",
+        "bit_width": 16,
+        "key": "0xc76",
+        "mask": "0x1c7e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 7,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "d_dx1",
+        "bit_width": 16,
+        "key": "0x1876",
+        "mask": "0x1c7e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "d_dpp",
+        "bit_width": 16,
+        "key": "0x77",
+        "mask": "0x87f",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 4
+            },
+            {
+                "name": "t",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 14,
+                "width": 1
+            },
+            {
+                "name": "dw",
+                "pos": 15,
+                "width": 1
+            }
+        ]
+    },
+    {
         "name": "l_1_or_2_src",
+        "bit_width": 32,
         "key": "0x18",
         "mask": "0x1c",
         "fields": [
@@ -412,6 +2281,7 @@
     },
     {
         "name": "l_1_or_2_src_noncond",
+        "bit_width": 32,
         "key": "0x10000018",
         "mask": "0xf000001c",
         "fields": [
@@ -454,6 +2324,7 @@
     },
     {
         "name": "l_unary",
+        "bit_width": 32,
         "key": "0x358",
         "mask": "0xffc",
         "fields": [
@@ -500,7 +2371,255 @@
         ]
     },
     {
+        "name": "l_l3_sat_0",
+        "bit_width": 16,
+        "key": "0x0",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "l_l3_sat_1",
+        "bit_width": 16,
+        "key": "0x0",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "l_l3i",
+        "bit_width": 16,
+        "key": "0x400",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "sn",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "l_l2c",
+        "bit_width": 16,
+        "key": "0x408",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "l_lx5",
+        "bit_width": 16,
+        "key": "0x426",
+        "mask": "0x47e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "l_lx3c",
+        "bit_width": 16,
+        "key": "0x26",
+        "mask": "0x147e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "dst",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "l_lx1c",
+        "bit_width": 16,
+        "key": "0x1026",
+        "mask": "0x147e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "dst",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 14,
+                "width": 2
+            }
+        ]
+    },
+    {
+        "name": "l_lx1",
+        "bit_width": 16,
+        "key": "0x1866",
+        "mask": "0x1c7e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
         "name": "m_compound",
+        "bit_width": 32,
         "key": "0x30",
         "mask": "0x83c",
         "fields": [
@@ -553,6 +2672,7 @@
     },
     {
         "name": "m_1_or_2_src",
+        "bit_width": 32,
         "key": "0x10000030",
         "mask": "0xf000083c",
         "fields": [
@@ -595,6 +2715,7 @@
     },
     {
         "name": "m_unary",
+        "bit_width": 32,
         "key": "0xf0",
         "mask": "0xffc",
         "fields": [
@@ -642,6 +2763,7 @@
     },
     {
         "name": "m_mpy",
+        "bit_width": 32,
         "key": "0x0",
         "mask": "0x7c",
         "fields": [
@@ -693,7 +2815,84 @@
         ]
     },
     {
+        "name": "m_m3_sat_0",
+        "bit_width": 16,
+        "key": "0x1e",
+        "mask": "0x1e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "dst",
+                "pos": 10,
+                "width": 2
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "m_m3_sat_1",
+        "bit_width": 16,
+        "key": "0x1e",
+        "mask": "0x1e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "dst",
+                "pos": 10,
+                "width": 2
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
         "name": "s_1_or_2_src",
+        "bit_width": 32,
         "key": "0x20",
         "mask": "0x3c",
         "fields": [
@@ -746,6 +2945,7 @@
     },
     {
         "name": "s_ext_1_or_2_src",
+        "bit_width": 32,
         "key": "0xc30",
         "mask": "0xc3c",
         "fields": [
@@ -798,6 +2998,7 @@
     },
     {
         "name": "s_ext_1_or_2_src_noncond",
+        "bit_width": 32,
         "key": "0xc30",
         "mask": "0xe0000c3c",
         "fields": [
@@ -845,6 +3046,7 @@
     },
     {
         "name": "s_unary",
+        "bit_width": 32,
         "key": "0xf20",
         "mask": "0xffc",
         "fields": [
@@ -892,6 +3094,7 @@
     },
     {
         "name": "s_ext_branch_cond_imm",
+        "bit_width": 32,
         "key": "0x10",
         "mask": "0x7c",
         "fields": [
@@ -924,6 +3127,7 @@
     },
     {
         "name": "s_call_imm_nop",
+        "bit_width": 32,
         "key": "0x10",
         "mask": "0xe000007c",
         "fields": [
@@ -951,6 +3155,7 @@
     },
     {
         "name": "s_branch_nop_cst",
+        "bit_width": 32,
         "key": "0x120",
         "mask": "0x1ffc",
         "fields": [
@@ -988,6 +3193,7 @@
     },
     {
         "name": "s_branch_nop_reg",
+        "bit_width": 32,
         "key": "0x800360",
         "mask": "0xf830ffc",
         "fields": [
@@ -1030,6 +3236,7 @@
     },
     {
         "name": "s_branch",
+        "bit_width": 32,
         "key": "0x360",
         "mask": "0xf83effc",
         "fields": [
@@ -1067,6 +3274,7 @@
     },
     {
         "name": "s_mvk",
+        "bit_width": 32,
         "key": "0x28",
         "mask": "0x3c",
         "fields": [
@@ -1109,6 +3317,7 @@
     },
     {
         "name": "s_field",
+        "bit_width": 32,
         "key": "0x8",
         "mask": "0x3c",
         "fields": [
@@ -1161,6 +3370,7 @@
     },
     {
         "name": "s_addk",
+        "bit_width": 32,
         "key": "0x50",
         "mask": "0x7c",
         "fields": [
@@ -1198,6 +3408,7 @@
     },
     {
         "name": "s_addkpc",
+        "bit_width": 32,
         "key": "0x160",
         "mask": "0x1ffc",
         "fields": [
@@ -1240,6 +3451,7 @@
     },
     {
         "name": "s_b_irp",
+        "bit_width": 32,
         "key": "0x1800e0",
         "mask": "0x7feffc",
         "fields": [
@@ -1277,6 +3489,7 @@
     },
     {
         "name": "s_b_nrp",
+        "bit_width": 32,
         "key": "0x1c00e0",
         "mask": "0x7feffc",
         "fields": [
@@ -1314,6 +3527,7 @@
     },
     {
         "name": "s_bdec",
+        "bit_width": 32,
         "key": "0x1020",
         "mask": "0x1ffc",
         "fields": [
@@ -1351,6 +3565,7 @@
     },
     {
         "name": "s_bpos",
+        "bit_width": 32,
         "key": "0x20",
         "mask": "0x1ffc",
         "fields": [
@@ -1387,7 +3602,696 @@
         ]
     },
     {
+        "name": "s_sbs7",
+        "bit_width": 16,
+        "key": "0xa",
+        "mask": "0x3e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 6,
+                "width": 7
+            },
+            {
+                "name": "n",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_sbu8",
+        "bit_width": 16,
+        "key": "0xc00a",
+        "mask": "0xc03e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 6,
+                "width": 8
+            }
+        ]
+    },
+    {
+        "name": "s_scs10",
+        "bit_width": 16,
+        "key": "0x1a",
+        "mask": "0x3e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 6,
+                "width": 10
+            }
+        ]
+    },
+    {
+        "name": "s_sbs7c",
+        "bit_width": 16,
+        "key": "0x2a",
+        "mask": "0x2e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "z",
+                "pos": 4,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 6,
+                "width": 7
+            },
+            {
+                "name": "n",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_sbu8c",
+        "bit_width": 16,
+        "key": "0xc02a",
+        "mask": "0xc02e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "z",
+                "pos": 4,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 6,
+                "width": 8
+            }
+        ]
+    },
+    {
+        "name": "s_s3",
+        "bit_width": 16,
+        "key": "0xa",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_s3_sat_x",
+        "bit_width": 16,
+        "key": "0xa",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_s3_sat_0",
+        "bit_width": 16,
+        "key": "0xa",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_s3_sat_1",
+        "bit_width": 16,
+        "key": "0xa",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_s3i",
+        "bit_width": 16,
+        "key": "0x40a",
+        "mask": "0x40e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 4,
+                "width": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_smvk8",
+        "bit_width": 16,
+        "key": "0x12",
+        "mask": "0x1e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "s_ssh5_sat_x",
+        "bit_width": 16,
+        "key": "0x402",
+        "mask": "0x41e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "s_ssh5_sat_0",
+        "bit_width": 16,
+        "key": "0x402",
+        "mask": "0x41e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "s_ssh5_sat_1",
+        "bit_width": 16,
+        "key": "0x402",
+        "mask": "0x41e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "s_s2sh",
+        "bit_width": 16,
+        "key": "0x462",
+        "mask": "0x47e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 2
+            },
+            {
+                "name": "src1",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_sc5",
+        "bit_width": 16,
+        "key": "0x2",
+        "mask": "0x41e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 2
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "s_s2ext",
+        "bit_width": 16,
+        "key": "0x62",
+        "mask": "0x47e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "src",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 2
+            },
+            {
+                "name": "dst",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_sx2op",
+        "bit_width": 16,
+        "key": "0x2e",
+        "mask": "0x47e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_sx5",
+        "bit_width": 16,
+        "key": "0x42e",
+        "mask": "0x47e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 7,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "s_sx1",
+        "bit_width": 16,
+        "key": "0x186e",
+        "mask": "0x1c7e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "s_sx1b",
+        "bit_width": 16,
+        "key": "0x6e",
+        "mask": "0x187e",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 4
+            },
+            {
+                "name": "n",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
+        "name": "lsdmvto",
+        "bit_width": 16,
+        "key": "0x6",
+        "mask": "0x66",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "unit",
+                "pos": 3,
+                "width": 2
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            {
+                "name": "dst",
+                "pos": 13,
+                "width": 3
+            },
+            null
+        ]
+    },
+    {
+        "name": "lsdmvfr",
+        "bit_width": 16,
+        "key": "0x46",
+        "mask": "0x66",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "unit",
+                "pos": 3,
+                "width": 2
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "x",
+                "pos": 12,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "lsdx1c",
+        "bit_width": 16,
+        "key": "0x866",
+        "mask": "0x1c66",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "unit",
+                "pos": 3,
+                "width": 2
+            },
+            {
+                "name": "dst",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 1
+            },
+            {
+                "name": "cc",
+                "pos": 14,
+                "width": 2
+            }
+        ]
+    },
+    {
+        "name": "lsdx1",
+        "bit_width": 16,
+        "key": "0x1866",
+        "mask": "0x1c66",
+        "fields": [
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "unit",
+                "pos": 3,
+                "width": 2
+            },
+            {
+                "name": "srcdst",
+                "pos": 7,
+                "width": 3
+            },
+            {
+                "name": "op",
+                "pos": 13,
+                "width": 3
+            }
+        ]
+    },
+    {
         "name": "nfu_loop_buffer",
+        "bit_width": 32,
         "key": "0x20000",
         "mask": "0x21ffc",
         "fields": [
@@ -1430,6 +4334,7 @@
     },
     {
         "name": "nfu_nop_idle",
+        "bit_width": 32,
         "key": "0x0",
         "mask": "0xfffe1ffc",
         "fields": [
@@ -1452,6 +4357,7 @@
     },
     {
         "name": "nfu_dint",
+        "bit_width": 32,
         "key": "0x10004000",
         "mask": "0xfffffffc",
         "fields": [
@@ -1469,6 +4375,7 @@
     },
     {
         "name": "nfu_rint",
+        "bit_width": 32,
         "key": "0x10006000",
         "mask": "0xfffffffc",
         "fields": [
@@ -1486,6 +4393,7 @@
     },
     {
         "name": "nfu_swe",
+        "bit_width": 32,
         "key": "0x10000000",
         "mask": "0xfffffffc",
         "fields": [
@@ -1503,6 +4411,7 @@
     },
     {
         "name": "nfu_swenr",
+        "bit_width": 32,
         "key": "0x10002000",
         "mask": "0xfffffffc",
         "fields": [
@@ -1520,6 +4429,7 @@
     },
     {
         "name": "nfu_spkernel",
+        "bit_width": 32,
         "key": "0x34000",
         "mask": "0xf03ffffc",
         "fields": [
@@ -1542,6 +4452,7 @@
     },
     {
         "name": "nfu_spkernelr",
+        "bit_width": 32,
         "key": "0x36000",
         "mask": "0xfffffffc",
         "fields": [
@@ -1559,6 +4470,7 @@
     },
     {
         "name": "nfu_spmask",
+        "bit_width": 32,
         "key": "0x20000",
         "mask": "0xfc021ffc",
         "fields": [
@@ -1581,6 +4493,84 @@
                 "name": "mask",
                 "pos": 18,
                 "width": 8
+            }
+        ]
+    },
+    {
+        "name": "nfu_uspl",
+        "bit_width": 16,
+        "key": "0xc66",
+        "mask": "0xbc7e",
+        "fields": [
+            {
+                "name": "op",
+                "pos": 0,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "nfu_uspldr",
+        "bit_width": 16,
+        "key": "0x8c66",
+        "mask": "0xbc7e",
+        "fields": [
+            {
+                "name": "op",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "s",
+                "pos": 0,
+                "width": 1
+            },
+            {
+                "name": "z",
+                "pos": 3,
+                "width": 1
+            },
+            null
+        ]
+    },
+    {
+        "name": "nfu_uspk",
+        "bit_width": 16,
+        "key": "0x1c66",
+        "mask": "0x3c7e",
+        "fields": [
+            null
+        ]
+    },
+    {
+        "name": "nfu_uspma",
+        "bit_width": 16,
+        "key": "0x2c66",
+        "mask": "0x3c7e",
+        "fields": [
+            null
+        ]
+    },
+    {
+        "name": "nfu_uspmb",
+        "bit_width": 16,
+        "key": "0x3c66",
+        "mask": "0x3c7e",
+        "fields": [
+            null
+        ]
+    },
+    {
+        "name": "nfu_unop",
+        "bit_width": 16,
+        "key": "0xc6e",
+        "mask": "0x1fff",
+        "fields": [
+            {
+                "name": "n",
+                "pos": 13,
+                "width": 3
             }
         ]
     }
