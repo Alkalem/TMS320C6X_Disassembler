@@ -126,6 +126,7 @@ class Disassembler:
     def __decode(self, encoded:int, address:int) -> Optional[Instruction]:
         instr = None
         for format in self.instruction_formats:
+            if format.bit_width != 32: continue
             if encoded & format.mask == format.key:
                 # print('unit', format.name)
                 fields = {
