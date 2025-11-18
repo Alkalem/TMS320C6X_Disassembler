@@ -1,4 +1,6 @@
-from .constants import WORD_SIZE, C62X, C67X, C67XP, \
+from .constants import FETCH_PACKET_SIZE, WORD_SIZE, C64XP, \
+        EXECUTION_PACKET_LIMIT, HEADER_MASK, HEADER_KEY, \
+        HEADER_FIELD_MASK, HEADER_LAYOUT_OFFSET, HEADER_EXPANSION_OFFSET, \
         TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY
 from ._operands import OPERANDS, OperandForm, RW
 from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
@@ -64,6 +66,14 @@ class _UnitInfo:
     data_side:int
     cross:bool
 
+@dataclass
+class _Expansion:
+    protected:bool
+    register_set:bool
+    data_size:int
+    branching:bool
+    saturating:bool
+
 _SizeField = namedtuple('SizeField', ('value', 'size'))
 
 
@@ -79,8 +89,9 @@ class Disassembler:
     def __init__(self, endian:Endianness=Endianness.LITTLE, 
             isa:ISA = ISA.C67XP) -> None:
         self.endianness = endian
-        self.fetch_packet_header_based = False # c64x encoding
         self.isa = isa
+        # c64x+ compact encoding
+        self.fetch_packet_header_based = bool(isa & C64XP) 
 
         basepath = Path(__file__).resolve().parent
         with open(basepath / 'instruction_formats.json') as file:
@@ -104,6 +115,63 @@ class Disassembler:
                     self.instruction_maps[format].append(opcode)
 
     def disasm(self, data:bytes, address:int, count:int=-1):
+        if self.fetch_packet_header_based:
+            self.__disasm_headerless(data, address, count)
+        else:
+            self.__disasm_headerless(data, address, count)
+
+    def __disasm_header_based(self, data:bytes, address:int, count:int=-1):
+        remaining = data
+        current_address = address
+        while len(remaining) >= FETCH_PACKET_SIZE and count != 0:
+            fetch_packet = remaining[:FETCH_PACKET_SIZE]
+            remaining = remaining[FETCH_PACKET_SIZE:]
+            
+            header = int.from_bytes(fetch_packet[-WORD_SIZE:], 
+                    self.endianness) # type: ignore
+            has_header = (header & HEADER_MASK) == HEADER_KEY
+            if has_header:
+                layout = (header >> HEADER_LAYOUT_OFFSET) & HEADER_FIELD_MASK
+                expansion = self.__decode_expansion(
+                        (header >> HEADER_EXPANSION_OFFSET) & HEADER_FIELD_MASK)
+                offset = 0
+                for _ in range(7):
+                    encoded = int.from_bytes(
+                            fetch_packet[offset:offset+WORD_SIZE], 
+                            self.endianness) # type: ignore
+                    compact = layout & 1
+                    if compact:
+                        # yield self.__decode_compact(
+                        #     encoded & 0xFFFF,
+                        #     expansion,
+                        #     bool(header & 1),
+                        #     current_address+offset
+                        # )
+                        count -= 1
+                        if count == 0: break
+                        # yield self.__decode_compact(
+                        #     encoded > 16,
+                        #     expansion,
+                        #     bool(header & 2),
+                        #     current_address+offset+2
+                        # )
+                    else:
+                        yield self.__decode(encoded, current_address+offset)
+
+                    count -= 1
+                    if count == 0: break
+                    layout >>= 1
+                    header >>= 2
+                    offset += WORD_SIZE
+            else:
+                for instr in self.__disasm_headerless(fetch_packet, current_address, count):
+                    yield instr
+                if count < EXECUTION_PACKET_LIMIT: break
+                count -= EXECUTION_PACKET_LIMIT
+            current_address += FETCH_PACKET_SIZE
+        # stop due to missing header or exhausted count
+
+    def __disasm_headerless(self, data:bytes, address:int, count:int=-1):
         remaining = data
         current_address = address
         if self.endianness == Endianness.LITTLE:
@@ -160,6 +228,15 @@ class Disassembler:
 
         if instr: return instr
     
+    def __decode_expansion(self, encoded:int) -> _Expansion:
+        return _Expansion(
+            bool(encoded & 0x40),
+            bool(encoded & 0x20),
+            (encoded >> 2) & 0x7,
+            bool(encoded & 2),
+            bool(encoded & 1)
+        )
+
     def __decode_field(self, field:_Field, encoded:int) -> _SizeField:
         mask = (1<<field.width) - 1
         return _SizeField((encoded>>field.pos) & mask, field.width)
