@@ -185,14 +185,11 @@ class Disassembler:
             
             encoded = int.from_bytes(current_data, byteorder)
             instr = self.__decode(encoded, address)
-            if instr:
-                yield instr
-            else:
-                break
+            yield instr
             count -= 1
 
-    def __decode(self, encoded:int, address:int) -> Optional[Instruction]:
-        instr = None
+    def __decode(self, encoded:int, address:int) -> Instruction:
+        instr = Instruction.invalid(address, bool(encoded & 1))
         for format in self.instruction_formats:
             if format.bit_width != 32: continue
             if encoded & format.mask == format.key:
@@ -227,8 +224,7 @@ class Disassembler:
                     instr = Instruction(
                         address, condition, unit, cross_path,
                         operands, opcode.name, parallel)
-
-        if instr: return instr
+        return instr
     
     def __decode_expansion(self, encoded:int) -> _Expansion:
         return _Expansion(
