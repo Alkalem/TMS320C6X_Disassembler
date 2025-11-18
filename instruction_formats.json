@@ -8,42 +8,50 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 7,
-                "width": 6
+                "width": 6,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -56,47 +64,56 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 6,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -109,57 +126,68 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "y",
                 "pos": 7,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "r",
                 "pos": 8,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "mode",
                 "pos": 9,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "offsetR",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "baseR",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -172,52 +200,62 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "y",
                 "pos": 7,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "mode",
                 "pos": 9,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "offsetR",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "baseR",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "sc",
                 "pos": 23,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 24,
-                "width": 4
+                "width": 4,
+                "offset": 0
             }
         ]
     },
@@ -230,52 +268,62 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "y",
                 "pos": 7,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "mode",
                 "pos": 9,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "offsetR",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "baseR",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "sc",
                 "pos": 23,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src",
                 "pos": 24,
-                "width": 4
+                "width": 4,
+                "offset": 0
             }
         ]
     },
@@ -288,42 +336,50 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "y",
                 "pos": 7,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "offsetR",
                 "pos": 8,
-                "width": 15
+                "width": 15,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -336,32 +392,38 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "y",
                 "pos": 7,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "offsetR",
                 "pos": 8,
-                "width": 15
+                "width": 15,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -369,566 +431,765 @@
         "name": "d_doff4_dsz_0xx",
         "bit_width": 16,
         "key": "0x4",
-        "mask": "0x406",
+        "mask": "0x100406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_100",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0x100004",
+        "mask": "0x1c0406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_000",
         "bit_width": 16,
         "key": "0x4",
-        "mask": "0x406",
+        "mask": "0x1c0406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_x01",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0x40004",
+        "mask": "0xc0406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_01x",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0x80004",
+        "mask": "0x180406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_111",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0x1c0004",
+        "mask": "0x1c0406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_x11",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0xc0004",
+        "mask": "0xc0406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_010",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0x80004",
+        "mask": "0x1c0406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4_dsz_110",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0x180004",
+        "mask": "0x1c0406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_doff4dw",
         "bit_width": 16,
-        "key": "0x4",
-        "mask": "0x406",
+        "key": "0x100004",
+        "mask": "0x100406",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "na",
                 "pos": 4,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
         "name": "d_dind_dsz_0xx",
         "bit_width": 16,
         "key": "0x404",
-        "mask": "0xc06",
+        "mask": "0x100c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dind_dsz_x01",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0x40404",
+        "mask": "0xc0c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dind_dsz_x11",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0xc0404",
+        "mask": "0xc0c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dind_dsz_01x",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0x80404",
+        "mask": "0x180c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -936,305 +1197,355 @@
         "name": "d_dind_dsz_000",
         "bit_width": 16,
         "key": "0x404",
-        "mask": "0xc06",
+        "mask": "0x1c0c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dind_dsz_010",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0x80404",
+        "mask": "0x1c0c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dind_dsz_100",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0x100404",
+        "mask": "0x1c0c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dind_dsz_110",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0x180404",
+        "mask": "0x1c0c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dind_dsz_111",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0x1c0404",
+        "mask": "0x1c0c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinddw",
         "bit_width": 16,
-        "key": "0x404",
-        "mask": "0xc06",
+        "key": "0x100404",
+        "mask": "0x100c06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "na",
                 "pos": 4,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinc_dsz_x01",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0x40c04",
+        "mask": "0xccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -1242,128 +1553,149 @@
         "name": "d_dinc_dsz_0xx",
         "bit_width": 16,
         "key": "0xc04",
-        "mask": "0xcc06",
+        "mask": "0x10cc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinc_dsz_01x",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0x80c04",
+        "mask": "0x18cc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinc_dsz_x11",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0xc0c04",
+        "mask": "0xccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -1371,305 +1703,355 @@
         "name": "d_dinc_dsz_000",
         "bit_width": 16,
         "key": "0xc04",
-        "mask": "0xcc06",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinc_dsz_010",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0x80c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinc_dsz_100",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0x100c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinc_dsz_110",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0x180c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dinc_dsz_111",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0x1c0c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_dincdw",
         "bit_width": 16,
-        "key": "0xc04",
-        "mask": "0xcc06",
+        "key": "0x100c04",
+        "mask": "0x10cc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "na",
                 "pos": 4,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddec_dsz_01x",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0x84c04",
+        "mask": "0x18cc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -1677,128 +2059,149 @@
         "name": "d_ddec_dsz_0xx",
         "bit_width": 16,
         "key": "0x4c04",
-        "mask": "0xcc06",
+        "mask": "0x10cc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddec_dsz_x01",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0x44c04",
+        "mask": "0xccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddec_dsz_x11",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0xc4c04",
+        "mask": "0xccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -1806,262 +2209,305 @@
         "name": "d_ddec_dsz_000",
         "bit_width": 16,
         "key": "0x4c04",
-        "mask": "0xcc06",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddec_dsz_010",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0x84c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddec_dsz_100",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0x104c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddec_dsz_110",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0x184c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddec_dsz_111",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0x1c4c04",
+        "mask": "0x1ccc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
     {
         "name": "d_ddecdw",
         "bit_width": 16,
-        "key": "0x4c04",
-        "mask": "0xcc06",
+        "key": "0x104c04",
+        "mask": "0x10cc06",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "na",
                 "pos": 4,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "ptr",
                 "pos": 7,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "sz",
                 "pos": 9,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -2074,24 +2520,39 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 7,
+                "width": 3,
+                "offset": 2
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 2,
+                "offset": 0
+            }
         ]
     },
     {
@@ -2103,27 +2564,32 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -2136,14 +2602,27 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -2155,14 +2634,27 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 7,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 8,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -2174,17 +2666,20 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -2197,32 +2692,38 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "t",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 14,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dw",
                 "pos": 15,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -2235,47 +2736,56 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 7
+                "width": 7,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2288,37 +2798,44 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 7
+                "width": 7,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2331,42 +2848,50 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2374,75 +2899,87 @@
         "name": "l_l3_sat_0",
         "bit_width": 16,
         "key": "0x0",
-        "mask": "0x40e",
+        "mask": "0x1040e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "l_l3_sat_1",
         "bit_width": 16,
-        "key": "0x0",
-        "mask": "0x40e",
+        "key": "0x10000",
+        "mask": "0x1040e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -2455,29 +2992,45 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "sn",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
@@ -2489,29 +3042,45 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "op",
+                "pos": 5,
+                "width": 2,
+                "offset": 0
+            },
+            {
+                "name": "op",
+                "pos": 11,
+                "width": 1,
+                "offset": 2
+            }
         ]
     },
     {
@@ -2523,14 +3092,27 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -2542,22 +3124,26 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -2570,27 +3156,32 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 14,
-                "width": 2
+                "width": 2,
+                "offset": 0
             }
         ]
     },
@@ -2603,17 +3194,20 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -2626,47 +3220,56 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 6,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2679,37 +3282,44 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 6,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2722,42 +3332,50 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2770,47 +3388,56 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 7,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2818,75 +3445,87 @@
         "name": "m_m3_sat_0",
         "bit_width": 16,
         "key": "0x1e",
-        "mask": "0x1e",
+        "mask": "0x1001e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 10,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "m_m3_sat_1",
         "bit_width": 16,
-        "key": "0x1e",
-        "mask": "0x1e",
+        "key": "0x1001e",
+        "mask": "0x1001e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 10,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -2899,47 +3538,56 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 6,
-                "width": 6
+                "width": 6,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -2952,47 +3600,56 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 6,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3005,42 +3662,50 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 6,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -3053,42 +3718,50 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3101,27 +3774,32 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 7,
-                "width": 21
+                "width": 21,
+                "offset": 0
             }
         ]
     },
@@ -3134,22 +3812,26 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 7,
-                "width": 21
+                "width": 21,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -3162,32 +3844,38 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 16,
-                "width": 12
+                "width": 12,
+                "offset": 0
             }
         ]
     },
@@ -3200,37 +3888,44 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3243,32 +3938,38 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3281,37 +3982,44 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "h",
                 "pos": 6,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 7,
-                "width": 16
+                "width": 16,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3324,47 +4032,56 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 6,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "cstb",
                 "pos": 8,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "csta",
                 "pos": 13,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3377,32 +4094,38 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 7,
-                "width": 16
+                "width": 16,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3415,37 +4138,44 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 16,
-                "width": 7
+                "width": 7,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3458,32 +4188,38 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3496,32 +4232,38 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3534,32 +4276,38 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src",
                 "pos": 13,
-                "width": 10
+                "width": 10,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -3572,142 +4320,162 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src",
                 "pos": 13,
-                "width": 10
+                "width": 10,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
     {
         "name": "s_sbs7",
         "bit_width": 16,
-        "key": "0xa",
-        "mask": "0x3e",
+        "key": "0x2000a",
+        "mask": "0x2003e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 6,
-                "width": 7
+                "width": 7,
+                "offset": 0
             },
             {
                 "name": "n",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "s_sbu8",
         "bit_width": 16,
-        "key": "0xc00a",
-        "mask": "0xc03e",
+        "key": "0x2c00a",
+        "mask": "0x2c03e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 6,
-                "width": 8
+                "width": 8,
+                "offset": 0
             }
         ]
     },
     {
         "name": "s_scs10",
         "bit_width": 16,
-        "key": "0x1a",
-        "mask": "0x3e",
+        "key": "0x2001a",
+        "mask": "0x2003e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 6,
-                "width": 10
+                "width": 10,
+                "offset": 0
             }
         ]
     },
     {
         "name": "s_sbs7c",
         "bit_width": 16,
-        "key": "0x2a",
-        "mask": "0x2e",
+        "key": "0x2002a",
+        "mask": "0x2002e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 4,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 6,
-                "width": 7
+                "width": 7,
+                "offset": 0
             },
             {
                 "name": "n",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "s_sbu8c",
         "bit_width": 16,
-        "key": "0xc02a",
-        "mask": "0xc02e",
+        "key": "0x2c02a",
+        "mask": "0x2c02e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 4,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 6,
-                "width": 8
+                "width": 8,
+                "offset": 0
             }
         ]
     },
@@ -3715,37 +4483,43 @@
         "name": "s_s3",
         "bit_width": 16,
         "key": "0xa",
-        "mask": "0x40e",
+        "mask": "0x2040e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -3753,37 +4527,43 @@
         "name": "s_s3_sat_x",
         "bit_width": 16,
         "key": "0xa",
-        "mask": "0x40e",
+        "mask": "0x2040e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -3791,75 +4571,87 @@
         "name": "s_s3_sat_0",
         "bit_width": 16,
         "key": "0xa",
-        "mask": "0x40e",
+        "mask": "0x3040e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
     {
         "name": "s_s3_sat_1",
         "bit_width": 16,
-        "key": "0xa",
-        "mask": "0x40e",
+        "key": "0x1000a",
+        "mask": "0x3040e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -3867,37 +4659,43 @@
         "name": "s_s3i",
         "bit_width": 16,
         "key": "0x40a",
-        "mask": "0x40e",
+        "mask": "0x2040e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 4,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -3910,14 +4708,39 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 10,
+                "width": 1,
+                "offset": 7
+            },
+            {
+                "name": "cst",
+                "pos": 5,
+                "width": 2,
+                "offset": 5
+            },
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -3929,67 +4752,109 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
         "name": "s_ssh5_sat_0",
         "bit_width": 16,
         "key": "0x402",
-        "mask": "0x41e",
+        "mask": "0x1041e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
         "name": "s_ssh5_sat_1",
         "bit_width": 16,
-        "key": "0x402",
-        "mask": "0x41e",
+        "key": "0x10402",
+        "mask": "0x1041e",
         "fields": [
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -4001,22 +4866,26 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "src1",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -4029,19 +4898,33 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 5,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -4053,22 +4936,26 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -4081,27 +4968,32 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 11,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -4114,14 +5006,27 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "cst",
+                "pos": 11,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "cst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -4133,17 +5038,20 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -4156,17 +5064,20 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "n",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -4179,24 +5090,39 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "unit",
                 "pos": 3,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
-            null
+            {
+                "name": "src2",
+                "pos": 10,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "src2",
+                "pos": 7,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -4208,24 +5134,39 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "unit",
                 "pos": 3,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "src2",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "x",
                 "pos": 12,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "dst",
+                "pos": 10,
+                "width": 2,
+                "offset": 3
+            },
+            {
+                "name": "dst",
+                "pos": 13,
+                "width": 3,
+                "offset": 0
+            }
         ]
     },
     {
@@ -4237,27 +5178,32 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "unit",
                 "pos": 3,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "dst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "cst",
                 "pos": 13,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "cc",
                 "pos": 14,
-                "width": 2
+                "width": 2,
+                "offset": 0
             }
         ]
     },
@@ -4270,22 +5216,26 @@
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "unit",
                 "pos": 3,
-                "width": 2
+                "width": 2,
+                "offset": 0
             },
             {
                 "name": "srcdst",
                 "pos": 7,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     },
@@ -4298,37 +5248,44 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "creg",
                 "pos": 29,
-                "width": 3
+                "width": 3,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 28,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "csta",
                 "pos": 18,
-                "width": 5
+                "width": 5,
+                "offset": 0
             },
             {
                 "name": "cstb",
                 "pos": 23,
-                "width": 5
+                "width": 5,
+                "offset": 0
             }
         ]
     },
@@ -4341,17 +5298,20 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 4
+                "width": 4,
+                "offset": 0
             }
         ]
     },
@@ -4364,12 +5324,14 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -4382,12 +5344,14 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -4400,12 +5364,14 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -4418,12 +5384,14 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -4436,17 +5404,20 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "fstgfcyc",
                 "pos": 22,
-                "width": 6
+                "width": 6,
+                "offset": 0
             }
         ]
     },
@@ -4459,12 +5430,14 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             }
         ]
     },
@@ -4477,22 +5450,26 @@
             {
                 "name": "p",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 1,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "op",
                 "pos": 13,
-                "width": 4
+                "width": 4,
+                "offset": 0
             },
             {
                 "name": "mask",
                 "pos": 18,
-                "width": 8
+                "width": 8,
+                "offset": 0
             }
         ]
     },
@@ -4505,9 +5482,21 @@
             {
                 "name": "op",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "ii",
+                "pos": 7,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "ii",
+                "pos": 14,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
@@ -4519,19 +5508,33 @@
             {
                 "name": "op",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "s",
                 "pos": 0,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
             {
                 "name": "z",
                 "pos": 3,
-                "width": 1
+                "width": 1,
+                "offset": 0
             },
-            null
+            {
+                "name": "ii",
+                "pos": 7,
+                "width": 3,
+                "offset": 0
+            },
+            {
+                "name": "ii",
+                "pos": 14,
+                "width": 1,
+                "offset": 3
+            }
         ]
     },
     {
@@ -4540,7 +5543,24 @@
         "key": "0x1c66",
         "mask": "0x3c7e",
         "fields": [
-            null
+            {
+                "name": "fstgfcyc",
+                "pos": 0,
+                "width": 1,
+                "offset": 0
+            },
+            {
+                "name": "fstgfcyc",
+                "pos": 7,
+                "width": 3,
+                "offset": 1
+            },
+            {
+                "name": "fstgfcyc",
+                "pos": 14,
+                "width": 2,
+                "offset": 4
+            }
         ]
     },
     {
@@ -4549,7 +5569,24 @@
         "key": "0x2c66",
         "mask": "0x3c7e",
         "fields": [
-            null
+            {
+                "name": "mask",
+                "pos": 0,
+                "width": 1,
+                "offset": 0
+            },
+            {
+                "name": "mask",
+                "pos": 7,
+                "width": 3,
+                "offset": 1
+            },
+            {
+                "name": "mask",
+                "pos": 14,
+                "width": 2,
+                "offset": 4
+            }
         ]
     },
     {
@@ -4558,7 +5595,24 @@
         "key": "0x3c66",
         "mask": "0x3c7e",
         "fields": [
-            null
+            {
+                "name": "mask",
+                "pos": 0,
+                "width": 1,
+                "offset": 0
+            },
+            {
+                "name": "mask",
+                "pos": 7,
+                "width": 3,
+                "offset": 1
+            },
+            {
+                "name": "mask",
+                "pos": 14,
+                "width": 2,
+                "offset": 4
+            }
         ]
     },
     {
@@ -4570,7 +5624,8 @@
             {
                 "name": "n",
                 "pos": 13,
-                "width": 3
+                "width": 3,
+                "offset": 0
             }
         ]
     }

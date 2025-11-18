@@ -20,6 +20,7 @@ class _Field:
     id:str
     pos:int
     width:int
+    offset:int
 
 @dataclass
 class _InstructionFormat:
@@ -81,8 +82,8 @@ def _format_decoder(obj:dict):
     if {'name', 'bit_width', 'key', 'mask', 'fields'}.issubset(obj.keys()):
         return _InstructionFormat(obj['name'], int(obj['bit_width']),
                 int(obj['key'], 0), int(obj['mask'], 0), obj['fields'])
-    elif {'name', 'pos', 'width'}.issubset(obj.keys()):
-        return _Field(obj['name'], obj['pos'], obj['width'])
+    elif {'name', 'pos', 'width', 'offset'}.issubset(obj.keys()):
+        return _Field(obj['name'], obj['pos'], obj['width'], obj['offset'])
 
 
 class Disassembler:
@@ -194,10 +195,13 @@ class Disassembler:
             if format.bit_width != 32: continue
             if encoded & format.mask == format.key:
                 # print('unit', format.name)
-                fields = {
-                    field.id: self.__decode_field(field, encoded)
-                    for field in format.fields
-                }
+                fields = dict()
+                for field in format.fields:
+                    if field.id in fields:
+                        fields[field.id] = self.__compose_field(field, encoded,
+                                fields[field.id])
+                    else:
+                        fields[field.id] = self.__decode_field(field, encoded)
 
                 for opcode in self.instruction_maps[format.name]:
                     if not all({ self.__matches_fixed(fields, fixed)
@@ -237,7 +241,13 @@ class Disassembler:
 
     def __decode_field(self, field:_Field, encoded:int) -> _SizeField:
         mask = (1<<field.width) - 1
-        return _SizeField((encoded>>field.pos) & mask, field.width)
+        return _SizeField(((encoded>>field.pos) & mask) << field.offset, 
+                field.width)
+    
+    def __compose_field(self, field:_Field, encoded:int, 
+                part:_SizeField) -> _SizeField:
+        new_part = self.__decode_field(field, encoded)
+        return _SizeField(part.value|new_part.value, part.size+new_part.size)
     
     def __decode_var_field(self, var:_VarField, 
             fields:Dict[str, _SizeField]) -> _Variable:
