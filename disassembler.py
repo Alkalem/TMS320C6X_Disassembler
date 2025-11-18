@@ -214,6 +214,8 @@ class Disassembler:
 
                     parallel = self.__decode_parallel(fields)
                     condition = self.__decode_condition(fields)
+                    if condition in (ConditionType.BREAKPOINT,
+                            ConditionType.RESERVED): continue
                     cross_path = self.__decode_cross_path(fields)
                     unit, unit_info = self.__decode_unit(
                         opcode.unit,
