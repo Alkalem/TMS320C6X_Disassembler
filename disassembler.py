@@ -116,17 +116,21 @@ class Disassembler:
                     self.instruction_maps[format].append(opcode)
 
     def disasm(self, data:bytes, address:int, count:int=-1):
+        if address % WORD_SIZE == 0:
+            raise ValueError('Data must be aligned to words for disassembly.')
         if self.fetch_packet_header_based:
-            return self.__disasm_headerless(data, address, count)
+            return self.__disasm_header_based(data, address, count)
         else:
             return self.__disasm_headerless(data, address, count)
 
     def __disasm_header_based(self, data:bytes, address:int, count:int=-1):
         remaining = data
         current_address = address
+        skipped = address % FETCH_PACKET_SIZE
         while len(remaining) >= FETCH_PACKET_SIZE and count != 0:
-            fetch_packet = remaining[:FETCH_PACKET_SIZE]
-            remaining = remaining[FETCH_PACKET_SIZE:]
+            packet_size = FETCH_PACKET_SIZE - skipped
+            fetch_packet = remaining[:packet_size]
+            remaining = remaining[packet_size:]
             
             header = int.from_bytes(fetch_packet[-WORD_SIZE:], 
                     self.endianness) # type: ignore
@@ -136,7 +140,7 @@ class Disassembler:
                 expansion = self.__decode_expansion(
                         (header >> HEADER_EXPANSION_OFFSET) & HEADER_FIELD_MASK)
                 offset = 0
-                for _ in range(7):
+                for _ in range(skipped//WORD_SIZE, 7):
                     encoded = int.from_bytes(
                             fetch_packet[offset:offset+WORD_SIZE], 
                             self.endianness) # type: ignore
@@ -144,18 +148,18 @@ class Disassembler:
                     if compact:
                         first = encoded & 0xFFFF
                         second = encoded >> 16
-                        # yield self.__decode_compact(
-                        #     first,
-                        #     expansion,
-                        #     bool(header & 1),
-                        #     current_address+offset
-                        # )
-                        # yield self.__decode_compact(
-                        #     second,
-                        #     expansion,
-                        #     bool(header & 2),
-                        #     current_address+offset+2
-                        # )
+                        yield self.__decode_compact(
+                            first,
+                            expansion,
+                            bool(header & 1),
+                            current_address+offset
+                        )
+                        yield self.__decode_compact(
+                            second,
+                            expansion,
+                            bool(header & 2),
+                            current_address+offset+2
+                        )
                     else:
                         yield self.__decode(encoded, current_address+offset)
 
@@ -167,9 +171,9 @@ class Disassembler:
             else:
                 for instr in self.__disasm_headerless(fetch_packet, current_address, count):
                     yield instr
-                if count < EXECUTION_PACKET_LIMIT: break
-                count -= EXECUTION_PACKET_LIMIT
+                count -= EXECUTION_PACKET_LIMIT - (skipped//WORD_SIZE)
             current_address += FETCH_PACKET_SIZE
+            skipped = 0
         # stop due to missing header or exhausted count
 
     def __disasm_headerless(self, data:bytes, address:int, count:int=-1):
@@ -189,10 +193,26 @@ class Disassembler:
             yield instr
             count -= 1
 
+    def __decode_compact(self, encoded:int, expansion:_Expansion,
+            parallel:bool, address:int) -> Instruction:
+        encoded_expanded = encoded
+        encoded_expanded |= int(expansion.saturating) << 16
+        encoded_expanded |= int(expansion.branching) << 17
+        encoded_expanded |= int(expansion.data_size) << 18
+        invalid = Instruction.invalid(address, 2, parallel)
+        return self.__decode_core(encoded, address, 16, invalid, 
+                parallel, expansion)
+
     def __decode(self, encoded:int, address:int) -> Instruction:
-        instr = Instruction.invalid(address, WORD_SIZE, bool(encoded & 1))
+        invalid = Instruction.invalid(address, WORD_SIZE, bool(encoded & 1))
+        return self.__decode_core(encoded, address, 32, invalid)
+
+    def __decode_core(self, encoded:int, address:int, width:int,
+            invalid:Instruction, parallel:bool=False,
+            expansion:Optional[_Expansion]=None) -> Instruction:
+        instr = invalid
         for format in self.instruction_formats:
-            if format.bit_width != 32: continue
+            if format.bit_width != width: continue
             if encoded & format.mask == format.key:
                 # print('unit', format.name)
                 fields = dict()
@@ -213,7 +233,7 @@ class Disassembler:
                         for var in opcode.vars
                     }
 
-                    parallel = self.__decode_parallel(fields)
+                    parallel |= self.__decode_parallel(fields)
                     condition = self.__decode_condition(fields)
                     if condition in (ConditionType.BREAKPOINT,
                             ConditionType.RESERVED): continue
@@ -224,9 +244,9 @@ class Disassembler:
                         cross_path,
                         vars)
                     operands = self.__decode_operands(opcode.ops, unit_info, 
-                            vars, address)
+                            vars, address, expansion)
                     instr = Instruction(
-                        address, WORD_SIZE, condition, unit, 
+                        address, width//8, condition, unit, 
                         cross_path, operands, opcode.name, parallel)
         return instr
     
@@ -333,7 +353,8 @@ class Disassembler:
                 _UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
     
     def __decode_operands(self, ops:List[str], unit_info:_UnitInfo,
-            vars:Dict[str, _Variable], address:int) -> List[Operand]:
+            vars:Dict[str, _Variable], address:int,
+            expansion:Optional[_Expansion]) -> List[Operand]:
         assert all([var.value is not None for var in vars.values()])
         operands = list()
         for i, op in enumerate(ops):
@@ -472,7 +493,7 @@ class Disassembler:
             if current_operand:
                 operands.append(current_operand)
                 continue
-            # print('not implemented', operand_info.form)
+            print('not implemented', operand_info.form)
         return operands
     
     def __get_operand_var(self, vars:Dict[str, _Variable], 
