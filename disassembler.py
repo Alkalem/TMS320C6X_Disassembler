@@ -117,9 +117,9 @@ class Disassembler:
 
     def disasm(self, data:bytes, address:int, count:int=-1):
         if self.fetch_packet_header_based:
-            self.__disasm_headerless(data, address, count)
+            return self.__disasm_headerless(data, address, count)
         else:
-            self.__disasm_headerless(data, address, count)
+            return self.__disasm_headerless(data, address, count)
 
     def __disasm_header_based(self, data:bytes, address:int, count:int=-1):
         remaining = data
@@ -142,16 +142,16 @@ class Disassembler:
                             self.endianness) # type: ignore
                     compact = layout & 1
                     if compact:
+                        first = encoded & 0xFFFF
+                        second = encoded >> 16
                         # yield self.__decode_compact(
-                        #     encoded & 0xFFFF,
+                        #     first,
                         #     expansion,
                         #     bool(header & 1),
                         #     current_address+offset
                         # )
-                        count -= 1
-                        if count == 0: break
                         # yield self.__decode_compact(
-                        #     encoded > 16,
+                        #     second,
                         #     expansion,
                         #     bool(header & 2),
                         #     current_address+offset+2
