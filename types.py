@@ -236,6 +236,7 @@ class MemoryOperand(Operand):
 @dataclass
 class Instruction:
     address:int
+    size:int
     condition:ConditionType
     unit:str
     cross_path:bool
@@ -250,8 +251,9 @@ class Instruction:
         return f'{self.address:08x}: {condition_str}{self.opcode} {self.unit} {operand_str}'
     
     @staticmethod
-    def invalid(address:int, parallel:bool):
+    def invalid(address:int, size:int, parallel:bool):
         return Instruction(address,
+            size,
             ConditionType.RESERVED,
             "", False, [], 
             Instruction.__INVALID_OPCODE,

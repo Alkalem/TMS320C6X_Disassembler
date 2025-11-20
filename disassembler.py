@@ -190,7 +190,7 @@ class Disassembler:
             count -= 1
 
     def __decode(self, encoded:int, address:int) -> Instruction:
-        instr = Instruction.invalid(address, bool(encoded & 1))
+        instr = Instruction.invalid(address, WORD_SIZE, bool(encoded & 1))
         for format in self.instruction_formats:
             if format.bit_width != 32: continue
             if encoded & format.mask == format.key:
@@ -226,8 +226,8 @@ class Disassembler:
                     operands = self.__decode_operands(opcode.ops, unit_info, 
                             vars, address)
                     instr = Instruction(
-                        address, condition, unit, cross_path,
-                        operands, opcode.name, parallel)
+                        address, WORD_SIZE, condition, unit, 
+                        cross_path, operands, opcode.name, parallel)
         return instr
     
     def __decode_expansion(self, encoded:int) -> _Expansion:
