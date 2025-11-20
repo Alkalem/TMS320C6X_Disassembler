@@ -232,7 +232,6 @@ class MemoryOperand(Operand):
         return format.format(self.base, self.offset)
 
 
-__INVALID_OPCODE = "invalid opcode"
 
 @dataclass
 class Instruction:
@@ -243,6 +242,7 @@ class Instruction:
     operands:List[Operand]
     opcode:str
     parallel:bool
+    __INVALID_OPCODE = "invalid opcode"
 
     def __str__(self) -> str:
         operand_str = ', '.join([str(operand) for operand in self.operands])
@@ -253,9 +253,10 @@ class Instruction:
     def invalid(address:int, parallel:bool):
         return Instruction(address,
             ConditionType.RESERVED,
-            "", False, [], "",
+            "", False, [], 
+            Instruction.__INVALID_OPCODE,
             parallel
         )
 
     def is_invalid(self) -> bool:
-        return self.opcode == __INVALID_OPCODE
+        return self.opcode == Instruction.__INVALID_OPCODE
