@@ -404,7 +404,8 @@ class Disassembler:
                         current_operand = ImmediateOperand(var.value)
                     elif (var := self.__get_operand_var(vars, i, 
                             ('pcrel', 'pcrel_half', 'pcrel_half_unsigned'))):
-                        current_operand = ImmediateOperand(address + var.value)
+                        fp_address = address - (address % FETCH_PACKET_SIZE)
+                        current_operand = ImmediateOperand(fp_address + var.value)
                 case (OperandForm.reg|OperandForm.reg_bside|OperandForm.xreg
                         |OperandForm.reg_nors|OperandForm.reg_bside_nors
                         |OperandForm.dreg|OperandForm.treg):
