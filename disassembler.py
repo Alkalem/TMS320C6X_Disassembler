@@ -448,11 +448,25 @@ class Disassembler:
                     crhi = self.__get_operand_var(vars, i, ('crhi',))
                     crlo = self.__get_operand_var(vars, i, ('crlo',))
                     assert crlo is not None and crhi is not None
-                    assert crhi.value == 0, 'control register extension not supported'
-                    ctrl = ControlRegister(crlo.value)
-                    if crlo == 2 and operand_info.rw == RW.write:
-                        ctrl = ControlRegister.ISR
-                    current_operand = ControlRegister(ctrl)
+                    ctrl = None
+                    if crlo.value in ControlRegister:
+                        ctrl = ControlRegister(crlo.value)
+                        # there are a few special cases:
+                        if crlo == 0x02 and operand_info.rw == RW.read:
+                            ctrl = ControlRegister.IFR
+                        if crlo == 0x1d and operand_info.rw == RW.read:
+                            ctrl = ControlRegister.EFR
+                        # The register DIER is removed in C66X
+                        # if ctrl == ControlRegister.DIER and ISA.C66X:
+                        #     ctrl = None
+                        if ctrl is not None and (
+                            ((crhi.value & ctrl.crhi_mask) == 0)
+                            or (self.isa not in ctrl.isa)
+                            or (operand_info.rw not in ctrl.rw)
+                        ):
+                            ctrl = None
+                    if ctrl is not None:
+                        current_operand = ControlRegisterOperand(ctrl)
                 case OperandForm.mem_short:
                     mode_var = self.__get_operand_var(vars, i, ('mem_mode',))
                     offset_var = self.__get_operand_var(vars, i, ('mem_offset',))

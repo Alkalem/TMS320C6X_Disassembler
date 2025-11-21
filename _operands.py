@@ -2,6 +2,9 @@ from enum import Enum, auto
 from dataclasses import dataclass
 from typing import Dict
 
+from .types import RW
+
+
 class OperandForm(Enum):
     asm_const = auto()
     link_const = auto()
@@ -36,12 +39,6 @@ class OperandForm(Enum):
     hw_const_16 = auto()
     hw_const_24 = auto()
     hw_const_31 = auto()
-
-class RW(Enum):
-    none = auto()
-    read = auto()
-    write = auto()
-    read_write = auto()
 
 @dataclass
 class OperandInfo:

@@ -2,7 +2,7 @@ from .constants import C62X, C64X, C64XP, C67X, C67XP, C674X
 
 from dataclasses import dataclass
 from enum import StrEnum, IntEnum, Enum, auto
-from typing import List, Tuple, Optional
+from typing import Any, List, Tuple, Optional
 
 class Endianness(StrEnum):
     LITTLE = 'little'
@@ -15,6 +15,23 @@ class ISA(IntEnum):
     C67X = C62X | C67X
     C67XP = C62X | C67X | C67XP
     C674X = C62X | C64X | C64XP | C67X | C67XP | C674X
+
+    def __contains__(self, value: object) -> bool:
+        if type(value) == type(self) and bool(value.value & self.value):
+            return True
+        if isinstance(value, int): 
+            return bool(int(value) & self.value)
+        return False
+
+class RW(Enum):
+    none = auto()
+    read = auto()
+    write = auto()
+    read_write = auto()
+
+    def __contains__(self, value: object) -> bool:
+        # A bit hacky, but does the trick, i.e. r/w is in rw.
+        return type(value) == type(self) and value.name in self.name
 
 class Register(IntEnum):
     A0 = 0
@@ -85,38 +102,70 @@ class Register(IntEnum):
     def __str__(self) -> str:
         return self.name
 
-class ControlRegister(IntEnum):
-    AMR = 0
-    CSR = 1
-    IFR = 2 # read access
-    ISR = 32|2 # write access
-    ICR = 3
-    IER = 4
-    ISTP = 5
-    IRP = 6
-    NRP = 7
-    TSCL = 10 # c64x
-    TSCH = 11 # c64x
-    ILC = 13 # c64x
-    RILC = 14 # c64x
-    REP = 15 # c64x
-    PCE1 = 16
-    DNUM = 17 # c64x
-    FADCR = 18
-    FAUCR = 19
-    FMCR = 20
-    # c64x control register extensions from here on
-    SSR = 21
-    GPLYA = 22
-    GPLYB = 23
-    GFPGFR = 24
-    DIER = 25
-    TSR = 26
-    ITSR = 27
-    NTSR = 28
-    EFR = 29 # read access
-    ECR = 32|29 # write access
-    IERR = 31
+class _ControlRegister(IntEnum):
+    _isa_: ISA
+    _rw_: RW
+    _crhi_mask_: int
+    _is_supervisor_only_: bool
+
+    def __new__(cls, value:int, isa:ISA, rw:RW, mask:int,
+            is_supervisor_only:bool):
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+        obj._isa_ = isa
+        obj._rw_ = rw
+        obj._crhi_mask_ = mask
+        obj._is_supervisor_only_ = is_supervisor_only
+        return obj
+    
+    @property
+    def isa(self) -> ISA:
+        return self._isa_
+    
+    @property
+    def rw(self) -> RW:
+        return self._rw_
+    
+    @property
+    def crhi_mask(self) -> int:
+        return self._crhi_mask_
+    
+    @property
+    def is_supervisor_only(self) -> bool:
+        return self._is_supervisor_only_
+
+class ControlRegister(_ControlRegister):
+    AMR    = (0b00000, ISA.C62X, RW.read_write, 0x10, False)
+    CSR    = (0b00001, ISA.C62X, RW.read_write, 0x10, False)
+    IFR    = (0b00010 | 0x20, ISA.C62X, RW.read, 0x1d, False)
+    ISR    = (0b00010, ISA.C62X, RW.write, 0x10, False)
+    ICR    = (0b00011, ISA.C62X, RW.write, 0x10, False)
+    IER    = (0b00100, ISA.C62X, RW.read_write, 0x10, False)
+    ISTP   = (0b00101, ISA.C62X, RW.read_write, 0x10, False)
+    IRP    = (0b00110, ISA.C62X, RW.read_write, 0x10, False)
+    NRP    = (0b00111, ISA.C62X, RW.read_write, 0x10, False)
+    TSCL   = (0b01010, ISA.C64XP, RW.read_write, 0x1f, False)
+    TSCH   = (0b01011, ISA.C64XP, RW.read, 0x1f, False)
+    ILC    = (0b01101, ISA.C64XP, RW.read_write, 0x1f, False)
+    RILC   = (0b01110, ISA.C64XP, RW.read_write, 0x1f, False)
+    REP    = (0b01111, ISA.C64XP, RW.read_write, 0x1f, False)
+    PCE1   = (0b10000, ISA.C62X, RW.read, 0xf, False)
+    DNUM   = (0b10001, ISA.C64XP, RW.read, 0x1f, False)
+    FADCR  = (0b10010, ISA.C67X, RW.read_write, 0x1f, False)
+    FAUCR  = (0b10011, ISA.C67X, RW.read_write, 0x1f, False)
+    FMCR   = (0b10100, ISA.C67X, RW.read_write, 0x1f, False)
+    # mostly c64x+ control register extensions from here on
+    SSR    = (0b10101, ISA.C64XP, RW.read_write, 0x1f, False)
+    GPLYA  = (0b10110, ISA.C64XP, RW.read_write, 0x1f, False)
+    GPLYB  = (0b10111, ISA.C64XP, RW.read_write, 0x1f, False)
+    GFPGFR = (0b11000, ISA.C64X, RW.read_write, 0x1f, False)
+    DIER   = (0b11001, ISA.C64XP, RW.read_write, 0x1f, False) # removed in c66x
+    TSR    = (0b11010, ISA.C64XP, RW.read_write, 0x1f, False)
+    ITSR   = (0b11011, ISA.C64XP, RW.read_write, 0x1f, False)
+    NTSR   = (0b11100, ISA.C64XP, RW.read_write, 0x1f, False)
+    EFR    = (0b11101 | 0x20, ISA.C64XP, RW.read, 0x1f, False)
+    ECR    = (0b11101, ISA.C64XP, RW.write, 0x1f, False)
+    IERR   = (0b11111, ISA.C64XP, RW.read_write, 0x1f, False)
 
     def __str__(self) -> str:
         return self.name
