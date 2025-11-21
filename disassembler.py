@@ -356,6 +356,7 @@ class Disassembler:
             vars:Dict[str, _Variable], address:int,
             expansion:Optional[_Expansion]) -> List[Operand]:
         assert all([var.value is not None for var in vars.values()])
+        high_registers = expansion is not None and expansion.register_set
         operands = list()
         for i, op in enumerate(ops):
             operand_info = OPERANDS[op]
@@ -404,73 +405,44 @@ class Disassembler:
                     elif (var := self.__get_operand_var(vars, i, 
                             ('pcrel', 'pcrel_half', 'pcrel_half_unsigned'))):
                         current_operand = ImmediateOperand(address + var.value)
-                # c64x 16-bit encoding, header and types are not supported yet (relevant for reg and regpair)
                 case (OperandForm.reg|OperandForm.reg_bside|OperandForm.xreg
                         |OperandForm.reg_nors|OperandForm.reg_bside_nors
                         |OperandForm.dreg|OperandForm.treg):
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
-                        if (
-                            unit_info.side == 2 
-                            or operand_info.form in (OperandForm.reg_bside,
-                                OperandForm.reg_bside_nors)
-                        ) or (
-                            unit_info.data_side == 2
-                            and operand_info.form in (OperandForm.dreg,
-                                OperandForm.treg)
-                        ):
-                            reg_base = Register.B0.value
-                        else: 
-                            reg_base = Register.A0.value
-                        if (
-                            operand_info.form == OperandForm.xreg
-                            and unit_info.cross
-                        ):
-                            reg_base ^= Register.B0.value
-                        # Compact encoding high register halve
-                        if (
-                            expansion is not None
-                            and expansion.register_set
-                            and operand_info.form not in (OperandForm.reg_nors,
-                                OperandForm.reg_bside_nors)
-                        ):
-                            reg_base += 16
+                        reg_base = self.__decode_reg_base(operand_info.form,
+                                unit_info, high_registers)
                         current_operand = RegisterOperand(Register(reg_base + var.value))
-                case OperandForm.regpair|OperandForm.xregpair:
+                        # unit for treg mode must be from t variable 
+                        if (operand_info.form == OperandForm.treg 
+                                and 't' not in vars):
+                            current_operand = None 
+                case OperandForm.areg:
+                    if (var := self.__get_operand_var(vars, i, ('areg',))):
+                        register = Register.B15 if var else Register.B14
+                        current_operand = RegisterOperand(register)
+                case (OperandForm.regpair|OperandForm.xregpair
+                        |OperandForm.dregpair|OperandForm.tregpair):
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
-                        assert var.value&1 == 0
-                        if (
-                            unit_info.side == 2 
-                            or operand_info.form == OperandForm.reg_bside
-                        ):
-                            reg_base = Register.B0.value
-                        else: 
-                            reg_base = Register.A0.value
-                        if (
-                            operand_info.form == OperandForm.xreg
-                            and unit_info.cross
-                        ):
-                            reg_base ^= Register.B0.value
+                        assert var.value&1 == 0, 'register pairs must start at even register'
+                        reg_base = self.__decode_reg_base(operand_info.form,
+                                unit_info, high_registers)
                         reg_high = Register(reg_base + var.value + 1)
                         reg_low = Register(reg_base + var.value)
                         current_operand = RegisterPairOperand(reg_high, reg_low)
-                    elif (var := self.__get_operand_var(vars, i, ('regpair_msb'))):
+                        # unit for treg mode must be from t variable 
+                        if (operand_info.form == OperandForm.treg 
+                                and 't' not in vars):
+                            current_operand = None 
+                    elif (var := self.__get_operand_var(vars, i, ('regpair_msb'))
+                    ) and operand_info.form == OperandForm.regpair:
                         if unit_info.side == 2:
                             reg_base = Register.B0.value 
                         else: 
                             reg_base = Register.A0.value
                         reg_high = Register(reg_base + var.value | 0x1)
-                        reg_low = Register(reg_base + var.value | 0x1 - 1)
+                        reg_low = Register(reg_base + (var.value | 0x1) - 1)
                         current_operand = RegisterPairOperand(reg_high, reg_low)
-                case OperandForm.dregpair:
-                    if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
-                        assert var.value&1 == 0
-                        if unit_info.data_side == 2:
-                            reg_base = Register.B0.value
-                        else: 
-                            reg_base = Register.A0.value
-                        reg_high = Register(reg_base + var.value + 1)
-                        reg_low = Register(reg_base + var.value)
-                        current_operand = RegisterPairOperand(reg_high, reg_low)
+                # c64x 16-bit encoding, header and types are not fully supported yet
                 case OperandForm.ctrl:
                     crhi = self.__get_operand_var(vars, i, ('crhi',))
                     crlo = self.__get_operand_var(vars, i, ('crlo',))
@@ -511,3 +483,33 @@ class Disassembler:
             if var.method in methods:
                 return var
         return None
+    
+    def __decode_reg_base(self, operand_form:OperandForm, unit_info:_UnitInfo,
+            high_registers:bool=False) -> int:
+        if (
+            unit_info.side == 2
+            and operand_form in (OperandForm.reg, OperandForm.xreg, 
+                OperandForm.reg_nors, OperandForm.regpair, OperandForm.xregpair)
+        ) or (
+            operand_form in (OperandForm.reg_bside, OperandForm.reg_bside_nors)
+        ) or (
+            unit_info.data_side == 2
+            and operand_form in (OperandForm.dreg, OperandForm.treg,
+                OperandForm.dregpair, OperandForm.tregpair)
+        ):
+            reg_base = Register.B0.value
+        else: 
+            reg_base = Register.A0.value
+        if (
+            operand_form in (OperandForm.xreg, OperandForm.xregpair)
+            and unit_info.cross
+        ):
+            reg_base ^= Register.B0.value
+        # Compact encoding high register halve
+        if (
+            high_registers
+            and operand_form not in (OperandForm.reg_nors,
+                OperandForm.reg_bside_nors)
+        ):
+            reg_base += 16
+        return reg_base
