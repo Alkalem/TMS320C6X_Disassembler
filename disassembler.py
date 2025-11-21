@@ -405,11 +405,18 @@ class Disassembler:
                             ('pcrel', 'pcrel_half', 'pcrel_half_unsigned'))):
                         current_operand = ImmediateOperand(address + var.value)
                 # c64x 16-bit encoding, header and types are not supported yet (relevant for reg and regpair)
-                case OperandForm.reg|OperandForm.reg_bside|OperandForm.xreg:
+                case (OperandForm.reg|OperandForm.reg_bside|OperandForm.xreg
+                        |OperandForm.reg_nors|OperandForm.reg_bside_nors
+                        |OperandForm.dreg|OperandForm.treg):
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         if (
                             unit_info.side == 2 
-                            or operand_info.form == OperandForm.reg_bside
+                            or operand_info.form in (OperandForm.reg_bside,
+                                OperandForm.reg_bside_nors)
+                        ) or (
+                            unit_info.data_side == 2
+                            and operand_info.form in (OperandForm.dreg,
+                                OperandForm.treg)
                         ):
                             reg_base = Register.B0.value
                         else: 
@@ -419,13 +426,14 @@ class Disassembler:
                             and unit_info.cross
                         ):
                             reg_base ^= Register.B0.value
-                        current_operand = RegisterOperand(Register(reg_base + var.value))
-                case OperandForm.dreg:
-                    if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
-                        if unit_info.data_side == 2:
-                            reg_base = Register.B0.value
-                        else: 
-                            reg_base = Register.A0.value
+                        # Compact encoding high register halve
+                        if (
+                            expansion is not None
+                            and expansion.register_set
+                            and operand_info.form not in (OperandForm.reg_nors,
+                                OperandForm.reg_bside_nors)
+                        ):
+                            reg_base += 16
                         current_operand = RegisterOperand(Register(reg_base + var.value))
                 case OperandForm.regpair|OperandForm.xregpair:
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
