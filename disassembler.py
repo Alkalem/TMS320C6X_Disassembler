@@ -397,7 +397,11 @@ class Disassembler:
                     if (var := self.__get_operand_var(vars, i, ('cst_s3i', 'ucst', 
                             'ucst_minus_one', 'scst', 'scst_l3i'))):
                         current_operand = ImmediateOperand(var.value)
-                    # fstg and fcyc not handled yet
+                    if (var := self.__get_operand_var(vars, i, ('fstg', 'fcyc'))):
+                        current_operand = ImmediateOperand(var.value)
+                        # Fields fstg and fcyc should be decoded as two values.
+                        # This requires knowledge about the ii field from the
+                        # sploop instruction which is currently not supported.
                 case OperandForm.link_const:
                     if (var := self.__get_operand_var(vars, i, ('ulcst_dpr_byte', 'ucst', 
                             'lcst_high16', 'lcst_low16', 'scst'))):
