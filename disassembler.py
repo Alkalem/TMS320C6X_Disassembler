@@ -398,6 +398,8 @@ class Disassembler:
                             'ucst_minus_one', 'scst', 'scst_l3i'))):
                         current_operand = ImmediateOperand(var.value)
                     if (var := self.__get_operand_var(vars, i, ('fstg', 'fcyc'))):
+                        # Skip second operand because splitting is not implemented.
+                        if var.method == 'fcyc': continue
                         current_operand = ImmediateOperand(var.value)
                         # Fields fstg and fcyc should be decoded as two values.
                         # This requires knowledge about the ii field from the
@@ -447,7 +449,14 @@ class Disassembler:
                         reg_high = Register(reg_base + var.value | 0x1)
                         reg_low = Register(reg_base + (var.value | 0x1) - 1)
                         current_operand = RegisterPairOperand(reg_high, reg_low)
-                # c64x 16-bit encoding, header and types are not fully supported yet
+                case OperandForm.mem_deref:
+                    # only used by c64x+ exclusive atomic instructions (ll, sl, cmtl)
+                    if (var := self.__get_operand_var(vars, i, ('reg',))):
+                        current_operand = MemoryOperand(
+                            AddressingMode.POS_OFFSET,
+                            Register(Register.A0.value + var.value),
+                            0
+                        )
                 case OperandForm.ctrl:
                     crhi = self.__get_operand_var(vars, i, ('crhi',))
                     crlo = self.__get_operand_var(vars, i, ('crlo',))
@@ -471,6 +480,7 @@ class Disassembler:
                             ctrl = None
                     if ctrl is not None:
                         current_operand = ControlRegisterOperand(ctrl)
+                # c64x 16-bit encoding, header and types are not fully supported yet
                 case OperandForm.mem_short:
                     mode_var = self.__get_operand_var(vars, i, ('mem_mode',))
                     offset_var = self.__get_operand_var(vars, i, ('mem_offset',))
