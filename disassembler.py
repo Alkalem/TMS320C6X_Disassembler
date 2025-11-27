@@ -425,7 +425,7 @@ class Disassembler:
                             current_operand = None 
                 case OperandForm.areg:
                     if (var := self.__get_operand_var(vars, i, ('areg',))):
-                        register = Register.B15 if var else Register.B14
+                        register = Register.B15 if var.value else Register.B14
                         current_operand = RegisterOperand(register)
                 case (OperandForm.regpair|OperandForm.xregpair
                         |OperandForm.dregpair|OperandForm.tregpair):
@@ -498,6 +498,17 @@ class Disassembler:
                     else:
                         offset = offset_var.value * operand_info.size
                     current_operand = MemoryOperand(mode,base,offset)
+                case OperandForm.mem_long:
+                    base = self.__get_operand_var(vars, i, ('areg',))
+                    offset = self.__get_operand_var(vars, i, 
+                            ('ulcst_dpr_byte', 'ulcst_dpr_half', 'ulcst_dpr_word'))
+                    if base and offset:
+                        base_reg = Register.B15 if base.value else Register.B14
+                        current_operand = MemoryOperand(
+                            AddressingMode.POS_OFFSET,
+                            base_reg,
+                            offset.value * operand_info.size
+                        )
                     
             if current_operand:
                 operands.append(current_operand)
