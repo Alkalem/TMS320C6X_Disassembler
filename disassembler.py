@@ -118,8 +118,8 @@ class Disassembler:
                     self.instruction_maps[format].append(opcode)
 
     def disasm(self, data:bytes, address:int, count:int=-1):
-        if address % WORD_SIZE:
-            raise ValueError('Data must be aligned to words for disassembly.')
+        if address % FETCH_PACKET_SIZE == 0x1e:
+            raise ValueError('Invalid address for disassembly.')
         if self.fetch_packet_header_based:
             return self.__disasm_header_based(data, address, count)
         else:
@@ -142,7 +142,26 @@ class Disassembler:
                 expansion = self.__decode_expansion(
                         (header >> HEADER_EXPANSION_OFFSET) & HEADER_FIELD_MASK)
                 offset = 0
-                for _ in range(skipped//WORD_SIZE, 7):
+                header >>= skipped//2
+                if skipped & 2:
+                    if not layout >> (skipped//WORD_SIZE):
+                        raise ValueError('Address in the middle of instruction.')
+                    if self.endianness == Endianness.BIG:
+                        raise ValueError('Next instruction in logical order missing.')
+                    encoded = int.from_bytes(fetch_packet[:2],
+                            self.endianness) # type: ignore
+                    yield self.__decode_compact(
+                        encoded,
+                        expansion,
+                        bool(header & 1),
+                        current_address
+                    )
+                    count -= 1
+                    if count == 0: break
+                    offset = 2
+                    header >>= 1
+                layout >>= (skipped+2)//WORD_SIZE
+                for _ in range((skipped+2)//WORD_SIZE, 7):
                     encoded = int.from_bytes(
                             fetch_packet[offset:offset+WORD_SIZE], 
                             self.endianness) # type: ignore
@@ -174,7 +193,7 @@ class Disassembler:
                 for instr in self.__disasm_headerless(fetch_packet, current_address, count):
                     yield instr
                 count -= EXECUTION_PACKET_LIMIT - (skipped//WORD_SIZE)
-            current_address += FETCH_PACKET_SIZE
+            current_address += packet_size
             skipped = 0
         # stop due to missing header or exhausted count
 
