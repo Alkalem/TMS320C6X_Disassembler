@@ -2,7 +2,7 @@ from .constants import C62X, C64X, C64XP, C67X, C67XP, C674X
 
 from dataclasses import dataclass
 from enum import StrEnum, IntEnum, Enum, auto
-from typing import Any, List, Tuple, Optional
+from typing import List, Set, Optional
 
 class Endianness(StrEnum):
     LITTLE = 'little'
@@ -169,6 +169,31 @@ class ControlRegister(_ControlRegister):
 
     def __str__(self) -> str:
         return self.name
+    
+class UnitSide(IntEnum):
+    A = 1
+    B = 2
+
+class DataSide(IntEnum):
+    T1 = 1
+    T2 = 2
+
+    def __str__(self) -> str:
+        return self.name
+
+class FuncUnit(IntEnum):
+    L1 = 0
+    L2 = 1
+    S1 = 2
+    S2 = 3
+    D1 = 4
+    D2 = 5
+    M1 = 6
+    M2 = 7
+    NFU = -1
+
+    def __str__(self) -> str:
+        return self.name
 
 class AddressingMode(IntEnum):
     NEG_OFFSET = 0
@@ -224,13 +249,32 @@ class ConditionType(_ConditionEnum):
     def _missing_(cls, value):
         return cls.RESERVED
 
+@dataclass
+class UnitInfo:
+    unit: FuncUnit
+    data_side: Optional[DataSide]
+    cross_path: bool
+
+    @property
+    def side(self) -> Optional[UnitSide]:
+        if self.unit == FuncUnit.NFU: return None
+        return UnitSide.B if self.unit & 1 else UnitSide.A
+
+    def __str__(self) -> str:
+        if self.unit == FuncUnit.NFU: return ''
+        return '.{}{}{}'.format(
+            self.unit,
+            self.data_side if self.data_side is not None else '',
+            'X' if self.cross_path else ''
+        )
+
 class OperandType(Enum):
     IMMEDIATE = auto()
     REGISTER = auto()
     REGISTER_PAIR = auto()
     CONTROL_REGISTER = auto()
     MEMORY = auto()
-    #TODO: complete type list
+    FUNC_UNITS = auto()
     UNKNOWN = auto()
 
 @dataclass
@@ -319,19 +363,27 @@ class MemoryOperand(Operand):
                 format = '*{}++{}'
         return format.format(self.base, offset)
 
+@dataclass
+class FuncUnitsOperand(Operand):
+    value: Set[FuncUnit]
 
+    @property
+    def kind(self) -> OperandType:
+        return OperandType.FUNC_UNITS
+    
+    def __str__(self) -> str:
+        return ', '.join(map(str, sorted(self.value)))
 
 @dataclass
 class Instruction:
     address:int
     size:int
     condition:ConditionType
-    unit:str
-    cross_path:bool
+    unit:UnitInfo
     operands:List[Operand]
     opcode:str
     parallel:bool
-    __INVALID_OPCODE = "invalid opcode"
+    __INVALID_OPCODE = 'invalid opcode'
 
     def __str__(self) -> str:
         operand_str = ', '.join([str(operand) for operand in self.operands])
@@ -343,7 +395,8 @@ class Instruction:
         return Instruction(address,
             size,
             ConditionType.RESERVED,
-            "", False, [], 
+            UnitInfo(FuncUnit.NFU, None, False),
+            [],
             Instruction.__INVALID_OPCODE,
             parallel
         )

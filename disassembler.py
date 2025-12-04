@@ -6,9 +6,9 @@ from .constants import FETCH_PACKET_SIZE, WORD_SIZE, C64XP, \
         TIC6X_FLAG_INSN16_MEM_MODE
 from ._operands import OPERANDS, OperandForm, RW
 from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
-        ConditionType, Operand, OperandType, Instruction, \
+        ConditionType, Operand, FuncUnit, DataSide, UnitInfo, Instruction, \
         ImmediateOperand, RegisterOperand, RegisterPairOperand, \
-        ControlRegisterOperand, MemoryOperand
+        ControlRegisterOperand, MemoryOperand, FuncUnitsOperand
 
 from dataclasses import dataclass
 from typing import List, Dict, Optional, Tuple, Sequence
@@ -63,11 +63,11 @@ class _Opcode:
     ops:List[str]
     vars:List[_VarField]
 
-@dataclass
-class _UnitInfo:
-    side:int
-    data_side:int
-    cross:bool
+# @dataclass
+# class _UnitInfo:
+#     side:int
+#     data_side:int
+#     cross:bool
 
 @dataclass
 class _Expansion:
@@ -240,7 +240,7 @@ class Disassembler:
                     if condition in (ConditionType.BREAKPOINT,
                             ConditionType.RESERVED): continue
                     cross_path = self.__decode_cross_path(fields)
-                    unit, unit_info = self.__decode_unit(
+                    unit_info = self.__decode_unit(
                         opcode.unit,
                         opcode.flags,
                         cross_path,
@@ -249,8 +249,7 @@ class Disassembler:
                             opcode.ops, opcode.flags, unit_info, 
                             vars, address, expansion)
                     instr = Instruction(
-                        address, width//8, condition, unit, 
-                        cross_path, operands, opcode.name, parallel)
+                        address, width//8, condition, unit_info, operands, opcode.name, parallel)
         return instr
     
     def __decode_expansion(self, encoded:int) -> _Expansion:
@@ -327,8 +326,8 @@ class Disassembler:
         return 'x' in fields and bool(fields['x'].value)
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
-            vars:Dict[str, _Variable]) -> Tuple[str,_UnitInfo]:
-        if unit == 'nfu': return '', _UnitInfo(0,0,False)
+            vars:Dict[str, _Variable]) -> UnitInfo:
+        if unit == 'nfu': return UnitInfo(FuncUnit.NFU, None, False)
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
         func_unit_cross = cross_path
@@ -349,16 +348,22 @@ class Disassembler:
             func_unit_cross = func_unit_side == 1 
 
         match func_unit_data_side:
-            case 0: data_str = ''
-            case 1: data_str = 'T1'
-            case 2: data_str = 'T2'
+            case 0: data_side = None
+            case 1: data_side = DataSide.T1
+            case 2: data_side = DataSide.T1
 
-        return '.{}{:d}{}{}'.format(unit.upper(), func_unit_side, 
-                data_str, 'X' if func_unit_cross else ''), \
-                _UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
+        unit_bases = {
+            'l': FuncUnit.L1.value, 
+            's': FuncUnit.S1.value, 
+            'd': FuncUnit.D1.value, 
+            'm': FuncUnit.M1.value
+        }
+        unit_value = unit_bases[unit] + ((func_unit_side & 2) >> 1)
+        func_unit = FuncUnit(unit_value)
+        return UnitInfo(func_unit, data_side, func_unit_cross)
     
     def __decode_operands(self, ops:List[str], flags:int,
-            unit_info:_UnitInfo, vars:Dict[str, _Variable], address:int,
+            unit_info:UnitInfo, vars:Dict[str, _Variable], address:int,
             expansion:Optional[_Expansion]) -> List[Operand]:
         assert all([var.value is not None for var in vars.values()])
         high_registers = expansion is not None and expansion.register_set
@@ -547,7 +552,20 @@ class Disassembler:
                             offset.value * operand_info.size,
                             False
                         )
-                    
+                case OperandForm.func_unit:
+                    if (var := self.__get_operand_var(vars, i, ('spmask',))):
+                        masked_units = set()
+                        units = (
+                            FuncUnit.L1, FuncUnit.L2,
+                            FuncUnit.S1, FuncUnit.S2,
+                            FuncUnit.D1, FuncUnit.D2,
+                            FuncUnit.M1, FuncUnit.M2
+                        )
+                        for bit, unit in enumerate(units):
+                            if (var.value >> bit) & 1:
+                                masked_units.add(unit)
+                        current_operand = FuncUnitsOperand(masked_units)
+            
             if current_operand:
                 operands.append(current_operand)
                 continue
@@ -562,7 +580,7 @@ class Disassembler:
                 return var
         return None
     
-    def __decode_reg_base(self, operand_form:OperandForm, unit_info:_UnitInfo,
+    def __decode_reg_base(self, operand_form:OperandForm, unit_info:UnitInfo,
             high_registers:bool=False) -> int:
         if (
             unit_info.side == 2
@@ -581,7 +599,7 @@ class Disassembler:
             reg_base = Register.A0.value
         if (
             operand_form in (OperandForm.xreg, OperandForm.xregpair)
-            and unit_info.cross
+            and unit_info.cross_path
         ):
             reg_base ^= Register.B0.value
         # Compact encoding high register halve
