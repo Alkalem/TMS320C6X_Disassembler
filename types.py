@@ -291,26 +291,33 @@ class MemoryOperand(Operand):
     mode: AddressingMode
     base: Register
     offset: int|Register
+    scaled: bool
 
     @property
     def kind(self) -> OperandType:
         return OperandType.MEMORY
     
     def __str__(self) -> str:
+        if self.offset is int and self.offset == 0:
+            offset = ''
+        elif self.scaled:
+            offset = '[{}]'.format(self.offset)
+        else:
+            offset = '({})'.format(self.offset)
         match self.mode:
             case AddressingMode.NEG_OFFSET:
-                format = '*-{}({})'
+                format = '*-{}{}'
             case AddressingMode.POS_OFFSET:
-                format = '*+{}({})'
+                format = '*+{}{}'
             case AddressingMode.PREDECREMENT:
-                format = '*--{}({})'
+                format = '*--{}{}'
             case AddressingMode.PREINCREMENT:
-                format = '*++{}({})'
+                format = '*++{}{}'
             case AddressingMode.POSTDECREMENT:
-                format = '*{}--({})'
+                format = '*{}--{}'
             case AddressingMode.POSTINCREMENT:
-                format = '*{}++({})'
-        return format.format(self.base, self.offset)
+                format = '*{}++{}'
+        return format.format(self.base, offset)
 
 
 

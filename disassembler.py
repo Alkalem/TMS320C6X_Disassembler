@@ -1,7 +1,9 @@
 from .constants import FETCH_PACKET_SIZE, WORD_SIZE, C64XP, \
         EXECUTION_PACKET_LIMIT, HEADER_MASK, HEADER_KEY, \
         HEADER_FIELD_MASK, HEADER_LAYOUT_OFFSET, HEADER_EXPANSION_OFFSET, \
-        TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY
+        TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY, \
+        TIC6X_FLAG_INSN16_B15PTR, TIC6X_FLAG_INSN16_NORS, \
+        TIC6X_FLAG_INSN16_MEM_MODE
 from ._operands import OPERANDS, OperandForm, RW
 from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
         ConditionType, Operand, OperandType, Instruction, \
@@ -243,7 +245,8 @@ class Disassembler:
                         opcode.flags,
                         cross_path,
                         vars)
-                    operands = self.__decode_operands(opcode.ops, unit_info, 
+                    operands = self.__decode_operands(
+                            opcode.ops, opcode.flags, unit_info, 
                             vars, address, expansion)
                     instr = Instruction(
                         address, width//8, condition, unit, 
@@ -294,6 +297,8 @@ class Disassembler:
                 value += 1
             case 'reg_shift':
                 value <<= 1
+            case 'mem_offset_minus_one'|'mem_offset_minus_one_noscale':
+                value += 1
         return _Variable(var.id, var.method, var.op, value)
     
     def __decode_signed(self, field:_SizeField) -> int:
@@ -352,8 +357,8 @@ class Disassembler:
                 data_str, 'X' if func_unit_cross else ''), \
                 _UnitInfo(func_unit_side, func_unit_data_side, func_unit_cross)
     
-    def __decode_operands(self, ops:List[str], unit_info:_UnitInfo,
-            vars:Dict[str, _Variable], address:int,
+    def __decode_operands(self, ops:List[str], flags:int,
+            unit_info:_UnitInfo, vars:Dict[str, _Variable], address:int,
             expansion:Optional[_Expansion]) -> List[Operand]:
         assert all([var.value is not None for var in vars.values()])
         high_registers = expansion is not None and expansion.register_set
@@ -455,7 +460,8 @@ class Disassembler:
                         current_operand = MemoryOperand(
                             AddressingMode.POS_OFFSET,
                             Register(Register.A0.value + var.value),
-                            0
+                            0,
+                            False
                         )
                 case OperandForm.ctrl:
                     crhi = self.__get_operand_var(vars, i, ('crhi',))
@@ -481,23 +487,54 @@ class Disassembler:
                     if ctrl is not None:
                         current_operand = ControlRegisterOperand(ctrl)
                 # c64x 16-bit encoding, header and types are not fully supported yet
-                case OperandForm.mem_short:
-                    mode_var = self.__get_operand_var(vars, i, ('mem_mode',))
-                    offset_var = self.__get_operand_var(vars, i, ('mem_offset',))
-                    base_var = self.__get_operand_var(vars, i, ('reg',))
-                    assert (mode_var is not None and offset_var is not None 
-                            and base_var is not None)
-                    if unit_info.side == 2:
-                        side = Register.B0.value 
-                    else:
-                        side = Register.A0.value
-                    base = Register(side+base_var.value)
-                    mode = AddressingMode(mode_var.value & ~4)
-                    if mode_var.value & 4:
-                        offset = Register(side+offset_var.value)
-                    else:
-                        offset = offset_var.value * operand_info.size
-                    current_operand = MemoryOperand(mode,base,offset)
+                case (OperandForm.mem_short|OperandForm.mem_ndw):
+                    base_reg, offset, mode = None, None, None
+                    offset_var, mode_var = None, None
+                    scaled = False
+                    # 1. Decode register base
+                    high_registers &= not flags & TIC6X_FLAG_INSN16_NORS
+                    reg_base = self.__decode_reg_base(
+                            operand_info.form, unit_info, high_registers)
+                    if (var := self.__get_operand_var(vars, i, ('reg_ptr',))):
+                        assert 0<= var.value < 4
+                        base_reg = Register(Register.A0 + (0x4 | var.value))
+                    elif (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
+                        base_reg = Register(reg_base +  var.value)
+                    elif (expansion and flags & TIC6X_FLAG_INSN16_B15PTR):
+                        base_reg = Register.B15
+                    # 2. Determine addressing mode
+                    if (var := self.__get_operand_var(vars, i, ('mem_mode',))):
+                        mode_var = var.value
+                    elif expansion is not None:
+                        mode_var = TIC6X_FLAG_INSN16_MEM_MODE(flags)
+                    if mode_var is not None:
+                        mode = AddressingMode(mode_var & ~4)
+                    # 3. Detect explicit scaling
+                    if (var := self.__get_operand_var(vars, i, ('scaled',))):
+                        scaled = bool(var.value)
+                    # 4. Decode offset
+                    if (var := self.__get_operand_var(vars, i, (
+                        'mem_offset_minus_one',
+                        'mem_offset_minus_one_noscale',
+                        'mem_offset',
+                        'mem_offset_noscale'
+                    ))) and mode_var is not None:
+                        offset_var = var.value
+                        if (expansion and 'noscale' not in var.method):
+                            scaled = True
+                        offset_is_reg = (mode_var & 4) != 0
+                        if offset_is_reg:
+                            offset = Register(reg_base + offset_var)
+                            if operand_info.form != OperandForm.mem_ndw:
+                                scaled = True
+                        else:
+                            offset = offset_var
+                            if operand_info.form != OperandForm.mem_ndw:
+                                scaled = False
+                    if (mode is not None 
+                            and base_reg is not None 
+                            and offset is not None):
+                        current_operand = MemoryOperand(mode,base_reg,offset, scaled)
                 case OperandForm.mem_long:
                     base = self.__get_operand_var(vars, i, ('areg',))
                     offset = self.__get_operand_var(vars, i, 
@@ -507,7 +544,8 @@ class Disassembler:
                         current_operand = MemoryOperand(
                             AddressingMode.POS_OFFSET,
                             base_reg,
-                            offset.value * operand_info.size
+                            offset.value * operand_info.size,
+                            False
                         )
                     
             if current_operand:
@@ -529,7 +567,8 @@ class Disassembler:
         if (
             unit_info.side == 2
             and operand_form in (OperandForm.reg, OperandForm.xreg, 
-                OperandForm.reg_nors, OperandForm.regpair, OperandForm.xregpair)
+                OperandForm.reg_nors, OperandForm.regpair, OperandForm.xregpair,
+                OperandForm.mem_short, OperandForm.mem_ndw)
         ) or (
             operand_form in (OperandForm.reg_bside, OperandForm.reg_bside_nors)
         ) or (
