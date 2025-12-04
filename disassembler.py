@@ -118,7 +118,7 @@ class Disassembler:
                     self.instruction_maps[format].append(opcode)
 
     def disasm(self, data:bytes, address:int, count:int=-1):
-        if address % WORD_SIZE == 0:
+        if address % WORD_SIZE:
             raise ValueError('Data must be aligned to words for disassembly.')
         if self.fetch_packet_header_based:
             return self.__disasm_header_based(data, address, count)
