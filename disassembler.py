@@ -105,6 +105,7 @@ class Disassembler:
             self.instruction_maps:Dict[str, List[_Opcode]] = {
                 f.name: list()
                 for f in self.instruction_formats}
+        format_names = {format.name for format in self.instruction_formats}
         with open(basepath / 'opcodes.json') as file:
             opcodes:List[_Opcode] = json.load(
                 file, object_hook=lambda obj: Namespace(**obj))
@@ -113,7 +114,10 @@ class Disassembler:
                     continue # ignore assembly macros
                 if not opcode.isa & self.isa:
                     continue # ignore unsupported ISA
-                format = opcode.unit+'_'+opcode.format
+                format = opcode.format
+                if format not in format_names:
+                    format = opcode.unit+'_'+opcode.format
+                    assert format in format_names
                 if format in self.instruction_maps:
                     self.instruction_maps[format].append(opcode)
 
