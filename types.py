@@ -227,7 +227,7 @@ class _ConditionEnum(IntEnum):
         if self.branch is None:
             return ''
         else:
-            reg = self.register.name if self.register else 'x'
+            reg = self.register.name if self.register is not None else 'x'
             return f'[{reg}]' if self.branch else f'[!{reg}]'
 
 class ConditionType(_ConditionEnum):
@@ -243,7 +243,9 @@ class ConditionType(_ConditionEnum):
     NOT_A1 = (9, False, Register.A1)
     A2 = (10, True, Register.A2)
     NOT_A2 = (11, False, Register.A2)
-    RESERVED = (12, None, None)
+    A0 = (12, True, Register.A0)
+    NOT_A0 = (13, False, Register.A0)
+    RESERVED = (14, None, None)
 
     @classmethod
     def _missing_(cls, value):

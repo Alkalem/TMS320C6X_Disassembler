@@ -3,7 +3,8 @@ from .constants import FETCH_PACKET_SIZE, WORD_SIZE, C64XP, \
         HEADER_FIELD_MASK, HEADER_LAYOUT_OFFSET, HEADER_EXPANSION_OFFSET, \
         TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY, \
         TIC6X_FLAG_INSN16_B15PTR, TIC6X_FLAG_INSN16_NORS, \
-        TIC6X_FLAG_INSN16_BSIDE, TIC6X_FLAG_INSN16_MEM_MODE
+        TIC6X_FLAG_INSN16_BSIDE, TIC6X_FLAG_INSN16_SPRED, \
+        TIC6X_FLAG_INSN16_MEM_MODE
 from ._operands import OPERANDS, OperandForm, RW
 from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
         ConditionType, Operand, FuncUnit, DataSide, UnitInfo, Instruction, \
@@ -254,7 +255,7 @@ class Disassembler:
                     }
 
                     parallel |= self.__decode_parallel(fields)
-                    condition = self.__decode_condition(fields)
+                    condition = self.__decode_condition(fields, opcode.flags)
                     if condition in (ConditionType.BREAKPOINT,
                             ConditionType.RESERVED): continue
                     cross_path = self.__decode_cross_path(fields)
@@ -334,7 +335,19 @@ class Disassembler:
         return 'p' in fields and bool(fields['p'].value)
     
     def __decode_condition(self, 
-            fields:Dict[str, _SizeField]) -> ConditionType:
+            fields:Dict[str, _SizeField], flags:int) -> ConditionType:
+        if flags & TIC6X_FLAG_INSN16_SPRED:
+            COMPACT_CONDITIONS = (
+                ConditionType.A0, ConditionType.NOT_A0,
+                ConditionType.B0, ConditionType.NOT_B0
+            )
+            if 'cc' in fields:
+                condition_value = fields['cc'].value
+            elif 's' in fields and 'z' in fields:
+                condition_value = fields['s'].value << 1 | fields['z'].value
+            else:
+                assert False, 'invalid compact predicate encoding'
+            return COMPACT_CONDITIONS[condition_value]
         condition_value = (
             fields['creg'].value<<1 if 'creg' in fields else 0
         ) | (
