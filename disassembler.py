@@ -3,7 +3,7 @@ from .constants import FETCH_PACKET_SIZE, WORD_SIZE, C64XP, \
         HEADER_FIELD_MASK, HEADER_LAYOUT_OFFSET, HEADER_EXPANSION_OFFSET, \
         TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY, \
         TIC6X_FLAG_INSN16_B15PTR, TIC6X_FLAG_INSN16_NORS, \
-        TIC6X_FLAG_INSN16_MEM_MODE
+        TIC6X_FLAG_INSN16_BSIDE, TIC6X_FLAG_INSN16_MEM_MODE
 from ._operands import OPERANDS, OperandForm, RW
 from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
         ConditionType, Operand, FuncUnit, DataSide, UnitInfo, Instruction, \
@@ -363,13 +363,13 @@ class Disassembler:
                 case 'areg':
                     have_areg = True
 
-        if have_areg and not func_unit_data_side:
-            func_unit_cross = func_unit_side == 1 
+        assert func_unit_side in [2,1]
+        assert not (func_unit_data_side and cross_path)
+        assert not (func_unit_data_side and unit != 'd')
 
-        match func_unit_data_side:
-            case 0: data_side = None
-            case 1: data_side = DataSide.T1
-            case 2: data_side = DataSide.T1
+        if have_areg and not func_unit_data_side:
+            assert not cross_path
+            func_unit_cross = func_unit_side == 1 
 
         unit_bases = {
             'l': FuncUnit.L1.value, 
@@ -379,6 +379,15 @@ class Disassembler:
         }
         unit_value = unit_bases[unit] + ((func_unit_side & 2) >> 1)
         func_unit = FuncUnit(unit_value)
+        
+        match func_unit_data_side:
+            case 0: data_side = None
+            case 1: data_side = DataSide.T1
+            case 2: data_side = DataSide.T2
+
+        if flags & TIC6X_FLAG_INSN16_BSIDE and func_unit_side == 1:
+            func_unit_cross = True
+
         return UnitInfo(func_unit, data_side, func_unit_cross)
     
     def __decode_operands(self, ops:List[str], flags:int,
