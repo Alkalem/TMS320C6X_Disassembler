@@ -555,6 +555,7 @@ class Disassembler:
                             offset = offset_var
                             if operand_info.form != OperandForm.mem_ndw:
                                 scaled = False
+                                offset *= operand_info.size
                     if (mode is not None 
                             and base_reg is not None 
                             and offset is not None):
