@@ -1,4 +1,4 @@
-from .constants import C62X, C64X, C64XP, C67X, C67XP, C674X
+from .constants import C62X, C64X, C64XP, C67X, C67XP, C674X, WORD_SIZE
 
 from dataclasses import dataclass
 from enum import StrEnum, IntEnum, Enum, auto
@@ -375,6 +375,16 @@ class FuncUnitsOperand(Operand):
         return ', '.join(map(str, sorted(self.value)))
 
 @dataclass
+class Header:
+    layout: int
+    protected_loads: bool
+    high_register_set: bool
+    data_size: int
+    branching: bool
+    saturating: bool
+    pbits: int
+
+@dataclass
 class Instruction:
     address:int
     size:int
@@ -383,7 +393,9 @@ class Instruction:
     operands:List[Operand]
     opcode:str
     parallel:bool
-    __INVALID_OPCODE = 'invalid opcode'
+    header:Optional[Header]
+    __INVALID_OPCODE = '<invalid opcode>'
+    __FETCH_PACKET_HEADER = '<fetch packet header>'
 
     def __str__(self) -> str:
         operand_str = ', '.join([str(operand) for operand in self.operands])
@@ -391,15 +403,31 @@ class Instruction:
         return f'{self.address:08x}: {condition_str}{self.opcode} {self.unit} {operand_str}'
     
     @staticmethod
-    def invalid(address:int, size:int, parallel:bool):
+    def invalid(address:int, size:int, parallel:bool, header:Optional[Header]):
         return Instruction(address,
             size,
             ConditionType.RESERVED,
             UnitInfo(FuncUnit.NFU, None, False),
             [],
             Instruction.__INVALID_OPCODE,
-            parallel
+            parallel,
+            header
+        )
+    
+    @staticmethod
+    def init_header(address:int, header:Header):
+        return Instruction(address,
+            WORD_SIZE,
+            ConditionType.RESERVED,
+            UnitInfo(FuncUnit.NFU, None, False),
+            [],
+            Instruction.__FETCH_PACKET_HEADER,
+            False,
+            header
         )
 
     def is_invalid(self) -> bool:
         return self.opcode == Instruction.__INVALID_OPCODE
+    
+    def is_fp_header(self) -> bool:
+        return self.opcode == Instruction.__FETCH_PACKET_HEADER

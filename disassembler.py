@@ -1,5 +1,5 @@
 from .constants import FETCH_PACKET_SIZE, WORD_SIZE, C64XP, \
-        EXECUTION_PACKET_LIMIT, HEADER_MASK, HEADER_KEY, \
+        EXECUTION_PACKET_LIMIT, HEADER_MASK, HEADER_KEY, HEADER_PBITS_MASK, \
         HEADER_FIELD_MASK, HEADER_LAYOUT_OFFSET, HEADER_EXPANSION_OFFSET, \
         TIC6X_FLAG_MACRO, TIC6X_FLAG_SIDE_B_ONLY, TIC6X_FLAG_SIDE_T2_ONLY, \
         TIC6X_FLAG_INSN16_B15PTR, TIC6X_FLAG_INSN16_NORS, \
@@ -8,7 +8,7 @@ from ._operands import OPERANDS, OperandForm, RW
 from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
         ConditionType, Operand, FuncUnit, DataSide, UnitInfo, Instruction, \
         ImmediateOperand, RegisterOperand, RegisterPairOperand, \
-        ControlRegisterOperand, MemoryOperand, FuncUnitsOperand
+        ControlRegisterOperand, MemoryOperand, FuncUnitsOperand, Header
 
 from dataclasses import dataclass
 from typing import List, Dict, Optional, Tuple, Sequence
@@ -62,20 +62,6 @@ class _Opcode:
     fixed:List[_FixedField]
     ops:List[str]
     vars:List[_VarField]
-
-# @dataclass
-# class _UnitInfo:
-#     side:int
-#     data_side:int
-#     cross:bool
-
-@dataclass
-class _Expansion:
-    protected:bool
-    register_set:bool
-    data_size:int
-    branching:bool
-    saturating:bool
 
 _SizeField = namedtuple('SizeField', ('value', 'size'))
 
@@ -138,15 +124,16 @@ class Disassembler:
             fetch_packet = remaining[:packet_size]
             remaining = remaining[packet_size:]
             
-            header = int.from_bytes(fetch_packet[-WORD_SIZE:], 
+            header_enc = int.from_bytes(fetch_packet[-WORD_SIZE:], 
                     self.endianness) # type: ignore
-            has_header = (header & HEADER_MASK) == HEADER_KEY
+            has_header = (header_enc & HEADER_MASK) == HEADER_KEY
             if has_header:
-                layout = (header >> HEADER_LAYOUT_OFFSET) & HEADER_FIELD_MASK
-                expansion = self.__decode_expansion(
-                        (header >> HEADER_EXPANSION_OFFSET) & HEADER_FIELD_MASK)
+                layout = (header_enc >> HEADER_LAYOUT_OFFSET) & HEADER_FIELD_MASK
+                header = self.__decode_header(layout, 
+                        (header_enc >> HEADER_EXPANSION_OFFSET) & HEADER_FIELD_MASK,
+                        header_enc & HEADER_PBITS_MASK)
                 offset = 0
-                header >>= skipped//2
+                header_enc >>= skipped//2
                 if skipped & 2:
                     if not layout >> (skipped//WORD_SIZE):
                         raise ValueError('Address in the middle of instruction.')
@@ -156,14 +143,14 @@ class Disassembler:
                             self.endianness) # type: ignore
                     yield self.__decode_compact(
                         encoded,
-                        expansion,
-                        bool(header & 1),
+                        header,
+                        bool(header_enc & 1),
                         current_address
                     )
                     count -= 1
                     if count == 0: break
                     offset = 2
-                    header >>= 1
+                    header_enc >>= 1
                 layout >>= (skipped+2)//WORD_SIZE
                 for _ in range((skipped+2)//WORD_SIZE, 7):
                     encoded = int.from_bytes(
@@ -175,24 +162,32 @@ class Disassembler:
                         second = encoded >> 16
                         yield self.__decode_compact(
                             first,
-                            expansion,
-                            bool(header & 1),
+                            header,
+                            bool(header_enc & 1),
                             current_address+offset
                         )
                         yield self.__decode_compact(
                             second,
-                            expansion,
-                            bool(header & 2),
+                            header,
+                            bool(header_enc & 2),
                             current_address+offset+2
                         )
                     else:
-                        yield self.__decode(encoded, current_address+offset)
+                        instr = self.__decode(encoded, current_address+offset)
+                        instr.header = header
+                        yield instr
 
                     count -= 1
                     if count == 0: break
                     layout >>= 1
-                    header >>= 2
+                    header_enc >>= 2
                     offset += WORD_SIZE
+                
+                if count != 0:
+                    yield Instruction.init_header(
+                        current_address+offset,
+                        header)
+                    count -= 1
             else:
                 for instr in self.__disasm_headerless(fetch_packet, current_address, count):
                     yield instr
@@ -218,23 +213,23 @@ class Disassembler:
             yield instr
             count -= 1
 
-    def __decode_compact(self, encoded:int, expansion:_Expansion,
+    def __decode_compact(self, encoded:int, header:Header,
             parallel:bool, address:int) -> Instruction:
         encoded_expanded = encoded
-        encoded_expanded |= int(expansion.saturating) << 16
-        encoded_expanded |= int(expansion.branching) << 17
-        encoded_expanded |= int(expansion.data_size) << 18
-        invalid = Instruction.invalid(address, 2, parallel)
+        encoded_expanded |= int(header.saturating) << 16
+        encoded_expanded |= int(header.branching) << 17
+        encoded_expanded |= int(header.data_size) << 18
+        invalid = Instruction.invalid(address, 2, parallel, header)
         return self.__decode_core(encoded, address, 16, invalid, 
-                parallel, expansion)
+                parallel, header)
 
     def __decode(self, encoded:int, address:int) -> Instruction:
-        invalid = Instruction.invalid(address, WORD_SIZE, bool(encoded & 1))
+        invalid = Instruction.invalid(address, WORD_SIZE, bool(encoded & 1), None)
         return self.__decode_core(encoded, address, 32, invalid)
 
     def __decode_core(self, encoded:int, address:int, width:int,
             invalid:Instruction, parallel:bool=False,
-            expansion:Optional[_Expansion]=None) -> Instruction:
+            header:Optional[Header]=None) -> Instruction:
         instr = invalid
         for format in self.instruction_formats:
             if format.bit_width != width: continue
@@ -270,18 +265,20 @@ class Disassembler:
                         vars)
                     operands = self.__decode_operands(
                             opcode.ops, opcode.flags, unit_info, 
-                            vars, address, expansion)
+                            vars, address, header)
                     instr = Instruction(
-                        address, width//8, condition, unit_info, operands, opcode.name, parallel)
+                        address, width//8, condition, unit_info, operands, opcode.name, parallel, header)
         return instr
     
-    def __decode_expansion(self, encoded:int) -> _Expansion:
-        return _Expansion(
+    def __decode_header(self, layout:int, encoded:int, pbits:int) -> Header:
+        return Header(
+            layout,
             bool(encoded & 0x40),
             bool(encoded & 0x20),
             (encoded >> 2) & 0x7,
             bool(encoded & 2),
-            bool(encoded & 1)
+            bool(encoded & 1),
+            pbits
         )
 
     def __decode_field(self, field:_Field, encoded:int) -> _SizeField:
@@ -396,9 +393,9 @@ class Disassembler:
     
     def __decode_operands(self, ops:List[str], flags:int,
             unit_info:UnitInfo, vars:Dict[str, _Variable], address:int,
-            expansion:Optional[_Expansion]) -> List[Operand]:
+            header:Optional[Header]) -> List[Operand]:
         assert all([var.value is not None for var in vars.values()])
-        high_registers = expansion is not None and expansion.register_set
+        high_registers = header is not None and header.high_register_set
         operands = list()
         for i, op in enumerate(ops):
             operand_info = OPERANDS[op]
@@ -537,12 +534,12 @@ class Disassembler:
                         base_reg = Register(Register.A0 + (0x4 | var.value))
                     elif (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         base_reg = Register(reg_base +  var.value)
-                    elif (expansion and flags & TIC6X_FLAG_INSN16_B15PTR):
+                    elif (header and flags & TIC6X_FLAG_INSN16_B15PTR):
                         base_reg = Register.B15
                     # 2. Determine addressing mode
                     if (var := self.__get_operand_var(vars, i, ('mem_mode',))):
                         mode_var = var.value
-                    elif expansion is not None:
+                    elif header is not None:
                         mode_var = TIC6X_FLAG_INSN16_MEM_MODE(flags)
                     if mode_var is not None:
                         mode = AddressingMode(mode_var & ~4)
@@ -557,7 +554,7 @@ class Disassembler:
                         'mem_offset_noscale'
                     ))) and mode_var is not None:
                         offset_var = var.value
-                        if (expansion and 'noscale' not in var.method):
+                        if (header and 'noscale' not in var.method):
                             scaled = True
                         offset_is_reg = (mode_var & 4) != 0
                         if offset_is_reg:
