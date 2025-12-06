@@ -207,11 +207,11 @@ class Disassembler:
         while len(remaining) >= WORD_SIZE and count != 0:
             current_data = remaining[:WORD_SIZE]
             remaining = remaining[WORD_SIZE:]
-            current_address += WORD_SIZE
             
             encoded = int.from_bytes(current_data, byteorder)
-            instr = self.__decode(encoded, address)
+            instr = self.__decode(encoded, current_address)
             yield instr
+            current_address += WORD_SIZE
             count -= 1
 
     def __decode_compact(self, encoded:int, header:Header,
@@ -249,10 +249,10 @@ class Disassembler:
                             for fixed in opcode.fixed}):
                         continue
                     # print(opcode.name, opcode)
-                    vars = {
-                        var.id: self.__decode_var_field(var, fields)
+                    vars = [
+                        self.__decode_var_field(var, fields)
                         for var in opcode.vars
-                    }
+                    ]
 
                     parallel |= self.__decode_parallel(fields)
                     condition = self.__decode_condition(fields, opcode.flags)
@@ -359,14 +359,14 @@ class Disassembler:
         return 'x' in fields and bool(fields['x'].value)
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
-            vars:Dict[str, _Variable]) -> UnitInfo:
+            vars:List[_Variable]) -> UnitInfo:
         if unit == 'nfu': return UnitInfo(FuncUnit.NFU, None, False)
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
         func_unit_cross = cross_path
         have_areg = False
 
-        for var in vars.values():
+        for var in vars:
             match var.method:
                 case 'fu':
                     func_unit_side = 2 if var.value else 1
@@ -405,9 +405,9 @@ class Disassembler:
         return UnitInfo(func_unit, data_side, func_unit_cross)
     
     def __decode_operands(self, ops:List[str], flags:int,
-            unit_info:UnitInfo, vars:Dict[str, _Variable], address:int,
+            unit_info:UnitInfo, vars:List[_Variable], address:int,
             header:Optional[Header]) -> List[Operand]:
-        assert all([var.value is not None for var in vars.values()])
+        assert all([var.value is not None for var in vars])
         high_registers = header is not None and header.high_register_set
         operands = list()
         for i, op in enumerate(ops):
@@ -615,9 +615,9 @@ class Disassembler:
             print('not implemented', operand_info.form)
         return operands
     
-    def __get_operand_var(self, vars:Dict[str, _Variable], 
+    def __get_operand_var(self, vars:List[_Variable], 
             op:int, methods:Sequence[str]) -> Optional[_Variable]:
-        for var in vars.values():
+        for var in vars:
             if var.op != op: continue
             if var.method in methods:
                 return var
