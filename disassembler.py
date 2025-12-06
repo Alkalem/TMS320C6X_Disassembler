@@ -651,7 +651,7 @@ class Disassembler:
             if current_operand:
                 operands.append(current_operand)
                 continue
-            print('not implemented', operand_info.form)
+            print(f'{address:08x}: could not decode {operand_info.form}')
         return operands
     
     def __get_operand_var(self, vars:List[_Variable], 
