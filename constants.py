@@ -40,4 +40,4 @@ TIC6X_FLAG_INSN16_BSIDE    = 0x00400000
 TIC6X_FLAG_INSN16_B15PTR   = 0x00800000
 
 def TIC6X_FLAG_INSN16_MEM_MODE(n:int): 
-    return ((n) << 16) & 0xf
+    return ((n) >> 16) & 0xf

@@ -221,7 +221,7 @@ class Disassembler:
         encoded_expanded |= int(header.branching) << 17
         encoded_expanded |= int(header.data_size) << 18
         invalid = Instruction.invalid(address, 2, parallel, header)
-        return self.__decode_core(encoded, address, 16, invalid, 
+        return self.__decode_core(encoded_expanded, address, 16, invalid, 
                 parallel, header)
 
     def __decode(self, encoded:int, address:int) -> Instruction:
@@ -542,11 +542,13 @@ class Disassembler:
                     reg_base = self.__decode_reg_base(
                             operand_info.form, unit_info, high_registers)
                     if (var := self.__get_operand_var(vars, i, ('reg_ptr',))):
+                        reg_side = Register.B0 if unit_info.side == 2 else Register.A0
                         assert 0<= var.value < 4
-                        base_reg = Register(Register.A0 + (0x4 | var.value))
+                        base_reg = Register(reg_side + (0x4 | var.value))
                     elif (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         base_reg = Register(reg_base +  var.value)
                     elif (header and flags & TIC6X_FLAG_INSN16_B15PTR):
+                        assert unit_info.side == 2
                         base_reg = Register.B15
                     # 2. Determine addressing mode
                     if (var := self.__get_operand_var(vars, i, ('mem_mode',))):
