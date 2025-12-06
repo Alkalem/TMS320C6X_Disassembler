@@ -125,7 +125,7 @@ class Disassembler:
         remaining = data
         current_address = address
         skipped = address % FETCH_PACKET_SIZE
-        while len(remaining) >= FETCH_PACKET_SIZE and count != 0:
+        while len(remaining) >= (FETCH_PACKET_SIZE-skipped) and count != 0:
             packet_size = FETCH_PACKET_SIZE - skipped
             fetch_packet = remaining[:packet_size]
             remaining = remaining[packet_size:]
@@ -510,7 +510,7 @@ class Disassembler:
                         current_operand = RegisterOperand(Register(reg_base + var.value))
                         # unit for treg mode must be from t variable 
                         if (operand_info.form == OperandForm.treg 
-                                and 't' not in vars):
+                                and 't' not in (var.id for var in vars)):
                             current_operand = None 
                 case OperandForm.areg:
                     if (var := self.__get_operand_var(vars, i, ('areg',))):
@@ -527,7 +527,7 @@ class Disassembler:
                         current_operand = RegisterPairOperand(reg_high, reg_low)
                         # unit for treg mode must be from t variable 
                         if (operand_info.form == OperandForm.treg 
-                                and 't' not in vars):
+                                and 't' not in (var.id for var in vars)):
                             current_operand = None 
                     elif (var := self.__get_operand_var(vars, i, ('regpair_msb'))
                     ) and operand_info.form == OperandForm.regpair:
