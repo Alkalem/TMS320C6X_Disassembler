@@ -64,6 +64,9 @@ class _Opcode:
     ops:List[str]
     vars:List[_VarField]
 
+class _Context:
+    sploop_ii:int = 0
+
 _SizeField = namedtuple('SizeField', ('value', 'size'))
 
 
@@ -111,12 +114,14 @@ class Disassembler:
     def disasm(self, data:bytes, address:int, count:int=-1):
         if address % FETCH_PACKET_SIZE == 0x1e:
             raise ValueError('Invalid address for disassembly.')
+        context = _Context()
         if self.fetch_packet_header_based:
-            return self.__disasm_header_based(data, address, count)
+            return self.__disasm_header_based(data, address, context, count)
         else:
-            return self.__disasm_headerless(data, address, count)
+            return self.__disasm_headerless(data, address, context, count)
 
-    def __disasm_header_based(self, data:bytes, address:int, count:int=-1):
+    def __disasm_header_based(self, data:bytes, address:int, 
+            context:_Context, count:int=-1):
         remaining = data
         current_address = address
         skipped = address % FETCH_PACKET_SIZE
@@ -146,7 +151,8 @@ class Disassembler:
                         encoded,
                         header,
                         bool(header_enc & 1),
-                        current_address
+                        current_address,
+                        context
                     )
                     count -= 1
                     if count == 0: break
@@ -165,16 +171,19 @@ class Disassembler:
                             first,
                             header,
                             bool(header_enc & 1),
-                            current_address+offset
+                            current_address+offset,
+                            context
                         )
                         yield self.__decode_compact(
                             second,
                             header,
                             bool(header_enc & 2),
-                            current_address+offset+2
+                            current_address+offset+2,
+                            context
                         )
                     else:
-                        instr = self.__decode(encoded, current_address+offset)
+                        instr = self.__decode(encoded,
+                                current_address+offset, context)
                         instr.header = header
                         yield instr
 
@@ -190,14 +199,15 @@ class Disassembler:
                         header)
                     count -= 1
             else:
-                for instr in self.__disasm_headerless(fetch_packet, current_address, count):
+                for instr in self.__disasm_headerless(fetch_packet, current_address, context, count):
                     yield instr
                 count -= EXECUTION_PACKET_LIMIT - (skipped//WORD_SIZE)
             current_address += packet_size
             skipped = 0
         # stop due to missing header or exhausted count
 
-    def __disasm_headerless(self, data:bytes, address:int, count:int=-1):
+    def __disasm_headerless(self, data:bytes, address:int, 
+            context:_Context, count:int=-1):
         remaining = data
         current_address = address
         if self.endianness == Endianness.LITTLE:
@@ -209,27 +219,28 @@ class Disassembler:
             remaining = remaining[WORD_SIZE:]
             
             encoded = int.from_bytes(current_data, byteorder)
-            instr = self.__decode(encoded, current_address)
+            instr = self.__decode(encoded, current_address, context)
             yield instr
             current_address += WORD_SIZE
             count -= 1
 
     def __decode_compact(self, encoded:int, header:Header,
-            parallel:bool, address:int) -> Instruction:
+            parallel:bool, address:int, context:_Context) -> Instruction:
         encoded_expanded = encoded
         encoded_expanded |= int(header.saturating) << 16
         encoded_expanded |= int(header.branching) << 17
         encoded_expanded |= int(header.data_size) << 18
         invalid = Instruction.invalid(address, 2, parallel, header)
         return self.__decode_core(encoded_expanded, address, 16, invalid, 
-                parallel, header)
+                context, parallel, header)
 
-    def __decode(self, encoded:int, address:int) -> Instruction:
+    def __decode(self, encoded:int, address:int, 
+            context:_Context) -> Instruction:
         invalid = Instruction.invalid(address, WORD_SIZE, bool(encoded & 1), None)
-        return self.__decode_core(encoded, address, 32, invalid)
+        return self.__decode_core(encoded, address, 32, invalid, context)
 
     def __decode_core(self, encoded:int, address:int, width:int,
-            invalid:Instruction, parallel:bool=False,
+            invalid:Instruction, context:_Context, parallel:bool=False,
             header:Optional[Header]=None) -> Instruction:
         instr = invalid
         for format in self.instruction_formats:
@@ -266,9 +277,12 @@ class Disassembler:
                         vars)
                     operands = self.__decode_operands(
                             opcode.ops, opcode.flags, unit_info, 
-                            vars, address, header)
+                            vars, address, header, context)
                     instr = Instruction(
                         address, width//8, condition, unit_info, operands, opcode.name, parallel, header)
+                    if 'sploop' in opcode.name:
+                        assert isinstance(operands[0], ImmediateOperand)
+                        context.sploop_ii = operands[0].value
         return instr
     
     def __decode_header(self, layout:int, encoded:int, pbits:int) -> Header:
@@ -405,7 +419,7 @@ class Disassembler:
     
     def __decode_operands(self, ops:List[str], flags:int,
             unit_info:UnitInfo, vars:List[_Variable], address:int,
-            header:Optional[Header]) -> List[Operand]:
+            header:Optional[Header], context:_Context) -> List[Operand]:
         assert all([var.value is not None for var in vars])
         high_registers = header is not None and header.high_register_set
         operands = list()
@@ -449,9 +463,33 @@ class Disassembler:
                             'ucst_minus_one', 'scst', 'scst_l3i'))):
                         current_operand = ImmediateOperand(var.value)
                     if (var := self.__get_operand_var(vars, i, ('fstg', 'fcyc'))):
-                        # Skip second operand because splitting is not implemented.
-                        if var.method == 'fcyc': continue
-                        current_operand = ImmediateOperand(var.value)
+                        STGCYC_BITS_LOOKUP = (
+                            (1, 1, 6, 0),
+                            (2, 2, 5, 1),
+                            (3, 4, 4, 2),
+                            (5, 8, 3, 3),
+                            (9, 14, 2, 4)
+                        )
+                        if not context.sploop_ii: 
+                            # Skip second operand if sploop initiation interval (ii) unknown.
+                            if var.method == 'fcyc': continue
+                            current_operand = ImmediateOperand(var.value)
+                        else:
+                            for (ii_low, ii_high, 
+                                    fstg_bits, fcyc_bits) in STGCYC_BITS_LOOKUP:
+                                if ii_low <= context.sploop_ii <= ii_high: break
+                            else:
+                                assert False, f'Invalid initiation interval.'
+                            if var.method == 'fstg':
+                                fstg_value = 0
+                                for fstg_bit in reversed(range(fstg_bits)):
+                                    fstg_value <<= 1
+                                    fstg_value |= (var.value>>(5-fstg_bit)) & 1
+                                current_operand = ImmediateOperand(fstg_value)
+                            else:
+                                fcyc_mask = (1 << fcyc_bits) - 1
+                                current_operand = ImmediateOperand(
+                                        var.value & fcyc_mask)
                         # Fields fstg and fcyc should be decoded as two values.
                         # This requires knowledge about the ii field from the
                         # sploop instruction which is currently not supported.
