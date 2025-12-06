@@ -470,6 +470,10 @@ class Disassembler:
                             (5, 8, 3, 3),
                             (9, 14, 2, 4)
                         )
+                        # Fields fstg and fcyc should be decoded as two values.
+                        # This requires knowledge about the ii field from the
+                        # sploop instruction, which is only possible when they 
+                        # are disassembled together.
                         if not context.sploop_ii: 
                             # Skip second operand if sploop initiation interval (ii) unknown.
                             if var.method == 'fcyc': continue
@@ -490,9 +494,6 @@ class Disassembler:
                                 fcyc_mask = (1 << fcyc_bits) - 1
                                 current_operand = ImmediateOperand(
                                         var.value & fcyc_mask)
-                        # Fields fstg and fcyc should be decoded as two values.
-                        # This requires knowledge about the ii field from the
-                        # sploop instruction which is currently not supported.
                 case OperandForm.link_const:
                     if (var := self.__get_operand_var(vars, i, ('ulcst_dpr_byte', 'ucst', 
                             'lcst_high16', 'lcst_low16', 'scst'))):
@@ -560,17 +561,16 @@ class Disassembler:
                         if crlo == 0x1d and operand_info.rw == RW.read:
                             ctrl = ControlRegister.EFR
                         # The register DIER is removed in C66X
-                        # if ctrl == ControlRegister.DIER and ISA.C66X:
+                        # if ctrl == ControlRegister.DIER and self.isa = ISA.C66X:
                         #     ctrl = None
                         if ctrl is not None and (
-                            ((crhi.value & ctrl.crhi_mask) == 0)
-                            or (self.isa not in ctrl.isa)
+                            ((crhi.value & ctrl.crhi_mask) != 0)
+                            or (ctrl.isa not in self.isa)
                             or (operand_info.rw not in ctrl.rw)
                         ):
                             ctrl = None
                     if ctrl is not None:
                         current_operand = ControlRegisterOperand(ctrl)
-                # c64x 16-bit encoding, header and types are not fully supported yet
                 case (OperandForm.mem_short|OperandForm.mem_ndw):
                     base_reg, offset, mode = None, None, None
                     offset_var, mode_var = None, None
