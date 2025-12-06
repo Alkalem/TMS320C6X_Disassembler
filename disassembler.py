@@ -348,11 +348,10 @@ class Disassembler:
             else:
                 assert False, 'invalid compact predicate encoding'
             return COMPACT_CONDITIONS[condition_value]
-        condition_value = (
-            fields['creg'].value<<1 if 'creg' in fields else 0
-        ) | (
-            fields['z'].value if 'z' in fields else 0
-        )
+        condition_value = 0
+        if 'creg' in fields:
+            assert 'z' in fields
+            condition_value = (fields['creg'].value<<1) | fields['z'].value
         return ConditionType(condition_value)
     
     def __decode_cross_path(self, fields:Dict[str, _SizeField]) -> bool:
