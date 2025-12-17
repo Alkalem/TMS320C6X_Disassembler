@@ -183,8 +183,7 @@ class Disassembler:
                         )
                     else:
                         instr = self.__decode(encoded,
-                                current_address+offset, context)
-                        instr.header = header
+                                current_address+offset, context, header)
                         yield instr
 
                     count -= 1
@@ -235,9 +234,10 @@ class Disassembler:
                 context, parallel, header)
 
     def __decode(self, encoded:int, address:int, 
-            context:_Context) -> Instruction:
+            context:_Context, header:Optional[Header]=None) -> Instruction:
         invalid = Instruction.invalid(address, WORD_SIZE, bool(encoded & 1), None)
-        return self.__decode_core(encoded, address, 32, invalid, context)
+        return self.__decode_core(encoded, address, 32, invalid, 
+                context, header=header)
 
     def __decode_core(self, encoded:int, address:int, width:int,
             invalid:Instruction, context:_Context, parallel:bool=False,
@@ -261,7 +261,7 @@ class Disassembler:
                         continue
                     # print(opcode.name, opcode)
                     vars = [
-                        self.__decode_var_field(var, fields)
+                        self.__decode_var_field(var, fields, header is not None)
                         for var in opcode.vars
                     ]
 
@@ -276,8 +276,9 @@ class Disassembler:
                         cross_path,
                         vars)
                     operands = self.__decode_operands(
-                            opcode.ops, opcode.flags, unit_info, 
-                            vars, address, header, context)
+                            opcode.ops, opcode.flags,
+                            unit_info, vars, address,
+                            header if width==16 else None, context)
                     instr = Instruction(
                         address, width//8, condition, unit_info, operands, opcode.name, parallel, header)
                     if 'sploop' in opcode.name:
@@ -307,7 +308,7 @@ class Disassembler:
         return _SizeField(part.value|new_part.value, part.size+new_part.size)
     
     def __decode_var_field(self, var:_VarField, 
-            fields:Dict[str, _SizeField]) -> _Variable:
+            fields:Dict[str, _SizeField], has_header:bool) -> _Variable:
         assert var.id in fields
         value = fields[var.id].value
         match var.method:
@@ -321,7 +322,7 @@ class Disassembler:
                 value = self.__decode_signed(fields[var.id])
             case 'pcrel'|'pcrel_half':
                 value = self.__decode_signed(fields[var.id])
-                if self.fetch_packet_header_based and var.method == 'pcrel_half':
+                if has_header and var.method == 'pcrel_half':
                     value *= 2
                 else:
                     value *= 4
