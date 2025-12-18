@@ -430,19 +430,19 @@ class Disassembler:
             match operand_info.form:
                 # operand constant or fully determined by functional unit
                 case OperandForm.b15reg:
-                    current_operand = RegisterOperand(Register.B15)
+                    current_operand = RegisterOperand._from_info(operand_info, Register.B15)
                 case OperandForm.zreg:
-                    current_operand = RegisterOperand(
+                    current_operand = RegisterOperand._from_info(operand_info, 
                             Register.B0 if unit_info.side == 2 else Register.A0)
                 case OperandForm.retreg:
-                    current_operand = RegisterOperand(
+                    current_operand = RegisterOperand._from_info(operand_info, 
                             Register.B3 if unit_info.side == 2 else Register.A3)
                 case OperandForm.irp:
-                    current_operand = ControlRegisterOperand(ControlRegister.IRP)
+                    current_operand = ControlRegisterOperand._from_info(operand_info, ControlRegister.IRP)
                 case OperandForm.nrp:
-                    current_operand = ControlRegisterOperand(ControlRegister.NRP)
+                    current_operand = ControlRegisterOperand._from_info(operand_info, ControlRegister.NRP)
                 case OperandForm.ilc:
-                    current_operand = ControlRegisterOperand(ControlRegister.ILC)
+                    current_operand = ControlRegisterOperand._from_info(operand_info, ControlRegister.ILC)
                 case OperandForm.hw_const_minus_1:
                     current_operand = ImmediateOperand(-1)
                 case OperandForm.hw_const_0:
@@ -509,7 +509,7 @@ class Disassembler:
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         reg_base = self.__decode_reg_base(operand_info.form,
                                 unit_info, high_registers)
-                        current_operand = RegisterOperand(Register(reg_base + var.value))
+                        current_operand = RegisterOperand._from_info(operand_info, Register(reg_base + var.value))
                         # unit for treg mode must be from t variable 
                         if (operand_info.form == OperandForm.treg 
                                 and 't' not in (var.id for var in vars)):
@@ -517,7 +517,7 @@ class Disassembler:
                 case OperandForm.areg:
                     if (var := self.__get_operand_var(vars, i, ('areg',))):
                         register = Register.B15 if var.value else Register.B14
-                        current_operand = RegisterOperand(register)
+                        current_operand = RegisterOperand._from_info(operand_info, register)
                 case (OperandForm.regpair|OperandForm.xregpair
                         |OperandForm.dregpair|OperandForm.tregpair):
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
@@ -526,7 +526,7 @@ class Disassembler:
                                 unit_info, high_registers)
                         reg_high = Register(reg_base + var.value + 1)
                         reg_low = Register(reg_base + var.value)
-                        current_operand = RegisterPairOperand(reg_high, reg_low)
+                        current_operand = RegisterPairOperand.from_info(operand_info, reg_high, reg_low)
                         # unit for treg mode must be from t variable 
                         if (operand_info.form == OperandForm.treg 
                                 and 't' not in (var.id for var in vars)):
@@ -539,11 +539,11 @@ class Disassembler:
                             reg_base = Register.A0.value
                         reg_high = Register(reg_base + var.value | 0x1)
                         reg_low = Register(reg_base + (var.value | 0x1) - 1)
-                        current_operand = RegisterPairOperand(reg_high, reg_low)
+                        current_operand = RegisterPairOperand.from_info(operand_info, reg_high, reg_low)
                 case OperandForm.mem_deref:
                     # only used by c64x+ exclusive atomic instructions (ll, sl, cmtl)
                     if (var := self.__get_operand_var(vars, i, ('reg',))):
-                        current_operand = MemoryOperand(
+                        current_operand = MemoryOperand._from_info(operand_info, 
                             AddressingMode.POS_OFFSET,
                             Register(Register.A0.value + var.value),
                             0,
@@ -571,7 +571,7 @@ class Disassembler:
                         ):
                             ctrl = None
                     if ctrl is not None:
-                        current_operand = ControlRegisterOperand(ctrl)
+                        current_operand = ControlRegisterOperand._from_info(operand_info, ctrl)
                 case (OperandForm.mem_short|OperandForm.mem_ndw):
                     base_reg, offset, mode = None, None, None
                     offset_var, mode_var = None, None
@@ -622,14 +622,16 @@ class Disassembler:
                     if (mode is not None 
                             and base_reg is not None 
                             and offset is not None):
-                        current_operand = MemoryOperand(mode,base_reg,offset, scaled)
+                        current_operand = MemoryOperand._from_info(
+                                operand_info, mode,base_reg,offset, scaled)
                 case OperandForm.mem_long:
                     base = self.__get_operand_var(vars, i, ('areg',))
                     offset = self.__get_operand_var(vars, i, 
                             ('ulcst_dpr_byte', 'ulcst_dpr_half', 'ulcst_dpr_word'))
                     if base and offset:
                         base_reg = Register.B15 if base.value else Register.B14
-                        current_operand = MemoryOperand(
+                        current_operand = MemoryOperand._from_info(
+                            operand_info, 
                             AddressingMode.POS_OFFSET,
                             base_reg,
                             offset.value * operand_info.size,

@@ -1,6 +1,6 @@
 from .constants import C62X, C64X, C64XP, C67X, C67XP, C674X, WORD_SIZE
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import StrEnum, IntEnum, Enum, auto
 from typing import List, Set, Optional
 
@@ -279,8 +279,30 @@ class OperandType(Enum):
     FUNC_UNITS = auto()
     UNKNOWN = auto()
 
+@dataclass(frozen=True)
+class AccessInfo:
+    rw:RW
+    '''Access on operand, none for direct input, read/write for indirect in/output.'''
+    size:int = 0
+    '''Operand size in case of indirect access.'''
+    low_first:int = 0
+    '''First access cycle for lower word of indirect access (1 = E1)'''
+    low_last:int = 0
+    '''Last access cycle for lower word of indirect access (1 = E1)'''
+    high_first:int = 0
+    '''First access cycle for high word of indirect access (1 = E1)'''
+    high_last:int = 0
+    '''Last access cycle for high word of indirect access (1 = E1)'''
+
+    @staticmethod
+    def _from_info(info):
+        return AccessInfo(info.rw, info.size, info.low_first, 
+                info.low_last, info.high_first, info.high_last)
+
 @dataclass
 class Operand:
+    access_info:AccessInfo = field(kw_only=True, default=AccessInfo(RW.none))
+
     @property
     def kind(self) -> OperandType:
         raise NotImplementedError('abstract operand')
@@ -309,6 +331,10 @@ class RegisterOperand(Operand):
     def __str__(self) -> str:
         return str(self.register)
     
+    @staticmethod
+    def _from_info(info, register:Register):
+        return RegisterOperand(register, access_info=AccessInfo._from_info(info))
+    
 @dataclass
 class RegisterPairOperand(Operand):
     high: Register
@@ -321,6 +347,10 @@ class RegisterPairOperand(Operand):
     def __str__(self) -> str:
         return f'{self.high}:{self.low}'
     
+    @staticmethod
+    def from_info(info, high:Register, low:Register):
+        return RegisterPairOperand(high, low, access_info=AccessInfo._from_info(info))
+    
 @dataclass
 class ControlRegisterOperand(Operand):
     register: ControlRegister
@@ -331,6 +361,10 @@ class ControlRegisterOperand(Operand):
     
     def __str__(self) -> str:
         return str(self.register)
+    
+    @staticmethod
+    def _from_info(info, register:ControlRegister):
+        return ControlRegisterOperand(register, access_info=AccessInfo._from_info(info))
     
 @dataclass
 class MemoryOperand(Operand):
@@ -364,17 +398,27 @@ class MemoryOperand(Operand):
             case AddressingMode.POSTINCREMENT:
                 format = '*{}++{}'
         return format.format(self.base, offset)
+    
+    @staticmethod
+    def _from_info(info, mode:AddressingMode, base:Register,
+                offset:int|Register, scaled:bool):
+        return MemoryOperand(mode, base, offset, scaled,
+                access_info=AccessInfo._from_info(info))
 
 @dataclass
 class FuncUnitsOperand(Operand):
-    value: Set[FuncUnit]
+    units: Set[FuncUnit]
+
+    # def __init__(self, units:Set[FuncUnit]):
+    #     self.access_info = AccessInfo(RW.none)
+    #     self.units = units
 
     @property
     def kind(self) -> OperandType:
         return OperandType.FUNC_UNITS
     
     def __str__(self) -> str:
-        return ', '.join(map(str, sorted(self.value)))
+        return ', '.join(map(str, sorted(self.units)))
 
 @dataclass
 class Header:
