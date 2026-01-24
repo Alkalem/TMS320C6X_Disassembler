@@ -9948,7 +9948,7 @@
         "format": "ddecdw",
         "type": "load",
         "isa": 4,
-        "flags": 524816,
+        "flags": 524880,
         "fixed": [
             {
                 "id": "op",
@@ -9993,7 +9993,7 @@
             },
             {
                 "id": "cst",
-                "method": "mem_offset_minus_one_noscale",
+                "method": "mem_offset_minus_one",
                 "op": 0
             }
         ]
@@ -10004,7 +10004,7 @@
         "format": "dincdw",
         "type": "load",
         "isa": 4,
-        "flags": 721424,
+        "flags": 721488,
         "fixed": [
             {
                 "id": "op",
@@ -10049,7 +10049,7 @@
             },
             {
                 "id": "cst",
-                "method": "mem_offset_minus_one_noscale",
+                "method": "mem_offset_minus_one",
                 "op": 0
             }
         ]
@@ -10228,7 +10228,7 @@
         "format": "doff4_dsz_110",
         "type": "load",
         "isa": 4,
-        "flags": 66064,
+        "flags": 66128,
         "fixed": [
             {
                 "id": "op",
@@ -10279,7 +10279,7 @@
         "format": "dind_dsz_110",
         "type": "load",
         "isa": 4,
-        "flags": 328208,
+        "flags": 328272,
         "fixed": [
             {
                 "id": "op",
@@ -10330,7 +10330,7 @@
         "format": "dinc_dsz_110",
         "type": "load",
         "isa": 4,
-        "flags": 721424,
+        "flags": 721488,
         "fixed": [
             {
                 "id": "op",
@@ -10381,7 +10381,7 @@
         "format": "ddec_dsz_110",
         "type": "load",
         "isa": 4,
-        "flags": 524816,
+        "flags": 524880,
         "fixed": [
             {
                 "id": "op",
@@ -22058,7 +22058,7 @@
             },
             {
                 "id": "cst",
-                "method": "mem_offset_minus_one_noscale",
+                "method": "mem_offset_minus_one",
                 "op": 1
             }
         ]
@@ -22114,7 +22114,7 @@
             },
             {
                 "id": "cst",
-                "method": "mem_offset_minus_one_noscale",
+                "method": "mem_offset_minus_one",
                 "op": 1
             }
         ]
@@ -22293,7 +22293,7 @@
         "format": "doff4_dsz_110",
         "type": "store",
         "isa": 4,
-        "flags": 66080,
+        "flags": 66144,
         "fixed": [
             {
                 "id": "op",
@@ -22344,7 +22344,7 @@
         "format": "dind_dsz_110",
         "type": "store",
         "isa": 4,
-        "flags": 328224,
+        "flags": 328288,
         "fixed": [
             {
                 "id": "op",
@@ -22395,7 +22395,7 @@
         "format": "dinc_dsz_110",
         "type": "store",
         "isa": 4,
-        "flags": 721440,
+        "flags": 721504,
         "fixed": [
             {
                 "id": "op",
@@ -22446,7 +22446,7 @@
         "format": "ddec_dsz_110",
         "type": "store",
         "isa": 4,
-        "flags": 524832,
+        "flags": 524896,
         "fixed": [
             {
                 "id": "op",
