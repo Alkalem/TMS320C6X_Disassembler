@@ -24,6 +24,18 @@ instr = disassembler.disasm(bytes.fromhex('00000028'), 0x80)
 assert len(instr) == 0 # header word missing from input
 ```
 
+## Instruction Definitions
+
+The source of truth for instructions, their encodings and semantics are the CPU and Instruction Set Reference Guides provided by TI. As mentioned above, the JSON definitions of the instructions are generated from header files from libopcodes. In some cases, the definitions in this repository differ from one of these sources.
+
+This project updates the access information of the ADDK instruction. Only a write to the dst register is documented, but instead of reading the constant, this register should also be read. The register is treated as read+write here.
+
+The following changes update the definitions of libobcodes in accordance with the reference guide. First, the flags of non-aligned load/store instructions were updated. All variants of these instructions should have the unaligned flag. Also, LDNDW/STNDW operands were updated to use scaled offsets. This is taken from the reference guide and seemingly incorrect in libobcodes.
+
+For some instructions, the reference guide is not correct or at least less precise than libopcodes. The formats from libopcodes correct or specialize some formats, like for SPEKERNEL(R) and SPMASK(R). Additionally, libopcodes documents several errors in the reference guide for specific instructions. For example, a missing format for CMPGTU/CMPLTU instructions. In such cases, libopcodes is trusted.
+
+Please also note that access information for memory operands does not document the register accesses in cycle 1 performed during address generation and optional base register update. Similarly, some instructions implicitly read control registers.
+
 ## Contributing
 
 Contributions are welcome. Please feel free to submit a pull request.

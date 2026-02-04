@@ -1809,7 +1809,7 @@
         "fixed": [],
         "ops": [
             "OACST",
-            "OWREG1"
+            "ORWREG1"
         ],
         "vars": [
             {
