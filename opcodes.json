@@ -1779,7 +1779,7 @@
         "fixed": [],
         "ops": [
             "OLCST",
-            "OWREG1"
+            "ORWREG1"
         ],
         "vars": [
             {
