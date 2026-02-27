@@ -127,21 +127,24 @@ class Disassembler:
                 if format in self.instruction_maps:
                     self.instruction_maps[format].append(opcode)
 
-    def disasm(self, data:bytes, address:int, count:int=-1):
+    def disasm(self, data:bytes, address:int, count:int=-1, end:int=0):
         if address % FETCH_PACKET_SIZE == 0x1e:
             raise ValueError('Invalid address for disassembly.')
+        if count >= 0 and end:
+            raise ValueError('Choose one limiter.')
         context = _Context()
         if self.fetch_packet_header_based:
-            return self.__disasm_header_based(data, address, context, count)
+            return self.__disasm_header_based(data, address, context, count, end)
         else:
-            return self.__disasm_headerless(data, address, context, count)
+            return self.__disasm_headerless(data, address, context, count, end)
 
     def __disasm_header_based(self, data:bytes, address:int, 
-            context:_Context, count:int=-1):
+            context:_Context, count:int=-1, end:int=0):
         remaining = data
         current_address = address
         skipped = address % FETCH_PACKET_SIZE
-        while len(remaining) >= (FETCH_PACKET_SIZE-skipped) and count != 0:
+        while (len(remaining) >= (FETCH_PACKET_SIZE-skipped) and count != 0
+               and (not end or current_address < end)):
             packet_size = FETCH_PACKET_SIZE - skipped
             fetch_packet = remaining[:packet_size]
             remaining = remaining[packet_size:]
@@ -171,7 +174,7 @@ class Disassembler:
                         context
                     )
                     count -= 1
-                    if count == 0: break
+                    if count == 0 or (end and address+2 >= end): break
                     offset = 2
                     header_enc >>= 1
                 layout >>= (skipped+2)//WORD_SIZE
@@ -190,31 +193,34 @@ class Disassembler:
                             current_address+offset,
                             context
                         )
+                        offset += 2
+                        if end and current_address+offset >= end: break
                         yield self.__decode_compact(
                             second,
                             header,
                             bool(header_enc & 2),
-                            current_address+offset+2,
+                            current_address+offset,
                             context
                         )
                     else:
                         instr = self.__decode(encoded,
                                 current_address+offset, context, header)
                         yield instr
+                        offset += 2
 
                     count -= 1
-                    if count == 0: break
+                    offset += 2
+                    if count == 0 or (end and current_address+offset >= end): break
                     layout >>= 1
                     header_enc >>= 2
-                    offset += WORD_SIZE
                 
-                if count != 0:
+                if count != 0 and (not end or current_address + offset < end):
                     yield Instruction.init_header(
                         current_address+offset,
                         header)
                     count -= 1
             else:
-                for instr in self.__disasm_headerless(fetch_packet, current_address, context, count):
+                for instr in self.__disasm_headerless(fetch_packet, current_address, context, count, end):
                     yield instr
                 count = max(0, count - EXECUTION_PACKET_LIMIT + (skipped//WORD_SIZE))
             current_address += packet_size
@@ -222,14 +228,15 @@ class Disassembler:
         # stop due to missing header or exhausted count
 
     def __disasm_headerless(self, data:bytes, address:int, 
-            context:_Context, count:int=-1):
+            context:_Context, count:int=-1, end:int=0):
         remaining = data
         current_address = address
         if self.endianness == Endianness.LITTLE:
             byteorder = 'little'
         else:
             byteorder = 'big'
-        while len(remaining) >= WORD_SIZE and count != 0:
+        while (len(remaining) >= WORD_SIZE and count != 0
+               and (not end or current_address < end)):
             current_data = remaining[:WORD_SIZE]
             remaining = remaining[WORD_SIZE:]
             
