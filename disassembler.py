@@ -28,7 +28,7 @@ from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
         ControlRegisterOperand, MemoryOperand, FuncUnitsOperand, Header
 
 from dataclasses import dataclass
-from typing import List, Dict, Optional, Tuple, Sequence
+from typing import List, Dict, Optional, Tuple, Sequence, Generator
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
@@ -81,7 +81,12 @@ class _Opcode:
     vars:List[_VarField]
 
 class _Context:
-    sploop_ii:int = 0
+    sploop_ii:int
+    last_header:Optional[bytes]
+
+    def __init__(self, **args) -> None:
+        self.sploop_ii = args.get('sploop_ii', 0)
+        self.last_header = args.get('header', None)
 
 _SizeField = namedtuple('SizeField', ('value', 'size'))
 
@@ -127,12 +132,12 @@ class Disassembler:
                 if format in self.instruction_maps:
                     self.instruction_maps[format].append(opcode)
 
-    def disasm(self, data:bytes, address:int, count:int=-1, end:int=0):
+    def disasm(self, data:bytes, address:int, count:int=-1, end:int=0, **options) -> Generator[Instruction]:
         if address % FETCH_PACKET_SIZE == 0x1e:
             raise ValueError('Invalid address for disassembly.')
         if count >= 0 and end:
             raise ValueError('Choose one limiter.')
-        context = _Context()
+        context = _Context(**options)
         if self.fetch_packet_header_based:
             return self.__disasm_header_based(data, address, context, count, end)
         else:
@@ -143,15 +148,21 @@ class Disassembler:
         remaining = data
         current_address = address
         skipped = address % FETCH_PACKET_SIZE
-        while (len(remaining) >= (FETCH_PACKET_SIZE-skipped) and count != 0
-               and (not end or current_address < end)):
+        while (len(remaining) >= 2 and count != 0 
+                and (not end or current_address < end)):
             packet_size = FETCH_PACKET_SIZE - skipped
             fetch_packet = remaining[:packet_size]
             remaining = remaining[packet_size:]
             
-            header_enc = int.from_bytes(fetch_packet[-WORD_SIZE:], 
+            header_bytes = b"" # assume no header if none is provided
+            if context.last_header is not None:
+                header_bytes = context.last_header
+            if len(fetch_packet) == packet_size:
+                header_bytes = fetch_packet[-WORD_SIZE:]
+            header_enc = int.from_bytes(header_bytes, 
                     self.endianness) # type: ignore
             has_header = (header_enc & HEADER_MASK) == HEADER_KEY
+
             if has_header:
                 layout = (header_enc >> HEADER_LAYOUT_OFFSET) & HEADER_FIELD_MASK
                 header = self.__decode_header(layout, 
@@ -186,6 +197,9 @@ class Disassembler:
                     if compact:
                         first = encoded & 0xFFFF
                         second = encoded >> 16
+                        if len(fetch_packet) < offset + 2: return
+                        if len(fetch_packet) < offset + WORD_SIZE and self.endianness == Endianness.BIG:
+                            raise ValueError('Next instruction in logical order missing.')
                         yield self.__decode_compact(
                             first,
                             header,
@@ -193,6 +207,7 @@ class Disassembler:
                             current_address+offset,
                             context
                         )
+                        if len(fetch_packet) < offset + WORD_SIZE: return
                         offset += 2
                         if end and current_address+offset >= end: break
                         yield self.__decode_compact(
@@ -203,6 +218,7 @@ class Disassembler:
                             context
                         )
                     else:
+                        if len(fetch_packet) < offset + WORD_SIZE: return
                         instr = self.__decode(encoded,
                                 current_address+offset, context, header)
                         yield instr
@@ -220,8 +236,9 @@ class Disassembler:
                         header)
                     count -= 1
             else:
-                for instr in self.__disasm_headerless(fetch_packet, current_address, context, count, end):
-                    yield instr
+                yield from self.__disasm_headerless(fetch_packet, current_address, context, count, end)
+                # for instr in self.__disasm_headerless(fetch_packet, current_address, context, count, end):
+                #     yield instr
                 count = max(0, count - EXECUTION_PACKET_LIMIT + (skipped//WORD_SIZE))
             current_address += packet_size
             skipped = 0

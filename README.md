@@ -8,7 +8,7 @@ A pure python disassembler for the TMS320C6x family, currently supported up to I
 
 To make use of this library, create a Disassembler object for your ISA version. For an address and instruction bytes the disassembler returns a generator of instructions. The disassembly can optionally be limited to a number of (32-bit) words.
 
-Please note that from version C64x+ the ISA supports header-based fetch packets. If such a version is specified, the disassembler requires input data up to the end of a fetch packet to be disassemble any instruction in the fetch packet. This is necessary because distinguishing between compact and regular instructions is only possible using the header (or the absence of one). Additionally, header information may be relevant for regular instructions (see protected loads).
+Please note that from version C64x+ the ISA supports header-based fetch packets (FPs). If such a version is specified, the disassembler requires knowledge about the last word of the FP to correctly disassembly instructions. Distinguishing between compact and regular instructions is only possible using the header (or the absence of one). Additionally, header information may be relevant for regular instructions (see protected loads). This library assumes no header if data ends in the middle of the FP and no header is specified. You can pass the header bytes (or last FP word in general) as a separate argument.
 
 Example:
 ```python
@@ -19,9 +19,12 @@ disassembler = Disassembler(ISA.C67XP)
 instr = disassembler.disasm(bytes.fromhex('00000028'), 0x80)
 str(next(instr)) # '00000080: mvk .S1 0, A0'
 
-hb_disassembler = Disassembler(ISA.C674)
-instr = disassembler.disasm(bytes.fromhex('00000028'), 0x80)
-assert len(instr) == 0 # header word missing from input
+hb_disassembler = Disassembler(ISA.C674X)
+instr = hb_disassembler.disasm(bytes.fromhex('6eec'), 0x80)
+assert len(instr) == 0 # header word missing for compact instruction
+
+instr = hb_disassembler.disasm(bytes.fromhex('6eec'), 0x80, header=bytes.fromhex('000020e0'))
+str(next(instr)) # '00000080: nop  8'
 ```
 
 ## Instruction Definitions
@@ -38,4 +41,4 @@ Please also note that access information for memory operands does not document t
 
 ## Contributing
 
-Contributions are welcome. Please feel free to submit a pull request.
+Contributions are welcome. Please feel free to submit a pull request. Please refrain from purely AI-driven contributions (keep a human in the loop).
