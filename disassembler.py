@@ -315,10 +315,13 @@ class Disassembler:
                         opcode.flags,
                         cross_path,
                         vars)
-                    operands = self.__decode_operands(
-                            opcode.ops, opcode.flags,
-                            unit_info, vars, address,
-                            header if width==16 else None, context)
+                    try:
+                        operands = self.__decode_operands(
+                                opcode.ops, opcode.flags,
+                                unit_info, vars, address,
+                                header if width==16 else None, context)
+                    except ValueError:
+                        continue # invalid instruction due to invalid operands
                     instr = Instruction(
                         address, width//8, condition, unit_info, operands, opcode.name, parallel, header)
                     if 'sploop' in opcode.name:
@@ -383,7 +386,7 @@ class Disassembler:
     def __matches_fixed(self, fields:Dict[str, _SizeField], 
             fixed:_FixedField) -> bool:
         if fixed.id not in fields: 
-            raise ValueError()
+            assert False, 'invalid fixed fields encoding'
         return fixed.min <= fields[fixed.id].value <= fixed.max
     
     def __decode_parallel(self, fields:Dict[str, _SizeField]) -> bool:
@@ -514,7 +517,8 @@ class Disassembler:
                         # Fields fstg and fcyc should be decoded as two values.
                         # This requires knowledge about the ii field from the
                         # sploop instruction, which is only possible when they 
-                        # are disassembled together.
+                        # are disassembled together or the value is passed as
+                        # context for disassembly.
                         if not context.sploop_ii: 
                             # Skip second operand if sploop initiation interval (ii) unknown.
                             if var.method == 'fcyc': continue
@@ -524,7 +528,7 @@ class Disassembler:
                                     fstg_bits, fcyc_bits) in STGCYC_BITS_LOOKUP:
                                 if ii_low <= context.sploop_ii <= ii_high: break
                             else:
-                                assert False, f'Invalid initiation interval.'
+                                raise ValueError('Invalid initiation interval.')
                             if var.method == 'fstg':
                                 fstg_value = 0
                                 for fstg_bit in reversed(range(fstg_bits)):
@@ -561,7 +565,8 @@ class Disassembler:
                 case (OperandForm.regpair|OperandForm.xregpair
                         |OperandForm.dregpair|OperandForm.tregpair):
                     if (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
-                        assert var.value&1 == 0, 'register pairs must start at even register'
+                        if var.value&1 != 0:
+                            raise ValueError('Register pairs must start at even register')
                         reg_base = self.__decode_reg_base(operand_info.form,
                                 unit_info, high_registers)
                         reg_high = Register(reg_base + var.value + 1)
@@ -622,7 +627,7 @@ class Disassembler:
                             operand_info.form, unit_info, high_registers)
                     if (var := self.__get_operand_var(vars, i, ('reg_ptr',))):
                         reg_side = Register.B0 if unit_info.side == 2 else Register.A0
-                        assert 0<= var.value < 4
+                        assert 0 <= var.value < 4
                         base_reg = Register(reg_side + (0x4 | var.value))
                     elif (var := self.__get_operand_var(vars, i, ('reg', 'reg_shift'))):
                         base_reg = Register(reg_base +  var.value)
@@ -694,7 +699,7 @@ class Disassembler:
             if current_operand:
                 operands.append(current_operand)
                 continue
-            print(f'{address:08x}: could not decode {operand_info.form}')
+            raise ValueError(f'{address:08x}: could not decode {operand_info.form}')
         return operands
     
     def __get_operand_var(self, vars:List[_Variable], 
