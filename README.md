@@ -33,7 +33,7 @@ The source of truth for instructions, their encodings and semantics are the CPU 
 
 This project updates the access information of the ADDK instruction. Only a write to the dst register is documented, but instead of reading the constant, this register should also be read. The register is treated as read+write here.
 
-The following changes update the definitions of libobcodes in accordance with the reference guide. First, the flags of non-aligned load/store instructions were updated. All variants of these instructions should have the unaligned flag. Also, LDNDW/STNDW operands were updated to use scaled offsets. This is taken from the reference guide and seemingly incorrect in libobcodes.
+The following changes update the definitions of libobcodes in accordance with the reference guide. First, the flags of non-aligned load/store instructions were updated. All variants of these instructions should have the unaligned flag. Also, LDNDW/STNDW operands were updated to use scaled offsets. Lastly, the access information for BNOP and MVC was corrected to read in all cases. This is taken from the reference guide and seemingly incorrect in libobcodes.
 
 For some instructions, the reference guide is not correct or at least less precise than libopcodes. The formats from libopcodes correct or specialize some formats, like for SPEKERNEL(R) and SPMASK(R). Additionally, libopcodes documents several errors in the reference guide for specific instructions. For example, a missing format for CMPGTU/CMPLTU instructions. In such cases, libopcodes is trusted.
 
