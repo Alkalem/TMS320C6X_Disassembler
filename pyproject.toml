@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = 'tms320c6x_disassembler'
+version = '1.0.0'
+description = 'Disassembler for TMS320C6x DSP family'
+authors = [{ name = 'Alkalem' }]
+requires-python = ">= 3.8"
+readme = "README.md"
+keywords = ["TMS320C6x", "disassembler"]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+    'Typing :: Typed',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3 :: Only',
+    'Topic :: Software Development :: Disassemblers',
+]
+license = "GPL-3.0-or-later"
+license-files = ['LICENSE*']
+
+[project.urls]
+Repository = "https://github.com/Alkalem/TMS320C6X_Disassembler"

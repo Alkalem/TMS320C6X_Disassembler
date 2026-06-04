@@ -20,7 +20,7 @@ instr = disassembler.disasm(bytes.fromhex('00000028'), 0x80)
 str(next(instr)) # '00000080: mvk .S1 0, A0'
 
 hb_disassembler = Disassembler(ISA.C674X)
-instr = hb_disassembler.disasm(bytes.fromhex('6eec'), 0x80)
+instr = list(hb_disassembler.disasm(bytes.fromhex('6eec'), 0x80))
 assert len(instr) == 0 # header word missing for compact instruction
 
 instr = hb_disassembler.disasm(bytes.fromhex('6eec'), 0x80, header=bytes.fromhex('000020e0'))
