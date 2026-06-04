@@ -28,7 +28,7 @@ from .types import Endianness, ISA, Register, ControlRegister, AddressingMode, \
         ControlRegisterOperand, MemoryOperand, FuncUnitsOperand, Header
 
 from dataclasses import dataclass
-from typing import List, Dict, Optional, Tuple, Sequence, Generator
+from typing import Optional, Sequence, Generator
 from pathlib import Path
 import json
 from types import SimpleNamespace as Namespace
@@ -47,7 +47,7 @@ class _InstructionFormat:
     bit_width:int
     key:int
     mask:int
-    fields:List[_Field]
+    fields:list[_Field]
 
 @dataclass
 class _FixedField:
@@ -76,9 +76,9 @@ class _Opcode:
     type:str
     isa:int
     flags:int
-    fixed:List[_FixedField]
-    ops:List[str]
-    vars:List[_VarField]
+    fixed:list[_FixedField]
+    ops:list[str]
+    vars:list[_VarField]
 
 class _Context:
     sploop_ii:int
@@ -109,16 +109,16 @@ class Disassembler:
 
         basepath = Path(__file__).resolve().parent
         with open(basepath / 'instruction_formats.json') as file:
-            self.instruction_formats:List[_InstructionFormat] = json.load(
+            self.instruction_formats:list[_InstructionFormat] = json.load(
                 file, object_hook=_format_decoder)
             self.instruction_formats.sort(
                 key=lambda f: -f.mask.bit_count())
-            self.instruction_maps:Dict[str, List[_Opcode]] = {
+            self.instruction_maps:dict[str, list[_Opcode]] = {
                 f.name: list()
                 for f in self.instruction_formats}
         format_names = {format.name for format in self.instruction_formats}
         with open(basepath / 'opcodes.json') as file:
-            opcodes:List[_Opcode] = json.load(
+            opcodes:list[_Opcode] = json.load(
                 file, object_hook=lambda obj: Namespace(**obj))
             for opcode in opcodes:
                 if opcode.flags & TIC6X_FLAG_MACRO:
@@ -351,7 +351,7 @@ class Disassembler:
         return _SizeField(part.value|new_part.value, part.size+new_part.size)
     
     def __decode_var_field(self, var:_VarField, 
-            fields:Dict[str, _SizeField], has_header:bool) -> _Variable:
+            fields:dict[str, _SizeField], has_header:bool) -> _Variable:
         assert var.id in fields
         value = fields[var.id].value
         match var.method:
@@ -383,17 +383,17 @@ class Disassembler:
         mask = 1 << (field.size - 1)
         return (field.value ^ mask) - mask
     
-    def __matches_fixed(self, fields:Dict[str, _SizeField], 
+    def __matches_fixed(self, fields:dict[str, _SizeField], 
             fixed:_FixedField) -> bool:
         if fixed.id not in fields: 
             assert False, 'invalid fixed fields encoding'
         return fixed.min <= fields[fixed.id].value <= fixed.max
     
-    def __decode_parallel(self, fields:Dict[str, _SizeField]) -> bool:
+    def __decode_parallel(self, fields:dict[str, _SizeField]) -> bool:
         return 'p' in fields and bool(fields['p'].value)
     
     def __decode_condition(self, 
-            fields:Dict[str, _SizeField], flags:int) -> ConditionType:
+            fields:dict[str, _SizeField], flags:int) -> ConditionType:
         if flags & TIC6X_FLAG_INSN16_SPRED:
             COMPACT_CONDITIONS = (
                 ConditionType.A0, ConditionType.NOT_A0,
@@ -412,11 +412,11 @@ class Disassembler:
             condition_value = (fields['creg'].value<<1) | fields['z'].value
         return ConditionType(condition_value)
     
-    def __decode_cross_path(self, fields:Dict[str, _SizeField]) -> bool:
+    def __decode_cross_path(self, fields:dict[str, _SizeField]) -> bool:
         return 'x' in fields and bool(fields['x'].value)
 
     def __decode_unit(self, unit:str, flags:int, cross_path:bool, 
-            vars:List[_Variable]) -> UnitInfo:
+            vars:list[_Variable]) -> UnitInfo:
         if unit == 'nfu': return UnitInfo(FuncUnit.NFU, None, False)
         func_unit_side = 2 if flags & TIC6X_FLAG_SIDE_B_ONLY else 0
         func_unit_data_side = 2 if flags & TIC6X_FLAG_SIDE_T2_ONLY else 0
@@ -461,9 +461,9 @@ class Disassembler:
 
         return UnitInfo(func_unit, data_side, func_unit_cross)
     
-    def __decode_operands(self, ops:List[str], flags:int,
-            unit_info:UnitInfo, vars:List[_Variable], address:int,
-            header:Optional[Header], context:_Context) -> List[Operand]:
+    def __decode_operands(self, ops:list[str], flags:int,
+            unit_info:UnitInfo, vars:list[_Variable], address:int,
+            header:Optional[Header], context:_Context) -> list[Operand]:
         assert all([var.value is not None for var in vars])
         high_registers = header is not None and header.high_register_set
         operands = list()
@@ -702,7 +702,7 @@ class Disassembler:
             raise ValueError(f'{address:08x}: could not decode {operand_info.form}')
         return operands
     
-    def __get_operand_var(self, vars:List[_Variable], 
+    def __get_operand_var(self, vars:list[_Variable], 
             op:int, methods:Sequence[str]) -> Optional[_Variable]:
         for var in vars:
             if var.op != op: continue

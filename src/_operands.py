@@ -16,7 +16,6 @@
 
 from enum import Enum, auto
 from dataclasses import dataclass
-from typing import Dict
 
 from .types import RW
 
@@ -66,7 +65,7 @@ class OperandInfo:
     high_first:int
     high_last:int
 
-OPERANDS:Dict[str, OperandInfo] = {
+OPERANDS:dict[str, OperandInfo] = {
     'OACST': OperandInfo(OperandForm.asm_const, 0, RW.none, 0, 0, 0, 0),
     'OLCST': OperandInfo(OperandForm.link_const, 0, RW.none, 0, 0, 0, 0),
     'OHWCSTM1': OperandInfo(OperandForm.hw_const_minus_1, 0, RW.none, 0, 0, 0, 0),

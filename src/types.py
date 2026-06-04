@@ -18,7 +18,7 @@ from .constants import C62X, C64X, C64XP, C67X, C67XP, C674X, WORD_SIZE
 
 from dataclasses import dataclass, field
 from enum import StrEnum, IntEnum, Enum, auto
-from typing import List, Set, Optional
+from typing import Optional
 
 class Endianness(StrEnum):
     LITTLE = 'little'
@@ -423,9 +423,9 @@ class MemoryOperand(Operand):
 
 @dataclass
 class FuncUnitsOperand(Operand):
-    units: Set[FuncUnit]
+    units: set[FuncUnit]
 
-    # def __init__(self, units:Set[FuncUnit]):
+    # def __init__(self, units:set[FuncUnit]):
     #     self.access_info = AccessInfo(RW.none)
     #     self.units = units
 
@@ -452,7 +452,7 @@ class Instruction:
     size:int
     condition:ConditionType
     unit:UnitInfo
-    operands:List[Operand]
+    operands:list[Operand]
     opcode:str
     parallel:bool
     header:Optional[Header]
