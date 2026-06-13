@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = 'tms320c6x_disassembler'
-version = '1.0.0'
+version = '1.0.1'
 description = 'Disassembler for TMS320C6x DSP family'
 authors = [{ name = 'Alkalem' }]
 requires-python = ">= 3.8"

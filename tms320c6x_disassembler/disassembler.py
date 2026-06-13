@@ -237,9 +237,8 @@ class Disassembler:
                     count -= 1
             else:
                 yield from self.__disasm_headerless(fetch_packet, current_address, context, count, end)
-                # for instr in self.__disasm_headerless(fetch_packet, current_address, context, count, end):
-                #     yield instr
-                count = max(0, count - EXECUTION_PACKET_LIMIT + (skipped//WORD_SIZE))
+                if count > 0:
+                    count = max(0, count - EXECUTION_PACKET_LIMIT + (skipped//WORD_SIZE))
             current_address += packet_size
             skipped = 0
         # stop due to missing header or exhausted count
