@@ -539,7 +539,7 @@ class Disassembler:
                                 current_operand = ImmediateOperand(
                                         var.value & fcyc_mask)
                 case OperandForm.link_const:
-                    if (var := self.__get_operand_var(vars, i, ('ulcst_dpr_byte', 'ucst', 
+                    if (var := self.__get_operand_var(vars, i, ('ulcst_dpr_byte', 'ulcst_dpr_half', 'ulcst_dpr_word', 'ucst', 
                             'lcst_high16', 'lcst_low16', 'scst'))):
                         current_operand = ImmediateOperand(var.value)
                     elif (var := self.__get_operand_var(vars, i, 
